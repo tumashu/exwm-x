@@ -30,7 +30,6 @@
 
 ;; * Code                                                                 :code:
 ;; #+BEGIN_SRC emacs-lisp
-(require 'exwm-x)
 (require 'org-webpage)
 (require 'owp-web-server)
 (require 'owp-lentic)
