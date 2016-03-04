@@ -6,7 +6,7 @@
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
 ;; Version: 0.0.1
-;; Keywords: window-manager, exwm
+;; Keywords: window-manager, exwm, exwm-x
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -32,14 +32,17 @@
 ;; #+BEGIN_SRC emacs-lisp
 (require 'exwm)
 
-(defvar exwm-x-app-rename-alist
+(defvar exwm-x-prefer-name-alist
   '(("navigator" . "Firefox")
     ("virtual[ ]*box" . "VirtualBox")
     ("gimp" . "Gimp")
-    ("default-terminal" . "Term")))
+    ("default-terminal" . "Term"))
+  "Dict used by `exwm-x--get-prefer-name'")
 
-(defun exwm-x--return-new-name ()
-  (let* ((dict-alist exwm-x-app-rename-alist)
+(defun exwm-x--get-prefer-name ()
+  "Get a prefer name of a application, based on its class-name, instance-name
+and title."
+  (let* ((dict-alist exwm-x-prefer-name-alist)
          (prefer-name
           (or (exwm-x--replace-string exwm-title dict-alist)
               (exwm-x--replace-string exwm-instance-name dict-alist)
@@ -51,6 +54,8 @@
           (exwm-class-name exwm-class-name))))
 
 (defun exwm-x--replace-string (string dict-alist)
+  "If the `string' match the car of element in `dict-alist',
+return its cdr value."
   (let ((case-fold-search t)
         new-string)
     (dolist (x dict-alist)
@@ -60,11 +65,14 @@
     new-string))
 
 (defun exwm-x--string-match-p (regexp string)
+  "A wrap of `string-match-p', it can work when `string' is not a
+string."
   (and (stringp regexp)
        (stringp string)
        (string-match-p regexp string)))
 
 (defun exwm-x--next-exwm-buffer ()
+  "Switch to next exwm buffer."
   (let ((buffer
          (car (cl-remove-if-not
                #'(lambda (buf)

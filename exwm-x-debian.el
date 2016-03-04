@@ -62,6 +62,7 @@
                    (start-process-shell-command ,command nil ,command))))))))
 
 (defun exwm-x-generate-debian-menus ()
+  "Generate emacs commands for all the debian menu files available."
   (dolist (debian-menu-dir '("/usr/share/menu/"
                              "/usr/lib/menu/"
                              "/etc/menu/"

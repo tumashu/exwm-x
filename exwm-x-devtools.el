@@ -34,6 +34,7 @@
 (require 'org-webpage)
 (require 'owp-web-server)
 (require 'owp-lentic)
+(require 'easy-lentic)
 
 (defvar exwm-x-repository-directory
   "~/project/emacs-packages/exwm-x/")

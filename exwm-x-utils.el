@@ -65,7 +65,8 @@ if matched window can't be found, run shell command `cmd'."
                           (nth 1 (cadr y)))))))
 
 (defun exwm-x--find-buffer (regexp)
-  "Find a buffer of x-window which class, install or title is matched `regexp'."
+  "Find such a exwm buffer: its local variables: `exwm-class-name', `exwm-instance-name'
+or `exwm-title' is matched `regexp'."
   (let* ((buffers (buffer-list))
          (buffers-list (list nil nil nil)))
 
@@ -84,6 +85,7 @@ if matched window can't be found, run shell command `cmd'."
                           (< (length a) (length b))))))))
 
 (defun exwm-x-kill-exwm-buffer (&optional buffer-or-name)
+  "Kill buffer, if current buffer is a exwm buffer."
   (let ((buffer (or buffer-or-name
                     (current-buffer))))
     (with-current-buffer buffer
@@ -93,9 +95,11 @@ if matched window can't be found, run shell command `cmd'."
         (message "This buffer is not a exwm buffer!")))))
 
 (defun exwm-x-run-shell-command (cmd)
+  "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))
 
 (defun exwm-x-run-shell-command-interactively (cmd)
+  "Run shell command `cmd' interactively."
   (interactive
    (list (read-shell-command "Run shell command: ")))
   (start-process-shell-command cmd nil cmd))

@@ -40,7 +40,7 @@
 ;; xset b off
 
 ;; # Tell emacs load exwm-x-example.el file's content.
-;; export eh_enable_exwm="yes"
+;; export exwm_x_enable="yes"
 
 ;; # Emacs X input method (exim) setting
 ;; export XMODIFIERS=@im=exim
@@ -62,7 +62,7 @@
 
 ;; #+BEGIN_SRC emacs-lisp
 (use-package exwm-x
-  :if (string= (getenv "eh_enable_exwm") "yes")
+  :if (string= (getenv "exwm_x_enable") "yes")
   :ensure nil
   :demand t
   :config
@@ -90,7 +90,7 @@
 
   (defun exwm-x-rename-exwm-buffer ()
     (exwm-workspace-rename-buffer
-     (concat "Exwm:" (exwm-x--return-new-name))))
+     (concat "Exwm:" (exwm-x--get-prefer-name))))
 
   (defun exwm-x-suspend-computer ()
     (interactive)

@@ -34,7 +34,10 @@
 (require 'exwm-x-core)
 
 (defvar exwm-x-mode-line-shortcuts-file
-  "~/.emacs.d/exwm-x-exwm-shortcuts.el")
+  "~/.emacs.d/exwm-x-exwm-shortcuts.el"
+  "A Shortcut is just a button in the emacs mode line,
+When click it with mouse, an application will
+be launched.")
 
 (defvar exwm-x--mode-line-shortcuts nil)
 (defvar exwm-x--mode-line-taskbar nil)
@@ -43,7 +46,13 @@
 (defun exwm-x--create-mode-line-button (string &optional mouse-1-action
                                                mouse-3-action mouse-2-action
                                                active-down-mouse)
-  "Create clickable shortcut's code which is used by mode-line-format."
+  "Generate `mode-line-format' style code of a clickable button, which name
+is `string'.
+
+`mouse-1-action', `mouse-2-action' and `mouse-2-action' are often quoted lists.
+when click it with mouse-1, `mouse-1-action' will be execute.
+click mouse-2, `mouse-2-action' execute. click mouse-3, `mouse-3-action'
+execute. "
   `(:eval (propertize
            ,string
            'face 'mode-line-buffer-id
@@ -81,54 +90,74 @@
              map))))
 
 (defun exwm-x--create-mode-line ()
-  (setq mode-line-format
-        `(exwm--floating-frame
-          (,(exwm-x--create-mode-line-button
-             "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
-           ,(exwm-x--create-mode-line-button
-             "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-           ,(exwm-x--create-mode-line-button
-             " - " nil nil nil t)
-           ,(exwm-x--create-mode-line-button
-             "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
-           ,(exwm-x--create-mode-line-button
-             "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-           ,(exwm-x--create-mode-line-button
-             "[Zoom]" '(exwm-x-resize-floating-window event 0.75)
-             '(exwm-x-resize-floating-window event 0.5))
-           " -:"
-           mode-line-mule-info
-           "- "
-           ,(exwm-x--create-mode-line-button
-             (make-string 200 ?-) nil nil nil t))
-          (,(exwm-x--create-mode-line-button
-             "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
-           ,(exwm-x--create-mode-line-button
-             "[+]" '(delete-other-windows) '(delete-other-windows))
-           ,(exwm-x--create-mode-line-button
-             "[D]" '(delete-window) '(delete-window))
-           ,(exwm-x--create-mode-line-button
-             "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-           " :"
-           ,@(if (< (length exwm-x--mode-line-taskbar) 4)
-                 `(,@exwm-x--mode-line-shortcuts
-                   ,(when exwm-x--mode-line-taskbar "-")
-                   ,@exwm-x--mode-line-taskbar)
-               exwm-x--mode-line-taskbar)
-           ": "
-           ,(exwm-x--create-mode-line-button
-             "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
-           ,(exwm-x--create-mode-line-button
-             "[-]" '(split-window-below) '(split-window-below))
-           ,(exwm-x--create-mode-line-button
-             "[|]" '(split-window-right) '(split-window-right))
-           " -:"
-           mode-line-mule-info
-           "- "
-           ,(exwm-x--create-mode-line-button
-             (make-string 200 ?-) nil nil nil t))))
-  (setq exwm-x--mode-line-active-p t)
-  (force-mode-line-update))
+  "Emacs's default mode-line is not suitable for window manager,
+This function will create a new mode-line, which has start-menu,
+application shortcuts ,taskbar and others useful for managing window.
+
+1. Tilling window's mode-line is like:
+
+   '[E][+][D][X] :[shortcut1][shortcut2]-[task1][task2]: [F][-][|] -:-: -------'
+
+2. Floating window's mode-line is like:
+
+   '[E][X] - [F][-][|] -:-: -------'
+
+NOTE:
+
+[E]: Switch mode-line.
+[+]: Maximize current window.
+[D]: Delete current window.
+[F]: toggle floating window.
+[-]: Split window horizontal.
+[|]: Split window vertical."
+   (setq mode-line-format
+         `(exwm--floating-frame
+           (,(exwm-x--create-mode-line-button
+              "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
+            ,(exwm-x--create-mode-line-button
+              "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
+            ,(exwm-x--create-mode-line-button
+              " - " nil nil nil t)
+            ,(exwm-x--create-mode-line-button
+              "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+            ,(exwm-x--create-mode-line-button
+              "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
+            ,(exwm-x--create-mode-line-button
+              "[Zoom]" '(exwm-x-resize-floating-window event 0.75)
+              '(exwm-x-resize-floating-window event 0.5))
+            " -:"
+            mode-line-mule-info
+            "- "
+            ,(exwm-x--create-mode-line-button
+              (make-string 200 ?-) nil nil nil t))
+           (,(exwm-x--create-mode-line-button
+              "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
+            ,(exwm-x--create-mode-line-button
+              "[+]" '(delete-other-windows) '(delete-other-windows))
+            ,(exwm-x--create-mode-line-button
+              "[D]" '(delete-window) '(delete-window))
+            ,(exwm-x--create-mode-line-button
+              "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
+            " :"
+            ,@(if (< (length exwm-x--mode-line-taskbar) 4)
+                  `(,@exwm-x--mode-line-shortcuts
+                    ,(when exwm-x--mode-line-taskbar "-")
+                    ,@exwm-x--mode-line-taskbar)
+                exwm-x--mode-line-taskbar)
+            ": "
+            ,(exwm-x--create-mode-line-button
+              "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+            ,(exwm-x--create-mode-line-button
+              "[-]" '(split-window-below) '(split-window-below))
+            ,(exwm-x--create-mode-line-button
+              "[|]" '(split-window-right) '(split-window-right))
+            " -:"
+            mode-line-mule-info
+            "- "
+            ,(exwm-x--create-mode-line-button
+              (make-string 200 ?-) nil nil nil t))))
+   (setq exwm-x--mode-line-active-p t)
+   (force-mode-line-update))
 
 (setq-default mode-line-format
               `(,(exwm-x--create-mode-line-button
@@ -136,11 +165,14 @@
                 ,(default-value 'mode-line-format)))
 
 (defun exwm-x--reset-mode-line ()
+  "Reset mode-line to original emacs mode-line."
   (setq mode-line-format (default-value 'mode-line-format))
   (setq exwm-x--mode-line-active-p nil)
   (force-mode-line-update))
 
 (defun exwm-x--update-mode-line ()
+  "Update all buffer's mode-lines, all exwm buffer will use
+shortcut-taskbar-style mode-line."
   (interactive)
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
@@ -149,6 +181,7 @@
         (exwm-x--reset-mode-line)))))
 
 (defun exwm-x--update-taskbar (&optional ignore-current-task)
+  "Update taskbar."
   (setq exwm-x--mode-line-taskbar
         (exwm-x--create-taskbar
          (if ignore-current-task
@@ -158,6 +191,12 @@
   (exwm-x--update-mode-line))
 
 (defun exwm-x--create-taskbar (buffer-list)
+  "Exwm will create a unique buffer when an application launched,
+When switch buffer, application switched to.
+
+This function will create one clickable button for every exwm buffer.
+just a piece of code worked with `mode-line-format' which will be
+insert `mode-line-format' by `exwm-x--update-mode-line'."
   (let (buffers taskbar-buttons)
     (setq buffers (sort buffer-list
                         #'(lambda (x y)
@@ -170,7 +209,7 @@
                        exwm-instance-name
                        exwm-title))
           (push (exwm-x--create-mode-line-button
-                 (concat "[" (exwm-x--return-new-name) "]")
+                 (concat "[" (exwm-x--get-prefer-name) "]")
                  `(progn (exwm-workspace-switch-to-buffer ,buffer)
                          (exwm-x--update-taskbar))
                  `(exwm-x-kill-exwm-buffer ,buffer))
@@ -178,13 +217,16 @@
     taskbar-buttons))
 
 
-(defun exwm-x--clean-all-shortcuts ()
+(defun exwm-x--delete-all-shortcuts ()
+  "Delete all shortcuts from mode-line."
   (interactive)
   (setq exwm-x--mode-line-shortcuts nil)
   (exwm-x--save-all-shortcuts)
   (exwm-x--update-mode-line))
 
 (defun exwm-x--save-all-shortcuts ()
+  "Save shortcuts to file `exwm-x-mode-line-shortcuts-file'.
+for furture use."
   (interactive)
   (message "Save exwm-x shortcuts to \"%s\"" exwm-x-mode-line-shortcuts-file)
   (unless (file-directory-p
@@ -196,6 +238,8 @@
     (write-file exwm-x-mode-line-shortcuts-file)))
 
 (defun exwm-x--load-saved-shortcuts ()
+  "Load and use shortcuts last emacs session saved from
+file `exwm-x-mode-line-shortcuts-file'. "
   (interactive)
   (message "Load exwm-x shortcuts from \"%s\"" exwm-x-mode-line-shortcuts-file)
   (with-temp-buffer
@@ -204,11 +248,12 @@
     (setq exwm-x--mode-line-shortcuts
           (read (current-buffer)))))
 
-(defun exwm-x--delete-shortcut (button-name)
+(defun exwm-x--delete-shortcut (shortcut-name)
+  "Delete shortcut which named `shortcut-name' from mode-line."
   (setq exwm-x--mode-line-shortcuts
         (cl-remove-if
          #'(lambda (x)
-             (equal button-name (nth 1 (cadr x))))
+             (equal shortcut-name (nth 1 (cadr x))))
          exwm-x--mode-line-shortcuts))
   (exwm-x--save-all-shortcuts)
   (exwm-x--update-mode-line))

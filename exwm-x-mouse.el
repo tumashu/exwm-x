@@ -34,6 +34,9 @@
 (require 'exwm-x-core)
 
 (defun exwm-x-resize-floating-window (event &optional scale)
+  "This is a mouse click event function, used by exwm mode-line
+button, when click such button, resize current floating window to `scale'
+property of screen size."
   (let* ((frame (window-frame (car (car (cdr event)))))
          (screen-width (display-pixel-width))
          (screen-height (display-pixel-height)))
@@ -43,14 +46,20 @@
      (round (* scale screen-height)) t)))
 
 (defun exwm-x-mouse-move-floating-window (start-event)
+  "This is a mouse drag event function, used by exwm mode-line
+button, when drag mouse from such button, move current floating window dynamic."
   (interactive "e")
   (exwm-x--mouse-operate-floating-window start-event))
 
 (defun exwm-x-mouse-resize-floating-window (start-event)
+  "This is a mouse drag event function, used by exwm mode-line
+button, when drag mouse from such button, resize current floating window dynamic."
   (interactive "e")
   (exwm-x--mouse-operate-floating-window start-event t))
 
 (defun exwm-x--mouse-operate-floating-window (start-event &optional resize)
+  "Internal function of `exwm-x-mouse-move-floating-window' and
+`exwm-x-mouse-move-floating-window'"
   (interactive "e")
   (when exwm--floating-frame
     (let* ((orig-mouse (mouse-position))
