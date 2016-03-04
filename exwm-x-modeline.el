@@ -34,7 +34,7 @@
 (require 'exwm-x-core)
 
 (defvar exwm-x-mode-line-shortcuts-file
-  "~/.emacs.d/exwm-x-exwm-shortcuts.el"
+  "~/.emacs.d/exwm-x/exwm-x-shortcuts.el"
   "A Shortcut is just a button in the emacs mode line,
 When click it with mouse, an application will
 be launched.")
