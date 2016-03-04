@@ -49,12 +49,35 @@
 ;; 2. M-x package-install RET exwm-x RET
 
 ;; ** Configure
+
+;; *** Edit "~/.initrc" file or "~/.xsession" file
+;; You should edit "~/.initrc" file or "~/.xsession" file like below example:
+
+;; #+BEGIN_EXAMPLE
+;; # The below line make sure "exwm-x-example" package correct loaded,
+;; # don't delete!
+;; export exwm_x_enable="yes"
+
+;; # Emacs X input method (exim) setting
+;; # export XMODIFIERS=@im=exim
+;; # export GTK_IM_MODULE=xim
+;; # export QT_IM_MODULE=xim
+;; # export CLUTTER_IM_MODULE=xim
+
+;; # xhost +
+
+;; exec dbus-launch --exit-with-session emacs
+;; #+END_EXAMPLE
+
+;; *** Edit emacs configure
+;; Add the below two lines to your emacs configure file:
+
 ;; #+BEGIN_EXAMPLE
 ;; (require 'exwm-x)
 ;; (require 'exwm-x-example) ;; Adjust this line.
 ;; #+END_EXAMPLE
 
-;; Note: exwm-x-example is Exwm-X buildin example, usr can use it to test Exwm-X's
+;; Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's
 ;; features. If it doesn't suit for your need, just copy and paste its useful pieces
 ;; to your own exwm config :-)
 

@@ -6,8 +6,10 @@
     - [Floating windows](#floating-windows)
   - [Install](#install)
   - [Configure](#configure)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#edit-"~/.initrc"-file-or-"~/.xsession"-file)
+    - [Edit emacs configure](#edit-emacs-configure)
 
-# Exwm-X<a id="orgheadline8"></a>
+# Exwm-X<a id="orgheadline10"></a>
 
 ## What is Exwm-X<a id="orgheadline1"></a>
 
@@ -35,11 +37,33 @@ make exwm easier for Mouse-Control-People to use.
 1.  Config melpa repository, please see：<http://melpa.org/#/getting-started>
 2.  M-x package-install RET exwm-x RET
 
-## Configure<a id="orgheadline7"></a>
+## Configure<a id="orgheadline9"></a>
+
+### Edit "~/.initrc" file or "~/.xsession" file<a id="orgheadline7"></a>
+
+You should edit "~/.initrc" file or "~/.xsession" file like below example:
+
+    # The below line make sure "exwm-x-example" package correct loaded,
+    # don't delete!
+    export exwm_x_enable="yes"
+
+    # Emacs X input method (exim) setting
+    # export XMODIFIERS=@im=exim
+    # export GTK_IM_MODULE=xim
+    # export QT_IM_MODULE=xim
+    # export CLUTTER_IM_MODULE=xim
+
+    # xhost +
+
+    exec dbus-launch --exit-with-session emacs
+
+### Edit emacs configure<a id="orgheadline8"></a>
+
+Add the below two lines to your emacs configure file:
 
     (require 'exwm-x)
     (require 'exwm-x-example) ;; Adjust this line.
 
-Note: exwm-x-example is Exwm-X buildin example, usr can use it to test Exwm-X's
+Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's
 features. If it doesn't suit for your need, just copy and paste its useful pieces
 to your own exwm config :-)
