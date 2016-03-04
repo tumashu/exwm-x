@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>exwm-x-mouse - Exwm-X</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Feng Shu" />
+    <link rel="stylesheet" href="http://tumashu.github.com/exwm-x/media/css/main.css" type="text/css">
+  </head>
+<body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
+        <ul>
+          <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
+          <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="tumashu.github.com/exwm-x">
+        </form>
+      </header>
+    </div>
+
+<div class="content-and-footer">
+<div>
+<div class="post">
+<h1 class="post-title">exwm-x-mouse</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. exwm-x-mouse manual</a></li>
+<li><a href="#orgheadline2">2. Code</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-mouse manual</h2>
+</div>
+
+
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #4c83ff;">require</span> '<span style="color: #96CBFE;">exwm</span>)
+(<span style="color: #4c83ff;">require</span> '<span style="color: #96CBFE;">exwm-x-core</span>)
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-resize-floating-window</span> (event <span style="color: #afd8af;">&amp;optional</span> scale)
+  <span style="color: #FBDE2D;">"This is a mouse click event function, used by exwm mode-line</span>
+<span style="color: #FBDE2D;">button, when click such button, resize current floating window to `</span><span style="color: #96CBFE;">scale</span><span style="color: #FBDE2D;">'</span>
+<span style="color: #FBDE2D;">property of screen size."</span>
+  (<span style="color: #4c83ff;">let*</span> ((frame (window-frame (car (car (cdr event)))))
+         (screen-width (display-pixel-width))
+         (screen-height (display-pixel-height)))
+    (set-frame-size
+     frame
+     (round (* scale screen-width))
+     (round (* scale screen-height)) t)))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-mouse-move-floating-window</span> (start-event)
+  <span style="color: #FBDE2D;">"This is a mouse drag event function, used by exwm mode-line</span>
+<span style="color: #FBDE2D;">button, when drag mouse from such button, move current floating window dynamic."</span>
+  (interactive <span style="color: #61CE3C;">"e"</span>)
+  (exwm-x--mouse-operate-floating-window start-event))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-mouse-resize-floating-window</span> (start-event)
+  <span style="color: #FBDE2D;">"This is a mouse drag event function, used by exwm mode-line</span>
+<span style="color: #FBDE2D;">button, when drag mouse from such button, resize current floating window dynamic."</span>
+  (interactive <span style="color: #61CE3C;">"e"</span>)
+  (exwm-x--mouse-operate-floating-window start-event t))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--mouse-operate-floating-window</span> (start-event <span style="color: #afd8af;">&amp;optional</span> resize)
+  <span style="color: #FBDE2D;">"Internal function of `</span><span style="color: #96CBFE;">exwm-x-mouse-move-floating-window</span><span style="color: #FBDE2D;">' and</span>
+<span style="color: #FBDE2D;">`</span><span style="color: #96CBFE;">exwm-x-mouse-move-floating-window</span><span style="color: #FBDE2D;">'"</span>
+  (interactive <span style="color: #61CE3C;">"e"</span>)
+  (<span style="color: #4c83ff;">when</span> exwm--floating-frame
+    (<span style="color: #4c83ff;">let*</span> ((orig-mouse (mouse-position))
+           (orig-x (car (cdr orig-mouse)))
+           (orig-y (cdr (cdr orig-mouse)))
+           (frame (window-frame (car (car (cdr start-event)))))
+           (frame-width (frame-width frame))
+           (frame-height (frame-height frame))
+           (char-width (frame-char-width frame))
+           (char-height (frame-char-height frame))
+           (echo-keystrokes 0)
+           (done nil)
+           (last-x orig-x)
+           (last-y orig-y)
+           event mouse x y)
+      (<span style="color: #4c83ff;">track-mouse</span>
+        (<span style="color: #4c83ff;">while</span> (not done)
+          (setq event (read-event)
+                mouse (mouse-position))
+          <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">do nothing if</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a switch-frame event.</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- the mouse isn't in the frame that we started in</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- the mouse isn't in any Emacs frame</span>
+          <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">drag if</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a mouse-movement event</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a scroll-bar-movement event</span>
+          <span style="color: #8B8989; font-style: italic;">;;     </span><span style="color: #8B8989; font-style: italic;">(same as mouse movement for our purposes)</span>
+          <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">quit if</span>
+          <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a keyboard event or some other unknown event</span>
+          <span style="color: #8B8989; font-style: italic;">;;     </span><span style="color: #8B8989; font-style: italic;">unknown event.</span>
+          (<span style="color: #4c83ff;">cond</span> ((integerp event)
+                 (setq done t))
+                ((eq (car event) 'switch-frame)
+                 nil)
+                ((not (memq (car event)
+                            '(mouse-movement scroll-bar-movement)))
+                 (setq done t))
+                ((not (eq (car mouse) frame))
+                 nil)
+                ((null (car (cdr mouse)))
+                 nil)
+                (t (setq x (car (cdr mouse))
+                         y (cdr (cdr mouse)))
+                   (<span style="color: #4c83ff;">if</span> resize
+                       (set-frame-size
+                        frame
+                        (- frame-width (- orig-x x))
+                        (- frame-height (- orig-y y)))
+                     (exwm-floating-move
+                      (* char-width (- x orig-x))
+                      (* char-width (- y orig-y)))))))))))
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-03-04</span>
+        <span title="last modification date" class="post-info">2016-03-04</span>
+        <span title="tags" class="post-info">N/A</span>
+        <span title="author" class="post-info">Feng Shu</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+</div>
+</body>
+</html>

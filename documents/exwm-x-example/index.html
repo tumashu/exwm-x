@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>exwm-x-example - Exwm-X</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Feng Shu" />
+    <link rel="stylesheet" href="http://tumashu.github.com/exwm-x/media/css/main.css" type="text/css">
+  </head>
+<body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
+        <ul>
+          <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
+          <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="tumashu.github.com/exwm-x">
+        </form>
+      </header>
+    </div>
+
+<div class="content-and-footer">
+<div>
+<div class="post">
+<h1 class="post-title">exwm-x-example</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline4">1. exwm-x-example manual</a>
+<ul>
+<li><a href="#orgheadline1">1.1. Description</a></li>
+<li><a href="#orgheadline2">1.2. Configure</a></li>
+<li><a href="#orgheadline3">1.3. Run exwm</a></li>
+</ul>
+</li>
+<li><a href="#orgheadline5">2. Code</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline4" class="outline-2">
+<h2 id="orgheadline4"><span class="section-number-2">1</span> exwm-x-example manual</h2>
+<div class="outline-text-2" id="text-1">
+</div><div id="outline-container-orgheadline1" class="outline-3">
+<h3 id="orgheadline1"><span class="section-number-3">1.1</span> Description</h3>
+<div class="outline-text-3" id="text-1-1">
+<p>
+An exwm-x configure example.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgheadline2" class="outline-3">
+<h3 id="orgheadline2"><span class="section-number-3">1.2</span> Configure</h3>
+<div class="outline-text-3" id="text-1-2">
+<p>
+Create ~/.xinitrc file or ~/.xsession file which content likes
+the below example:
+</p>
+
+<pre class="example">
+# You may need to comment out the next line to disable access control
+xhost +
+
+# Kill beep
+xset b off
+
+# Tell emacs load exwm-x-example.el file's content.
+export exwm_x_enable="yes"
+
+# Emacs X input method (exim) setting
+export XMODIFIERS=@im=exim
+export GTK_IM_MODULE=xim
+export QT_IM_MODULE=xim
+export CLUTTER_IM_MODULE=xim
+
+# Launch exwm
+ exec dbus-launch --exit-with-session emacs
+</pre>
+</div>
+</div>
+
+<div id="outline-container-orgheadline3" class="outline-3">
+<h3 id="orgheadline3"><span class="section-number-3">1.3</span> Run exwm</h3>
+<div class="outline-text-3" id="text-1-3">
+<p>
+Run startx command or login with display-manager
+</p>
+</div>
+</div>
+</div>
+
+
+
+<div id="outline-container-orgheadline5" class="outline-2">
+<h2 id="orgheadline5"><span class="section-number-2">2</span> Code</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">exwm-x</span>
+  <span style="color: #4c83ff;">:if</span> (string= (getenv <span style="color: #61CE3C;">"exwm_x_enable"</span>) <span style="color: #61CE3C;">"yes"</span>)
+  <span style="color: #4c83ff;">:ensure</span> nil
+  <span style="color: #4c83ff;">:demand</span> t
+  <span style="color: #4c83ff;">:config</span>
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Disable menu-bar, tool-bar and scroll-bar to increase the usable space</span>
+  (menu-bar-mode -1)
+  (tool-bar-mode -1)
+  (scroll-bar-mode -1)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Shrink fringes to 1 pixel</span>
+  (fringe-mode 1)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Disable dialog boxes since they are unusable in EXWM</span>
+  (setq use-dialog-box nil)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Set floating window border</span>
+  (setq exwm-floating-border-width 3)
+  (setq exwm-floating-border-color <span style="color: #61CE3C;">"orange"</span>)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">All buffers created in EXWM mode are named "*EXWM*". You may want to change</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">when a new window class name or title is available.</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">it in `</span><span style="color: #96CBFE; font-style: italic;">exwm-update-class-hook</span><span style="color: #8B8989; font-style: italic;">' and `</span><span style="color: #96CBFE; font-style: italic;">exwm-update-title-hook</span><span style="color: #8B8989; font-style: italic;">', which are run</span>
+  (add-hook 'exwm-update-class-hook #'exwm-x-rename-exwm-buffer)
+  (add-hook 'exwm-update-title-hook #'exwm-x-rename-exwm-buffer)
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-rename-exwm-buffer</span> ()
+    (exwm-workspace-rename-buffer
+     (concat <span style="color: #61CE3C;">"Exwm:"</span> (exwm-x--get-prefer-name))))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-suspend-computer</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"systemctl suspend"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-hibernate-computer</span> ()
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"systemctl hibernate"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-restart-computer</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"systemctl reboot"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-shutdown-commputer</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"systemctl poweroff"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-firefox</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"Iceweasel"</span> <span style="color: #61CE3C;">"iceweasel"</span> <span style="color: #61CE3C;">"&#32593;"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-file-manager</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"Nautilus"</span> <span style="color: #61CE3C;">"nautilus --no-desktop"</span> <span style="color: #61CE3C;">"&#25991;"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-crossover</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"Crossover"</span> <span style="color: #61CE3C;">"/opt/cxoffice/bin/crossover"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-launch-crossover-app</span> (app bottle <span style="color: #afd8af;">&amp;optional</span> shortcut-name)
+    (exwm-x-jump-or-exec
+     app
+     (format <span style="color: #61CE3C;">"/opt/cxoffice/bin/wine --bottle %s --cx-app '%s'"</span> bottle app)
+     shortcut-name))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-qq</span> ()
+    (interactive)
+    (exwm-x-launch-crossover-app <span style="color: #61CE3C;">"TM.exe"</span> <span style="color: #61CE3C;">"&#33150;&#35759;_TM_2013"</span> <span style="color: #61CE3C;">"TM"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-word</span> ()
+    (interactive)
+    (exwm-x-launch-crossover-app <span style="color: #61CE3C;">"WINWORD.EXE"</span> <span style="color: #61CE3C;">"Microsoft_Office_2007"</span> <span style="color: #61CE3C;">"Words"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-excel</span> ()
+    (interactive)
+    (exwm-x-launch-crossover-app <span style="color: #61CE3C;">"EXCEL.EXE"</span> <span style="color: #61CE3C;">"Microsoft_Office_2007"</span> <span style="color: #61CE3C;">"Excel"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-ppt</span> ()
+    (interactive)
+    (exwm-x-launch-crossover-app <span style="color: #61CE3C;">"POWERPNT.EXE"</span> <span style="color: #61CE3C;">"Microsoft_Office_2007"</span> <span style="color: #61CE3C;">"PPT"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-winxp</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"VirtualBox"</span> <span style="color: #61CE3C;">"VBoxManage startvm winxp"</span> <span style="color: #61CE3C;">"Winxp"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-virtualbox</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"VirtualBox"</span> <span style="color: #61CE3C;">"virtualbox"</span> <span style="color: #61CE3C;">"VBox"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-mplayer</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"Smplayer"</span> <span style="color: #61CE3C;">"smplayer"</span> <span style="color: #61CE3C;">"Mplayer"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-htop</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"htop"</span> <span style="color: #61CE3C;">"xfce4-terminal -T htop -e htop"</span> <span style="color: #61CE3C;">"Top"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-terminal</span> ()
+    (interactive)
+    (exwm-x-jump-or-exec <span style="color: #61CE3C;">"default-terminal"</span> <span style="color: #61CE3C;">"xfce4-terminal -T default-terminal"</span> <span style="color: #61CE3C;">"&#32456;"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-new-terminal</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xfce4-terminal"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-power-manager-settings</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xfce4-power-manager-settings"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-power-manager</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xfce4-power-manager"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-xset-bell-off</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xset b off"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-xmodmap</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xmodmap -e 'keycode 135 = Super_R'"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-network-manager-applet</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"nm-applet"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-volit</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"volti"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-xscreensaver</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"xscreensaver -no-splash"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-lock-screen</span> ()
+    (interactive)
+    (exwm-x-run-shell-command <span style="color: #61CE3C;">"exec xscreensaver-command -lock"</span>))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-switch-to-1-workspace</span> ()
+    (interactive)
+    (exwm-workspace-switch 0))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-switch-to-2-workspace</span> ()
+    (interactive)
+    (exwm-workspace-switch 1))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-switch-to-3-workspace</span> ()
+    (interactive)
+    (exwm-workspace-switch 2))
+
+  (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-switch-to-4-workspace</span> ()
+    (interactive)
+    (exwm-workspace-switch 3))
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Don't Delete the below two lines</span>
+  (global-unset-key (kbd <span style="color: #61CE3C;">"C-t"</span>))
+  (push ?\C-t exwm-input-prefix-keys)
+
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t R"</span>)  nil)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t q"</span>)  nil)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t m"</span>)  nil)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t v"</span>)  'exwm-x-file-manager)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t c"</span>)  'exwm-x-terminal)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t ff"</span>) 'exwm-x-firefox)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t fq"</span>) 'exwm-x-qq)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t fj"</span>) 'exwm-x-jabref)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t fc"</span>) 'exwm-x-cajviewer)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t fp"</span>) 'exwm-x-pdfreader)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t fw"</span>) 'exwm-x-winxp)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t w"</span>)  'exwm-workspace-switch)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t x"</span>)  'exwm-x-terminal)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t C-x"</span>)  'exwm-x-new-terminal)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t c"</span>)  'exwm-x-run-shell-command-interactively)
+
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t 1"</span>)  'exwm-x-switch-to-1-workspace)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t 2"</span>)  'exwm-x-switch-to-2-workspace)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t 3"</span>)  'exwm-x-switch-to-3-workspace)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t 4"</span>)  'exwm-x-switch-to-4-workspace)
+
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-S-&lt;up&gt;"</span>) 'exwm-x-move-border-up)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-S-&lt;down&gt;"</span>) 'exwm-x-move-border-down)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-S-&lt;left&gt;"</span>) 'exwm-x-move-border-left)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-S-&lt;right&gt;"</span>) 'exwm-x-move-border-right)
+
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">We always need a way to go back to line-mode from char-mode</span>
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t t"</span>) 'exwm-reset)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t C-t"</span>) 'exwm-reset)
+  (exwm-input-set-key (kbd <span style="color: #61CE3C;">"s-r"</span>) 'exwm-reset)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">The following example demonstrates how to set a key binding only available</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">in line mode. It's simply done by first push the prefix key to</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">`</span><span style="color: #96CBFE; font-style: italic;">exwm-input-prefix-keys</span><span style="color: #8B8989; font-style: italic;">' and then add the key sequence to `</span><span style="color: #96CBFE; font-style: italic;">exwm-mode-map</span><span style="color: #8B8989; font-style: italic;">'.</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">The example shorten 'C-c q' to 'C-q'.</span>
+  (push ?\C-q exwm-input-prefix-keys)
+  (push ?\C-\\ exwm-input-prefix-keys)
+  (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">The following example demonstrates how to use simulation keys to mimic the</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">behavior of Emacs. The argument to `</span><span style="color: #96CBFE; font-style: italic;">exwm-input-set-simulation-keys</span><span style="color: #8B8989; font-style: italic;">' is a</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">list of cons cells (SRC . DEST), where SRC is the key sequence you press and</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">DEST is what EXWM actually sends to application. Note that SRC must be a key</span>
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">sequence (of type vector or string), while DEST can also be a single key.</span>
+  (exwm-input-set-simulation-keys
+   '(([?\C-b] . left)
+     ([?\C-f] . right)
+     ([?\C-p] . up)
+     ([?\C-n] . down)
+     ([?\C-a] . home)
+     ([?\C-e] . end)
+     ([?\M-v] . prior)
+     ([?\C-v] . next)))
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Debian menu</span>
+  (exwm-x-generate-debian-menus)
+
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Don't delete it</span>
+  (exwm-enable)
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">windmove</span>
+    <span style="color: #4c83ff;">:ensure</span> nil
+    <span style="color: #4c83ff;">:config</span>
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-&lt;up&gt;"</span>) 'windmove-up)
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-&lt;down&gt;"</span>) 'windmove-down)
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-&lt;left&gt;"</span>) 'windmove-left)
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-&lt;right&gt;"</span>) 'windmove-right))
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">start-menu</span>
+    <span style="color: #4c83ff;">:ensure</span> nil
+    <span style="color: #4c83ff;">:config</span>
+    (start-menu-enable)
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t ,"</span>)  'start-menu-popup))
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">dmenu</span>
+    <span style="color: #4c83ff;">:ensure</span> nil
+    <span style="color: #4c83ff;">:config</span>
+    (setq dmenu-prompt-string <span style="color: #61CE3C;">"dmenu: "</span>)
+    (exwm-input-set-key (kbd <span style="color: #61CE3C;">"C-t c"</span>) 'dmenu))
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">switch-window</span>
+    <span style="color: #4c83ff;">:bind</span> ((<span style="color: #61CE3C;">"C-x o"</span> . switch-window)
+           (<span style="color: #61CE3C;">"C-x 1"</span> . switch-window-then-maximize)
+           (<span style="color: #61CE3C;">"C-x 2"</span> . switch-window-then-split-below)
+           (<span style="color: #61CE3C;">"C-x 3"</span> . switch-window-then-split-right)
+           (<span style="color: #61CE3C;">"C-x 0"</span> . switch-window-then-delete))
+    <span style="color: #4c83ff;">:config</span>
+    (setq switch-window-increase 8)
+    (setq switch-window-shortcut-style 'qwerty))
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">exwm-systemtray</span>
+    <span style="color: #4c83ff;">:ensure</span> nil
+    <span style="color: #4c83ff;">:config</span>
+    (setq exwm-systemtray-height 16)
+    (exwm-systemtray-enable)
+    (add-hook 'exwm-init-hook 'exwm-x-network-manager-applet t)
+    (add-hook 'exwm-init-hook 'exwm-x-volit t)
+    (add-hook 'exwm-init-hook 'exwm-x-power-manager t)
+    (add-hook 'exwm-init-hook 'exwm-x-xscreensaver t)
+    (add-hook 'exwm-init-hook 'exwm-x-xset-bell-off t)
+    (add-hook 'exwm-init-hook 'exwm-x-xmodmap t))
+
+  (<span style="color: #4c83ff;">use-package</span> <span style="color: #96CBFE;">exim</span>
+    <span style="color: #4c83ff;">:ensure</span> nil
+    <span style="color: #4c83ff;">:config</span> (add-hook 'exwm-init-hook 'exim-start)))
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-03-04</span>
+        <span title="last modification date" class="post-info">2016-03-04</span>
+        <span title="tags" class="post-info">N/A</span>
+        <span title="author" class="post-info">Feng Shu</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+</div>
+</body>
+</html>

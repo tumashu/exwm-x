@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <title>exwm-x-utils - Exwm-X</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Feng Shu" />
+    <link rel="stylesheet" href="http://tumashu.github.com/exwm-x/media/css/main.css" type="text/css">
+  </head>
+<body class="container">
+    <div>
+      <header class="masthead">
+        <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
+        <ul>
+          <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
+          <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
+          <li><a href="http://tumashu.github.com/exwm-x/rss.xml">RSS</a></li>
+        </ul>
+        <form method="get" id="searchform" action="http://www.google.com/search">
+          <input type="text" class="field" name="q" id="s" placeholder="Search">
+          <input type="hidden" name="as_sitesearch" value="tumashu.github.com/exwm-x">
+        </form>
+      </header>
+    </div>
+
+<div class="content-and-footer">
+<div>
+<div class="post">
+<h1 class="post-title">exwm-x-utils</h1>
+<div id="table-of-contents">
+<h2>&#30446;&#24405;</h2>
+<div id="text-table-of-contents">
+<ul>
+<li><a href="#orgheadline1">1. exwm-x-utils manual</a></li>
+<li><a href="#orgheadline2">2. Code</a></li>
+</ul>
+</div>
+</div>
+<div id="outline-container-orgheadline1" class="outline-2">
+<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-utils manual</h2>
+</div>
+
+
+
+<div id="outline-container-orgheadline2" class="outline-2">
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
+<div class="outline-text-2" id="text-2">
+<div class="org-src-container">
+
+<pre class="src src-emacs-lisp">(<span style="color: #4c83ff;">require</span> '<span style="color: #96CBFE;">exwm</span>)
+(<span style="color: #4c83ff;">require</span> '<span style="color: #96CBFE;">exwm-x-core</span>)
+(<span style="color: #4c83ff;">require</span> '<span style="color: #96CBFE;">exwm-x-modeline</span>)
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-jump-or-exec</span> (regexp cmd <span style="color: #afd8af;">&amp;optional</span> shortcut-name current-window)
+  <span style="color: #FBDE2D;">"Jump to a window which class, instance or title matched `</span><span style="color: #96CBFE;">regexp</span><span style="color: #FBDE2D;">',</span>
+<span style="color: #FBDE2D;">if matched window can't be found, run shell command `</span><span style="color: #96CBFE;">cmd</span><span style="color: #FBDE2D;">'."</span>
+  (<span style="color: #4c83ff;">when</span> (and (not current-window)
+             (<span style="color: #4c83ff;">featurep</span> '<span style="color: #96CBFE;">switch-window</span>))
+    (switch-window--then
+     <span style="color: #61CE3C;">"Move to window: "</span>
+     #'(<span style="color: #4c83ff;">lambda</span> () (other-window 1))
+     nil nil 1))
+
+  (<span style="color: #4c83ff;">let</span> ((buffer (exwm-x--find-buffer regexp)))
+    (<span style="color: #4c83ff;">if</span> buffer
+        (exwm-workspace-switch-to-buffer buffer)
+      (start-process-shell-command cmd nil cmd)))
+
+  (<span style="color: #4c83ff;">let</span> ((name (format <span style="color: #61CE3C;">"[%s]"</span> (or shortcut-name regexp))))
+    (push (exwm-x--create-mode-line-button
+           name
+           `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
+           `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
+           `(exwm-x--delete-shortcut ,name))
+          exwm-x--mode-line-shortcuts))
+
+  (setq exwm-x--mode-line-shortcuts
+        (cl-delete-duplicates
+         exwm-x--mode-line-shortcuts
+         <span style="color: #4c83ff;">:test</span> #'(<span style="color: #4c83ff;">lambda</span> (x y)
+                   (equal (nth 1 (cadr x))
+                          (nth 1 (cadr y)))))))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--find-buffer</span> (regexp)
+  <span style="color: #FBDE2D;">"Find such a exwm buffer: its Local Variables&#58; `</span><span style="color: #96CBFE;">exwm-class-name</span><span style="color: #FBDE2D;">', `</span><span style="color: #96CBFE;">exwm-instance-name</span><span style="color: #FBDE2D;">'</span>
+<span style="color: #FBDE2D;">or `</span><span style="color: #96CBFE;">exwm-title</span><span style="color: #FBDE2D;">' is matched `</span><span style="color: #96CBFE;">regexp</span><span style="color: #FBDE2D;">'."</span>
+  (<span style="color: #4c83ff;">let*</span> ((buffers (buffer-list))
+         (buffers-list (list nil nil nil)))
+
+    (<span style="color: #4c83ff;">dolist</span> (buffer buffers)
+      (<span style="color: #4c83ff;">let</span> ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
+                       (1 . ,(buffer-local-value 'exwm-instance-name buffer))
+                       (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
+        (<span style="color: #4c83ff;">dolist</span> (x wininfo)
+          (<span style="color: #4c83ff;">when</span> (exwm-x--string-match-p regexp (cdr x))
+            (setf (nth (car x) buffers-list)
+                  (append (list buffer) (nth (car x) buffers-list)))))))
+
+    (caar (delq nil
+                (sort buffers-list
+                      #'(<span style="color: #4c83ff;">lambda</span> (a b)
+                          (&lt; (length a) (length b))))))))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-kill-exwm-buffer</span> (<span style="color: #afd8af;">&amp;optional</span> buffer-or-name)
+  <span style="color: #FBDE2D;">"Kill buffer, if current buffer is a exwm buffer."</span>
+  (<span style="color: #4c83ff;">let</span> ((buffer (or buffer-or-name
+                    (current-buffer))))
+    (<span style="color: #4c83ff;">with-current-buffer</span> buffer
+      (<span style="color: #4c83ff;">if</span> (eq major-mode 'exwm-mode)
+          (<span style="color: #4c83ff;">progn</span> (kill-buffer buffer)
+                 (exwm-x--next-exwm-buffer))
+        (message <span style="color: #61CE3C;">"This buffer is not a exwm buffer!"</span>)))))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-run-shell-command</span> (cmd)
+  <span style="color: #FBDE2D;">"Run shell command `</span><span style="color: #96CBFE;">cmd</span><span style="color: #FBDE2D;">'."</span>
+  (start-process-shell-command cmd nil cmd))
+
+(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-run-shell-command-interactively</span> (cmd)
+  <span style="color: #FBDE2D;">"Run shell command `</span><span style="color: #96CBFE;">cmd</span><span style="color: #FBDE2D;">' interactively."</span>
+  (interactive
+   (list (read-shell-command <span style="color: #61CE3C;">"Run shell command: "</span>)))
+  (start-process-shell-command cmd nil cmd))
+</pre>
+</div>
+</div>
+</div>
+
+</div>
+</div>
+    <div>
+      <div class="post-meta">
+        <span title="post date" class="post-info">2016-03-04</span>
+        <span title="last modification date" class="post-info">2016-03-04</span>
+        <span title="tags" class="post-info">N/A</span>
+        <span title="author" class="post-info">Feng Shu</span>
+      </div>
+      <section>
+        <h1>Comments</h1>
+      </section>
+      <div class="footer">
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>
+          Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
+          &nbsp;&nbsp;-&nbsp;&nbsp;
+          Powered by <a href="https://github.com/tumashu/org-webpage" target="_blank">org-webpage</a>
+          <script type="text/javascript">document.getElementById("footerYear").innerHTML = (new Date()).getFullYear();</script>
+        </p>
+      </div>
+    </div>
+
+</div>
+</body>
+</html>
