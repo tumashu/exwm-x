@@ -109,7 +109,8 @@ NOTE:
 [D]: Delete current window.
 [F]: toggle floating window.
 [-]: Split window horizontal.
-[|]: Split window vertical."
+[|]: Split window vertical.
+[<>]: Move border to left or right."
    (setq mode-line-format
          `(exwm--floating-frame
            (,(exwm-x--create-mode-line-button
@@ -151,6 +152,8 @@ NOTE:
               "[-]" '(split-window-below) '(split-window-below))
             ,(exwm-x--create-mode-line-button
               "[|]" '(split-window-right) '(split-window-right))
+            ,(exwm-x--create-mode-line-button
+              "[<>]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-right 10))
             " -:"
             mode-line-mule-info
             "- "
