@@ -136,6 +136,8 @@ NOTE:
             ,(exwm-x--create-mode-line-button
               "[+]" '(delete-other-windows) '(delete-other-windows))
             ,(exwm-x--create-mode-line-button
+              "[<>]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-right 10))
+            ,(exwm-x--create-mode-line-button
               "[D]" '(delete-window) '(delete-window))
             ,(exwm-x--create-mode-line-button
               "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
