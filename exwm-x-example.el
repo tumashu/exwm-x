@@ -329,5 +329,9 @@
 ;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-example)
 
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+
 ;;; exwm-x-example.el ends here
 ;; #+END_SRC
