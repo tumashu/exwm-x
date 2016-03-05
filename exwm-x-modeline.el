@@ -247,11 +247,12 @@ for furture use."
 file `exwm-x-mode-line-shortcuts-file'. "
   (interactive)
   (message "Load exwm-x shortcuts from \"%s\"" exwm-x-mode-line-shortcuts-file)
-  (with-temp-buffer
-    (erase-buffer)
-    (insert-file-contents exwm-x-mode-line-shortcuts-file)
-    (setq exwm-x--mode-line-shortcuts
-          (read (current-buffer)))))
+  (when (file-exists-p exwm-x-mode-line-shortcuts-file)
+    (with-temp-buffer
+      (erase-buffer)
+      (insert-file-contents exwm-x-mode-line-shortcuts-file)
+      (setq exwm-x--mode-line-shortcuts
+            (read (current-buffer))))))
 
 (defun exwm-x--delete-shortcut (shortcut-name)
   "Delete shortcut which named `shortcut-name' from mode-line."
