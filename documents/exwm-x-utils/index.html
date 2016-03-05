@@ -33,19 +33,19 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. exwm-x-utils manual</a></li>
-<li><a href="#orgheadline2">2. Code</a></li>
+<li><a href="#orgheadline1">1. exwm-x-utils manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></a></li>
+<li><a href="#orgheadline2">2. Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-utils manual</h2>
+<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-utils manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></h2>
 </div>
 
 
 
 <div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
@@ -56,11 +56,11 @@
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-jump-or-exec</span> (regexp cmd <span style="color: #afd8af;">&amp;optional</span> shortcut-name current-window)
   <span style="color: #FBDE2D;">"Jump to a window which class, instance or title matched `</span><span style="color: #96CBFE;">regexp</span><span style="color: #FBDE2D;">',</span>
 <span style="color: #FBDE2D;">if matched window can't be found, run shell command `</span><span style="color: #96CBFE;">cmd</span><span style="color: #FBDE2D;">'."</span>
-  (<span style="color: #4c83ff;">when</span> (and (not current-window)
+  (<span style="color: #4c83ff;">when</span> (<span style="color: #4c83ff;">and</span> (not current-window)
              (<span style="color: #4c83ff;">featurep</span> '<span style="color: #96CBFE;">switch-window</span>))
     (switch-window--then
      <span style="color: #61CE3C;">"Move to window: "</span>
-     #'(<span style="color: #4c83ff;">lambda</span> () (other-window 1))
+     #'(lambda () (other-window 1))
      nil nil 1))
 
   (<span style="color: #4c83ff;">let</span> ((buffer (exwm-x--find-buffer regexp)))
@@ -68,18 +68,18 @@
         (exwm-workspace-switch-to-buffer buffer)
       (start-process-shell-command cmd nil cmd)))
 
-  (<span style="color: #4c83ff;">let</span> ((name (format <span style="color: #61CE3C;">"[%s]"</span> (or shortcut-name regexp))))
-    (push (exwm-x--create-mode-line-button
+  (<span style="color: #4c83ff;">let</span> ((name (format <span style="color: #61CE3C;">"[%s]"</span> (<span style="color: #4c83ff;">or</span> shortcut-name regexp))))
+    (<span style="color: #4c83ff;">push</span> (exwm-x--create-mode-line-button
            name
            `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
            `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
            `(exwm-x--delete-shortcut ,name))
           exwm-x--mode-line-shortcuts))
 
-  (setq exwm-x--mode-line-shortcuts
+  (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-shortcuts
         (cl-delete-duplicates
          exwm-x--mode-line-shortcuts
-         <span style="color: #4c83ff;">:test</span> #'(<span style="color: #4c83ff;">lambda</span> (x y)
+         <span style="color: #4c83ff;">:test</span> #'(lambda (x y)
                    (equal (nth 1 (cadr x))
                           (nth 1 (cadr y)))))))
 
@@ -95,17 +95,17 @@
                        (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
         (<span style="color: #4c83ff;">dolist</span> (x wininfo)
           (<span style="color: #4c83ff;">when</span> (exwm-x--string-match-p regexp (cdr x))
-            (setf (nth (car x) buffers-list)
+            (<span style="color: #4c83ff;">setf</span> (nth (car x) buffers-list)
                   (append (list buffer) (nth (car x) buffers-list)))))))
 
     (caar (delq nil
                 (sort buffers-list
-                      #'(<span style="color: #4c83ff;">lambda</span> (a b)
+                      #'(lambda (a b)
                           (&lt; (length a) (length b))))))))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-kill-exwm-buffer</span> (<span style="color: #afd8af;">&amp;optional</span> buffer-or-name)
   <span style="color: #FBDE2D;">"Kill buffer, if current buffer is a exwm buffer."</span>
-  (<span style="color: #4c83ff;">let</span> ((buffer (or buffer-or-name
+  (<span style="color: #4c83ff;">let</span> ((buffer (<span style="color: #4c83ff;">or</span> buffer-or-name
                     (current-buffer))))
     (<span style="color: #4c83ff;">with-current-buffer</span> buffer
       (<span style="color: #4c83ff;">if</span> (eq major-mode 'exwm-mode)
@@ -119,7 +119,7 @@
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-run-shell-command-interactively</span> (cmd)
   <span style="color: #FBDE2D;">"Run shell command `</span><span style="color: #96CBFE;">cmd</span><span style="color: #FBDE2D;">' interactively."</span>
-  (interactive
+  (<span style="color: #4c83ff;">interactive</span>
    (list (read-shell-command <span style="color: #61CE3C;">"Run shell command: "</span>)))
   (start-process-shell-command cmd nil cmd))
 </pre>
@@ -131,7 +131,7 @@
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2016-03-04</span>
+        <span title="post date" class="post-info">2016-03-05</span>
         <span title="last modification date" class="post-info">2016-03-04</span>
         <span title="tags" class="post-info">N/A</span>
         <span title="author" class="post-info">Feng Shu</span>
@@ -140,7 +140,7 @@
         <h1>Comments</h1>
       </section>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
