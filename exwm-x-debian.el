@@ -52,12 +52,12 @@
         (setq needs (match-string 1 file-content)))
       (when command
         (if (equal needs "text")
-            (eval `(defun ,(intern (concat "exwm-x-menu/" file-name)) ()
+            (eval `(defun ,(intern (concat "exwm-x/menu/" file-name)) ()
                      (interactive)
                      (start-process-shell-command
                       ,command nil
                       ,(format "x-terminal-emulator --title %s -e %s" command command))))
-          (eval `(defun ,(intern (concat "exwm-x-menu/" file-name)) ()
+          (eval `(defun ,(intern (concat "exwm-x/menu/" file-name)) ()
                    (interactive)
                    (start-process-shell-command ,command nil ,command))))))))
 
