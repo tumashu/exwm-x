@@ -1,15 +1,13 @@
 - [Exwm-X](#exwm-x)
   - [What is Exwm-X](#what-is-exwm-x)
   - [Feature](#feature)
-  - [Snapshot](#snapshot)
-    - [Tilling windows](#tilling-windows)
-    - [Floating windows](#floating-windows)
+  - [Pictures and videos](#pictures-and-videos)
   - [Install](#install)
   - [Configure](#configure)
     - [Edit "~/.initrc" file or "~/.xsession" file](#edit-"~/.initrc"-file-or-"~/.xsession"-file)
     - [Edit emacs configure](#edit-emacs-configure)
 
-# Exwm-X<a id="orgheadline10"></a>
+# Exwm-X<a id="orgheadline8"></a>
 
 ## What is Exwm-X<a id="orgheadline1"></a>
 
@@ -22,24 +20,28 @@ make exwm easier for Mouse-Control-People to use.
 2.  Move or resize a floating-window without press WIN key.
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 
-## Snapshot<a id="orgheadline5"></a>
+## Pictures and videos<a id="orgheadline3"></a>
 
-### Tilling windows<a id="orgheadline3"></a>
+1.  Tilling windows
 
-![img](./snapshots/tilling-window.png)
+    ![img](./snapshots/tilling-window.png)
 
-### Floating windows<a id="orgheadline4"></a>
+2.  Floating windows
 
-![img](./snapshots/floating-window.png)
+    ![img](./snapshots/floating-window.png)
 
-## Install<a id="orgheadline6"></a>
+3.  Exwm-X videos
+
+    <https://github.com/tumashu/exwm-x-videos>
+
+## Install<a id="orgheadline4"></a>
 
 1.  Config melpa repository, please see：<http://melpa.org/#/getting-started>
 2.  M-x package-install RET exwm-x RET
 
-## Configure<a id="orgheadline9"></a>
+## Configure<a id="orgheadline7"></a>
 
-### Edit "~/.initrc" file or "~/.xsession" file<a id="orgheadline7"></a>
+### Edit "~/.initrc" file or "~/.xsession" file<a id="orgheadline5"></a>
 
 You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
@@ -57,7 +59,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
     exec dbus-launch --exit-with-session emacs
 
-### Edit emacs configure<a id="orgheadline8"></a>
+### Edit emacs configure<a id="orgheadline6"></a>
 
 Add the below two lines to your emacs configure file:
 

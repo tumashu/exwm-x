@@ -37,12 +37,19 @@
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 
-;; ** Snapshot
-;; *** Tilling windows
-;; [[./snapshots/tilling-window.png]]
+;; ** Pictures and videos
+;; 1. Tilling windows
 
-;; *** Floating windows
-;; [[./snapshots/floating-window.png]]
+;;    [[./snapshots/tilling-window.png]]
+
+;; 2. Floating windows
+
+;;    [[./snapshots/floating-window.png]]
+
+;; 3. Exwm-X videos
+
+;;    [[https://github.com/tumashu/exwm-x-videos]]
+
 
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started
