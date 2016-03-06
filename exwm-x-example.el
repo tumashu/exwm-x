@@ -92,108 +92,108 @@
     (exwm-workspace-rename-buffer
      (concat "Exwm:" (exwm-x--get-prefer-name))))
 
-  (defun exwm-x-suspend-computer ()
+  (defun exwm-x/suspend-computer ()
     (interactive)
     (exwm-x-run-shell-command "systemctl suspend"))
 
-  (defun exwm-x-hibernate-computer ()
+  (defun exwm-x/hibernate-computer ()
     (exwm-x-run-shell-command "systemctl hibernate"))
 
-  (defun exwm-x-restart-computer ()
+  (defun exwm-x/restart-computer ()
     (interactive)
     (exwm-x-run-shell-command "systemctl reboot"))
 
-  (defun exwm-x-shutdown-commputer ()
+  (defun exwm-x/shutdown-commputer ()
     (interactive)
     (exwm-x-run-shell-command "systemctl poweroff"))
 
-  (defun exwm-x-firefox ()
+  (defun exwm-x/firefox ()
     (interactive)
     (exwm-x-jump-or-exec "Iceweasel" "iceweasel" "网"))
 
-  (defun exwm-x-file-manager ()
+  (defun exwm-x/file-manager ()
     (interactive)
     (exwm-x-jump-or-exec "Nautilus" "nautilus --no-desktop" "文"))
 
-  (defun exwm-x-crossover ()
+  (defun exwm-x/crossover ()
     (interactive)
     (exwm-x-jump-or-exec "Crossover" "/opt/cxoffice/bin/crossover"))
 
-  (defun exwm-x-launch-crossover-app (app bottle &optional shortcut-name)
+  (defun exwm-x/launch-crossover-app (app bottle &optional shortcut-name)
     (exwm-x-jump-or-exec
      app
      (format "/opt/cxoffice/bin/wine --bottle %s --cx-app '%s'" bottle app)
      shortcut-name))
 
-  (defun exwm-x-qq ()
+  (defun exwm-x/qq ()
     (interactive)
     (exwm-x-launch-crossover-app "TM.exe" "腾讯_TM_2013" "TM"))
 
-  (defun exwm-x-word ()
+  (defun exwm-x/word ()
     (interactive)
     (exwm-x-launch-crossover-app "WINWORD.EXE" "Microsoft_Office_2007" "Words"))
 
-  (defun exwm-x-excel ()
+  (defun exwm-x/excel ()
     (interactive)
     (exwm-x-launch-crossover-app "EXCEL.EXE" "Microsoft_Office_2007" "Excel"))
 
-  (defun exwm-x-ppt ()
+  (defun exwm-x/ppt ()
     (interactive)
     (exwm-x-launch-crossover-app "POWERPNT.EXE" "Microsoft_Office_2007" "PPT"))
 
-  (defun exwm-x-winxp ()
+  (defun exwm-x/winxp ()
     (interactive)
     (exwm-x-jump-or-exec "VirtualBox" "VBoxManage startvm winxp" "Winxp"))
 
-  (defun exwm-x-virtualbox ()
+  (defun exwm-x/virtualbox ()
     (interactive)
     (exwm-x-jump-or-exec "VirtualBox" "virtualbox" "VBox"))
 
-  (defun exwm-x-mplayer ()
+  (defun exwm-x/mplayer ()
     (interactive)
     (exwm-x-jump-or-exec "Smplayer" "smplayer" "Mplayer"))
 
-  (defun exwm-x-htop ()
+  (defun exwm-x/htop ()
     (interactive)
     (exwm-x-jump-or-exec "htop" "xfce4-terminal -T htop -e htop" "Top"))
 
-  (defun exwm-x-terminal ()
+  (defun exwm-x/terminal ()
     (interactive)
     (exwm-x-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal" "终"))
 
-  (defun exwm-x-new-terminal ()
+  (defun exwm-x/new-terminal ()
     (interactive)
     (exwm-x-run-shell-command "xfce4-terminal"))
 
-  (defun exwm-x-power-manager-settings ()
+  (defun exwm-x/power-manager-settings ()
     (interactive)
     (exwm-x-run-shell-command "xfce4-power-manager-settings"))
 
-  (defun exwm-x-power-manager ()
+  (defun exwm-x/power-manager ()
     (interactive)
     (exwm-x-run-shell-command "xfce4-power-manager"))
 
-  (defun exwm-x-xset-bell-off ()
+  (defun exwm-x/xset-bell-off ()
     (interactive)
     (exwm-x-run-shell-command "xset b off"))
 
-  (defun exwm-x-xmodmap ()
+  (defun exwm-x/xmodmap ()
     (interactive)
     (exwm-x-run-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
 
-  (defun exwm-x-network-manager-applet ()
+  (defun exwm-x/network-manager-applet ()
     (interactive)
     (exwm-x-run-shell-command "nm-applet"))
 
-  (defun exwm-x-volit ()
+  (defun exwm-x/volit ()
     (interactive)
     (exwm-x-run-shell-command "volti"))
 
-  (defun exwm-x-xscreensaver ()
+  (defun exwm-x/xscreensaver ()
     (interactive)
     (exwm-x-run-shell-command "xscreensaver -no-splash"))
 
-  (defun exwm-x-lock-screen ()
+  (defun exwm-x/lock-screen ()
     (interactive)
     (exwm-x-run-shell-command "exec xscreensaver-command -lock"))
 
@@ -220,18 +220,18 @@
   (exwm-input-set-key (kbd "C-t R")  nil)
   (exwm-input-set-key (kbd "C-t q")  nil)
   (exwm-input-set-key (kbd "C-t m")  nil)
-  (exwm-input-set-key (kbd "C-t v")  'exwm-x-file-manager)
-  (exwm-input-set-key (kbd "C-t c")  'exwm-x-terminal)
-  (exwm-input-set-key (kbd "C-t ff") 'exwm-x-firefox)
-  (exwm-input-set-key (kbd "C-t fq") 'exwm-x-qq)
-  (exwm-input-set-key (kbd "C-t fj") 'exwm-x-jabref)
-  (exwm-input-set-key (kbd "C-t fc") 'exwm-x-cajviewer)
-  (exwm-input-set-key (kbd "C-t fp") 'exwm-x-pdfreader)
-  (exwm-input-set-key (kbd "C-t fw") 'exwm-x-winxp)
+  (exwm-input-set-key (kbd "C-t v")  'exwm-x/file-manager)
+  (exwm-input-set-key (kbd "C-t c")  'exwm-x/terminal)
+  (exwm-input-set-key (kbd "C-t ff") 'exwm-x/firefox)
+  (exwm-input-set-key (kbd "C-t fq") 'exwm-x/qq)
+  (exwm-input-set-key (kbd "C-t fj") 'exwm-x/jabref)
+  (exwm-input-set-key (kbd "C-t fc") 'exwm-x/cajviewer)
+  (exwm-input-set-key (kbd "C-t fp") 'exwm-x/pdfreader)
+  (exwm-input-set-key (kbd "C-t fw") 'exwm-x/winxp)
   (exwm-input-set-key (kbd "C-t w")  'exwm-workspace-switch)
-  (exwm-input-set-key (kbd "C-t x")  'exwm-x-terminal)
-  (exwm-input-set-key (kbd "C-t C-x")  'exwm-x-new-terminal)
-  (exwm-input-set-key (kbd "C-t c")  'exwm-x-run-shell-command-interactively)
+  (exwm-input-set-key (kbd "C-t x")  'exwm-x/terminal)
+  (exwm-input-set-key (kbd "C-t C-x")  'exwm-x/new-terminal)
+  (exwm-input-set-key (kbd "C-t c")  'exwm-x/run-shell-command-interactively)
 
   (exwm-input-set-key (kbd "C-t 1")  'exwm-x-switch-to-1-workspace)
   (exwm-input-set-key (kbd "C-t 2")  'exwm-x-switch-to-2-workspace)
@@ -313,12 +313,12 @@
     :config
     (setq exwm-systemtray-height 16)
     (exwm-systemtray-enable)
-    (add-hook 'exwm-init-hook 'exwm-x-network-manager-applet t)
-    (add-hook 'exwm-init-hook 'exwm-x-volit t)
-    (add-hook 'exwm-init-hook 'exwm-x-power-manager t)
-    (add-hook 'exwm-init-hook 'exwm-x-xscreensaver t)
-    (add-hook 'exwm-init-hook 'exwm-x-xset-bell-off t)
-    (add-hook 'exwm-init-hook 'exwm-x-xmodmap t))
+    (add-hook 'exwm-init-hook 'exwm-x/network-manager-applet t)
+    (add-hook 'exwm-init-hook 'exwm-x/volit t)
+    (add-hook 'exwm-init-hook 'exwm-x/power-manager t)
+    (add-hook 'exwm-init-hook 'exwm-x/xscreensaver t)
+    (add-hook 'exwm-init-hook 'exwm-x/xset-bell-off t)
+    (add-hook 'exwm-init-hook 'exwm-x/xmodmap t))
 
   (use-package exim
     :ensure nil
