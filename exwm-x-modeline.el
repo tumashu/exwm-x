@@ -251,8 +251,9 @@ file `exwm-x-mode-line-shortcuts-file'. "
     (with-temp-buffer
       (erase-buffer)
       (insert-file-contents exwm-x-mode-line-shortcuts-file)
-      (setq exwm-x--mode-line-shortcuts
-            (read (current-buffer))))))
+      (ignore-errors
+        (setq exwm-x--mode-line-shortcuts
+              (read (current-buffer)))))))
 
 (defun exwm-x--delete-shortcut (shortcut-name)
   "Delete shortcut which named `shortcut-name' from mode-line."
