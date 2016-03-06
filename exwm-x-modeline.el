@@ -258,7 +258,6 @@ file `exwm-x-mode-line-shortcuts-file'. "
 
 (add-hook 'kill-emacs-hook #'exwm-x--save-all-shortcuts)
 (add-hook 'emacs-startup-hook #'exwm-x--load-saved-shortcuts)
-(add-hook 'exwm-manage-finish-hook #'exwm-x--update-mode-line)
 (add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
 (add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
 (add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
