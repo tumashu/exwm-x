@@ -164,14 +164,12 @@ NOTE:
    (setq exwm-x--mode-line-active-p t)
    (force-mode-line-update))
 
-(setq-default mode-line-format
-              `(,(exwm-x--create-mode-line-button
-                  "[E]" '(exwm-x--create-mode-line) '(start-menu-popup))
-                ,(default-value 'mode-line-format)))
-
 (defun exwm-x--reset-mode-line ()
-  "Reset mode-line to original emacs mode-line."
-  (setq mode-line-format (default-value 'mode-line-format))
+  "Reset mode-line to original emacs mode-line with [E] button."
+  (setq mode-line-format
+        `(,(exwm-x--create-mode-line-button
+            "[E]" '(exwm-x--create-mode-line) '(start-menu-popup))
+          ,(default-value 'mode-line-format)))
   (setq exwm-x--mode-line-active-p nil)
   (force-mode-line-update))
 
@@ -185,14 +183,10 @@ shortcut-taskbar-style mode-line."
           (exwm-x--create-mode-line)
         (exwm-x--reset-mode-line)))))
 
-(defun exwm-x--update-taskbar (&optional ignore-current-task)
+(defun exwm-x--update-taskbar ()
   "Update taskbar."
   (setq exwm-x--mode-line-taskbar
-        (exwm-x--create-taskbar
-         (if ignore-current-task
-             (remove (current-buffer)
-                     (buffer-list))
-           (buffer-list))))
+        (exwm-x--create-taskbar (buffer-list)))
   (exwm-x--update-mode-line))
 
 (defun exwm-x--create-taskbar (buffer-list)
@@ -220,7 +214,6 @@ insert `mode-line-format' by `exwm-x--update-mode-line'."
                  `(exwm-x-kill-exwm-buffer ,buffer))
                 taskbar-buttons))))
     taskbar-buttons))
-
 
 (defun exwm-x--delete-all-shortcuts ()
   "Delete all shortcuts from mode-line."
@@ -270,7 +263,7 @@ file `exwm-x-mode-line-shortcuts-file'. "
 (add-hook 'exwm-manage-finish-hook #'exwm-x--update-taskbar)
 (add-hook 'exwm-update-class-hook #'exwm-x--update-taskbar)
 (add-hook 'exwm-update-title-hook #'exwm-x--update-taskbar)
-(add-hook 'kill-buffer-hook #'(lambda () (exwm-x--update-taskbar t)))
+(add-hook 'buffer-list-update-hook #'exwm-x--update-taskbar)
 ;; #+END_SRC
 
 ;; * Footer
