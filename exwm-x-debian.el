@@ -56,7 +56,7 @@
                      (interactive)
                      (start-process-shell-command
                       ,command nil
-                      ,(format "x-terminal-emulator --title %s -e %s" command command))))
+                      ,(format "x-terminal-emulator -e %s" command))))
           (eval `(defun ,(intern (concat "exwm-x/menu/" file-name)) ()
                    (interactive)
                    (start-process-shell-command ,command nil ,command))))))))
