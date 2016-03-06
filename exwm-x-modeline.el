@@ -177,17 +177,15 @@ NOTE:
   "Update all buffer's mode-lines, all exwm buffer will use
 shortcut-taskbar-style mode-line."
   (interactive)
+  ;; Update taskbar
+  (setq exwm-x--mode-line-taskbar
+        (exwm-x--create-taskbar (buffer-list)))
+  ;; Seset all buffer's mode-line.
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
       (if (eq major-mode 'exwm-mode)
           (exwm-x--create-mode-line)
         (exwm-x--reset-mode-line)))))
-
-(defun exwm-x--update-taskbar ()
-  "Update taskbar."
-  (setq exwm-x--mode-line-taskbar
-        (exwm-x--create-taskbar (buffer-list)))
-  (exwm-x--update-mode-line))
 
 (defun exwm-x--create-taskbar (buffer-list)
   "Exwm will create a unique buffer when an application launched,
@@ -210,7 +208,7 @@ insert `mode-line-format' by `exwm-x--update-mode-line'."
           (push (exwm-x--create-mode-line-button
                  (concat "[" (exwm-x--get-prefer-name) "]")
                  `(progn (exwm-workspace-switch-to-buffer ,buffer)
-                         (exwm-x--update-taskbar))
+                         (exwm-x--update-mode-line))
                  `(exwm-x-kill-exwm-buffer ,buffer))
                 taskbar-buttons))))
     taskbar-buttons))
@@ -260,10 +258,10 @@ file `exwm-x-mode-line-shortcuts-file'. "
 
 (add-hook 'kill-emacs-hook #'exwm-x--save-all-shortcuts)
 (add-hook 'emacs-startup-hook #'exwm-x--load-saved-shortcuts)
-(add-hook 'exwm-manage-finish-hook #'exwm-x--update-taskbar)
-(add-hook 'exwm-update-class-hook #'exwm-x--update-taskbar)
-(add-hook 'exwm-update-title-hook #'exwm-x--update-taskbar)
-(add-hook 'buffer-list-update-hook #'exwm-x--update-taskbar)
+(add-hook 'exwm-manage-finish-hook #'exwm-x--update-mode-line)
+(add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
+(add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
+(add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
 ;; #+END_SRC
 
 ;; * Footer
