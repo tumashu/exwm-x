@@ -63,6 +63,7 @@
 
 (defun exwm-x-generate-debian-menus ()
   "Generate emacs commands for all the debian menu files available."
+  (interactive)
   (dolist (debian-menu-dir '("/usr/share/menu/"
                              "/usr/lib/menu/"
                              "/etc/menu/"
