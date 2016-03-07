@@ -12,7 +12,6 @@
         <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
         <ul>
           <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
-          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
           <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
@@ -33,19 +32,19 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. exwm-x-mouse manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></a></li>
-<li><a href="#orgheadline2">2. Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></a></li>
+<li><a href="#orgheadline1">1. exwm-x-mouse manual</a></li>
+<li><a href="#orgheadline2">2. Code</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-mouse manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></h2>
+<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-mouse manual</h2>
 </div>
 
 
 
 <div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><span class="section-number-2">2</span> Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></h2>
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
@@ -67,19 +66,19 @@
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-mouse-move-floating-window</span> (start-event)
   <span style="color: #FBDE2D;">"This is a mouse drag event function, used by exwm mode-line</span>
 <span style="color: #FBDE2D;">button, when drag mouse from such button, move current floating window dynamic."</span>
-  (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+  (interactive <span style="color: #61CE3C;">"e"</span>)
   (exwm-x--mouse-operate-floating-window start-event))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-mouse-resize-floating-window</span> (start-event)
   <span style="color: #FBDE2D;">"This is a mouse drag event function, used by exwm mode-line</span>
 <span style="color: #FBDE2D;">button, when drag mouse from such button, resize current floating window dynamic."</span>
-  (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+  (interactive <span style="color: #61CE3C;">"e"</span>)
   (exwm-x--mouse-operate-floating-window start-event t))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--mouse-operate-floating-window</span> (start-event <span style="color: #afd8af;">&amp;optional</span> resize)
   <span style="color: #FBDE2D;">"Internal function of `</span><span style="color: #96CBFE;">exwm-x-mouse-move-floating-window</span><span style="color: #FBDE2D;">' and</span>
 <span style="color: #FBDE2D;">`</span><span style="color: #96CBFE;">exwm-x-mouse-move-floating-window</span><span style="color: #FBDE2D;">'"</span>
-  (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+  (interactive <span style="color: #61CE3C;">"e"</span>)
   (<span style="color: #4c83ff;">when</span> exwm--floating-frame
     (<span style="color: #4c83ff;">let*</span> ((orig-mouse (mouse-position))
            (orig-x (car (cdr orig-mouse)))
@@ -96,7 +95,7 @@
            event mouse x y)
       (<span style="color: #4c83ff;">track-mouse</span>
         (<span style="color: #4c83ff;">while</span> (not done)
-          (<span style="color: #4c83ff;">setq</span> event (read-event)
+          (setq event (read-event)
                 mouse (mouse-position))
           <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">do nothing if</span>
           <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a switch-frame event.</span>
@@ -110,17 +109,17 @@
           <span style="color: #8B8989; font-style: italic;">;;   </span><span style="color: #8B8989; font-style: italic;">- there is a keyboard event or some other unknown event</span>
           <span style="color: #8B8989; font-style: italic;">;;     </span><span style="color: #8B8989; font-style: italic;">unknown event.</span>
           (<span style="color: #4c83ff;">cond</span> ((integerp event)
-                 (<span style="color: #4c83ff;">setq</span> done t))
+                 (setq done t))
                 ((eq (car event) 'switch-frame)
                  nil)
                 ((not (memq (car event)
                             '(mouse-movement scroll-bar-movement)))
-                 (<span style="color: #4c83ff;">setq</span> done t))
+                 (setq done t))
                 ((not (eq (car mouse) frame))
                  nil)
                 ((null (car (cdr mouse)))
                  nil)
-                (t (<span style="color: #4c83ff;">setq</span> x (car (cdr mouse))
+                (t (setq x (car (cdr mouse))
                          y (cdr (cdr mouse)))
                    (<span style="color: #4c83ff;">if</span> resize
                        (set-frame-size
@@ -139,16 +138,13 @@
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2016-03-05</span>
+        <span title="post date" class="post-info">2016-03-07</span>
         <span title="last modification date" class="post-info">2016-03-04</span>
         <span title="tags" class="post-info">N/A</span>
         <span title="author" class="post-info">Feng Shu</span>
       </div>
-      <section>
-        <h1>Comments</h1>
-      </section>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;

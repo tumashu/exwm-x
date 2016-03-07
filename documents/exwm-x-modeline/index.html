@@ -12,7 +12,6 @@
         <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
         <ul>
           <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
-          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
           <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
@@ -33,18 +32,18 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. README&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></a></li>
-<li><a href="#orgheadline2">2. Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></a></li>
+<li><a href="#orgheadline1">1. README</a></li>
+<li><a href="#orgheadline2">2. Code</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> README&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></h2>
+<h2 id="orgheadline1"><span class="section-number-2">1</span> README</h2>
 </div>
 
 
 <div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><span class="section-number-2">2</span> Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></h2>
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
@@ -79,27 +78,27 @@
            'mouse-face 'mode-line-highlight
            'local-map
            (<span style="color: #4c83ff;">let</span> ((map (make-sparse-keymap)))
-             (<span style="color: #4c83ff;">unless</span> (eq (<span style="color: #4c83ff;">quote</span> ,mouse-1-action) nil)
+             (<span style="color: #4c83ff;">unless</span> (eq (quote ,mouse-1-action) nil)
                (define-key map [mode-line mouse-1]
-                 #'(lambda (event)
-                     (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+                 #'(<span style="color: #4c83ff;">lambda</span> (event)
+                     (interactive <span style="color: #61CE3C;">"e"</span>)
                      (<span style="color: #4c83ff;">with-selected-window</span> (posn-window (event-start event))
                        ,mouse-1-action))))
-             (<span style="color: #4c83ff;">unless</span> (eq (<span style="color: #4c83ff;">quote</span> ,mouse-2-action) nil)
+             (<span style="color: #4c83ff;">unless</span> (eq (quote ,mouse-2-action) nil)
                (define-key map [mode-line mouse-2]
-                 #'(lambda (event)
-                     (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+                 #'(<span style="color: #4c83ff;">lambda</span> (event)
+                     (interactive <span style="color: #61CE3C;">"e"</span>)
                      (<span style="color: #4c83ff;">with-selected-window</span> (posn-window (event-start event))
                        ,mouse-2-action))))
-             (<span style="color: #4c83ff;">unless</span> (eq (<span style="color: #4c83ff;">quote</span> ,mouse-3-action) nil)
+             (<span style="color: #4c83ff;">unless</span> (eq (quote ,mouse-3-action) nil)
                (define-key map [mode-line mouse-3]
-                 #'(lambda (event)
-                     (<span style="color: #4c83ff;">interactive</span> <span style="color: #61CE3C;">"e"</span>)
+                 #'(<span style="color: #4c83ff;">lambda</span> (event)
+                     (interactive <span style="color: #61CE3C;">"e"</span>)
                      (<span style="color: #4c83ff;">with-selected-window</span> (posn-window (event-start event))
                        ,mouse-3-action))))
-             (<span style="color: #4c83ff;">when</span> (<span style="color: #4c83ff;">and</span> (eq major-mode 'exwm-mode)
+             (<span style="color: #4c83ff;">when</span> (and (eq major-mode 'exwm-mode)
                         exwm--floating-frame
-                        (not (eq (<span style="color: #4c83ff;">quote</span> ,active-down-mouse) nil)))
+                        (not (eq (quote ,active-down-mouse) nil)))
                (define-key map [mode-line down-mouse-1]
                  #'exwm-x-mouse-move-floating-window)
                (define-key map [mode-line down-mouse-2]
@@ -130,7 +129,7 @@
 <span style="color: #FBDE2D;">[-]: Split window horizontal.</span>
 <span style="color: #FBDE2D;">[|]: Split window vertical.</span>
 <span style="color: #FBDE2D;">[&lt;&gt;]: Move border to left or right."</span>
-   (<span style="color: #4c83ff;">setq</span> mode-line-format
+   (setq mode-line-format
          `(exwm--floating-frame
            (,(exwm-x--create-mode-line-button
               <span style="color: #61CE3C;">"[E]"</span> '(exwm-x--reset-mode-line) '(start-menu-popup))
@@ -180,39 +179,31 @@
             <span style="color: #61CE3C;">"- "</span>
             ,(exwm-x--create-mode-line-button
               (make-string 200 ?-) nil nil nil t))))
-   (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-active-p t)
+   (setq exwm-x--mode-line-active-p t)
    (force-mode-line-update))
 
-(<span style="color: #4c83ff;">setq-default</span> mode-line-format
-              `(,(exwm-x--create-mode-line-button
-                  <span style="color: #61CE3C;">"[E]"</span> '(exwm-x--create-mode-line) '(start-menu-popup))
-                ,(default-value 'mode-line-format)))
-
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--reset-mode-line</span> ()
-  <span style="color: #FBDE2D;">"Reset mode-line to original emacs mode-line."</span>
-  (<span style="color: #4c83ff;">setq</span> mode-line-format (default-value 'mode-line-format))
-  (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-active-p nil)
+  <span style="color: #FBDE2D;">"Reset mode-line to original emacs mode-line with [E] button."</span>
+  (setq mode-line-format
+        `(,(exwm-x--create-mode-line-button
+            <span style="color: #61CE3C;">"[E]"</span> '(exwm-x--create-mode-line) '(start-menu-popup))
+          ,(default-value 'mode-line-format)))
+  (setq exwm-x--mode-line-active-p nil)
   (force-mode-line-update))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--update-mode-line</span> ()
   <span style="color: #FBDE2D;">"Update all buffer's mode-lines, all exwm buffer will use</span>
 <span style="color: #FBDE2D;">shortcut-taskbar-style mode-line."</span>
-  (<span style="color: #4c83ff;">interactive</span>)
+  (interactive)
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Update taskbar</span>
+  (setq exwm-x--mode-line-taskbar
+        (exwm-x--create-taskbar (buffer-list)))
+  <span style="color: #8B8989; font-style: italic;">;; </span><span style="color: #8B8989; font-style: italic;">Seset all buffer's mode-line.</span>
   (<span style="color: #4c83ff;">dolist</span> (buffer (buffer-list))
     (<span style="color: #4c83ff;">with-current-buffer</span> buffer
       (<span style="color: #4c83ff;">if</span> (eq major-mode 'exwm-mode)
           (exwm-x--create-mode-line)
         (exwm-x--reset-mode-line)))))
-
-(<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--update-taskbar</span> (<span style="color: #afd8af;">&amp;optional</span> ignore-current-task)
-  <span style="color: #FBDE2D;">"Update taskbar."</span>
-  (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-taskbar
-        (exwm-x--create-taskbar
-         (<span style="color: #4c83ff;">if</span> ignore-current-task
-             (remove (current-buffer)
-                     (buffer-list))
-           (buffer-list))))
-  (exwm-x--update-mode-line))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--create-taskbar</span> (buffer-list)
   <span style="color: #FBDE2D;">"Exwm will create a unique buffer when an application launched,</span>
@@ -222,36 +213,35 @@
 <span style="color: #FBDE2D;">just a piece of code worked with `</span><span style="color: #96CBFE;">mode-line-format</span><span style="color: #FBDE2D;">' which will be</span>
 <span style="color: #FBDE2D;">insert `</span><span style="color: #96CBFE;">mode-line-format</span><span style="color: #FBDE2D;">' by `</span><span style="color: #96CBFE;">exwm-x--update-mode-line</span><span style="color: #FBDE2D;">'."</span>
   (<span style="color: #4c83ff;">let</span> (buffers taskbar-buttons)
-    (<span style="color: #4c83ff;">setq</span> buffers (sort buffer-list
-                        #'(lambda (x y)
+    (setq buffers (sort buffer-list
+                        #'(<span style="color: #4c83ff;">lambda</span> (x y)
                             (string&lt; (buffer-name y)
                                      (buffer-name x)))))
     (<span style="color: #4c83ff;">dolist</span> (buffer buffers)
       (<span style="color: #4c83ff;">with-current-buffer</span> buffer
-        (<span style="color: #4c83ff;">when</span> (<span style="color: #4c83ff;">and</span> (equal major-mode 'exwm-mode)
-                   (<span style="color: #4c83ff;">or</span> exwm-class-name
+        (<span style="color: #4c83ff;">when</span> (and (equal major-mode 'exwm-mode)
+                   (or exwm-class-name
                        exwm-instance-name
                        exwm-title))
-          (<span style="color: #4c83ff;">push</span> (exwm-x--create-mode-line-button
+          (push (exwm-x--create-mode-line-button
                  (concat <span style="color: #61CE3C;">"["</span> (exwm-x--get-prefer-name) <span style="color: #61CE3C;">"]"</span>)
                  `(<span style="color: #4c83ff;">progn</span> (exwm-workspace-switch-to-buffer ,buffer)
-                         (exwm-x--update-taskbar))
+                         (exwm-x--update-mode-line))
                  `(exwm-x-kill-exwm-buffer ,buffer))
                 taskbar-buttons))))
     taskbar-buttons))
 
-
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--delete-all-shortcuts</span> ()
   <span style="color: #FBDE2D;">"Delete all shortcuts from mode-line."</span>
-  (<span style="color: #4c83ff;">interactive</span>)
-  (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-shortcuts nil)
+  (interactive)
+  (setq exwm-x--mode-line-shortcuts nil)
   (exwm-x--save-all-shortcuts)
   (exwm-x--update-mode-line))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--save-all-shortcuts</span> ()
   <span style="color: #FBDE2D;">"Save shortcuts to file `</span><span style="color: #96CBFE;">exwm-x-mode-line-shortcuts-file</span><span style="color: #FBDE2D;">'.</span>
 <span style="color: #FBDE2D;">for furture use."</span>
-  (<span style="color: #4c83ff;">interactive</span>)
+  (interactive)
   (message <span style="color: #61CE3C;">"Save exwm-x shortcuts to \"%s\""</span> exwm-x-mode-line-shortcuts-file)
   (<span style="color: #4c83ff;">unless</span> (file-directory-p
            (file-name-directory exwm-x-mode-line-shortcuts-file))
@@ -264,20 +254,21 @@
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--load-saved-shortcuts</span> ()
   <span style="color: #FBDE2D;">"Load and use shortcuts last emacs session saved from</span>
 <span style="color: #FBDE2D;">file `</span><span style="color: #96CBFE;">exwm-x-mode-line-shortcuts-file</span><span style="color: #FBDE2D;">'. "</span>
-  (<span style="color: #4c83ff;">interactive</span>)
+  (interactive)
   (message <span style="color: #61CE3C;">"Load exwm-x shortcuts from \"%s\""</span> exwm-x-mode-line-shortcuts-file)
   (<span style="color: #4c83ff;">when</span> (file-exists-p exwm-x-mode-line-shortcuts-file)
     (<span style="color: #4c83ff;">with-temp-buffer</span>
       (erase-buffer)
       (insert-file-contents exwm-x-mode-line-shortcuts-file)
-      (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-shortcuts
-            (read (current-buffer))))))
+      (<span style="color: #4c83ff;">ignore-errors</span>
+        (setq exwm-x--mode-line-shortcuts
+              (read (current-buffer)))))))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x--delete-shortcut</span> (shortcut-name)
   <span style="color: #FBDE2D;">"Delete shortcut which named `</span><span style="color: #96CBFE;">shortcut-name</span><span style="color: #FBDE2D;">' from mode-line."</span>
-  (<span style="color: #4c83ff;">setq</span> exwm-x--mode-line-shortcuts
+  (setq exwm-x--mode-line-shortcuts
         (cl-remove-if
-         #'(lambda (x)
+         #'(<span style="color: #4c83ff;">lambda</span> (x)
              (equal shortcut-name (nth 1 (cadr x))))
          exwm-x--mode-line-shortcuts))
   (exwm-x--save-all-shortcuts)
@@ -285,10 +276,9 @@
 
 (add-hook 'kill-emacs-hook #'exwm-x--save-all-shortcuts)
 (add-hook 'emacs-startup-hook #'exwm-x--load-saved-shortcuts)
-(add-hook 'exwm-manage-finish-hook #'exwm-x--update-taskbar)
-(add-hook 'exwm-update-class-hook #'exwm-x--update-taskbar)
-(add-hook 'exwm-update-title-hook #'exwm-x--update-taskbar)
-(add-hook 'kill-buffer-hook #'(lambda () (exwm-x--update-taskbar t)))
+(add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
+(add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
+(add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
 </pre>
 </div>
 </div>
@@ -298,16 +288,13 @@
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2016-03-05</span>
-        <span title="last modification date" class="post-info">2016-03-05</span>
+        <span title="post date" class="post-info">2016-03-07</span>
+        <span title="last modification date" class="post-info">2016-03-07</span>
         <span title="tags" class="post-info">N/A</span>
         <span title="author" class="post-info">Feng Shu</span>
       </div>
-      <section>
-        <h1>Comments</h1>
-      </section>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;

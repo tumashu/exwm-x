@@ -12,7 +12,6 @@
         <h1 class="masthead-title"><a href="http://tumashu.github.com/exwm-x/">Exwm-X</a> <span class="subtitle">(Addition useful tools for Exwm)</span></h1>
         <ul>
           <li><a href="http://tumashu.github.com/exwm-x/documents/">Documents</a></li>
-          <li><a href="http://tumashu.github.com/exwm-x/snapshots/">Snapshots</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/tags/">Tags</a></li>
           <li><a href="http://tumashu.github.com/exwm-x/about/">About</a></li>
           <li><a href="https://github.com/tumashu/exwm-x">GitHub</a></li>
@@ -33,19 +32,19 @@
 <h2>&#30446;&#24405;</h2>
 <div id="text-table-of-contents">
 <ul>
-<li><a href="#orgheadline1">1. exwm-x-debian manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></a></li>
-<li><a href="#orgheadline2">2. Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></a></li>
+<li><a href="#orgheadline1">1. exwm-x-debian manual</a></li>
+<li><a href="#orgheadline2">2. Code</a></li>
 </ul>
 </div>
 </div>
 <div id="outline-container-orgheadline1" class="outline-2">
-<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-debian manual&#xa0;&#xa0;&#xa0;<span class="tag"><span class="doc">doc</span></span></h2>
+<h2 id="orgheadline1"><span class="section-number-2">1</span> exwm-x-debian manual</h2>
 </div>
 
 
 
 <div id="outline-container-orgheadline2" class="outline-2">
-<h2 id="orgheadline2"><span class="section-number-2">2</span> Code&#xa0;&#xa0;&#xa0;<span class="tag"><span class="code">code</span></span></h2>
+<h2 id="orgheadline2"><span class="section-number-2">2</span> Code</h2>
 <div class="outline-text-2" id="text-2">
 <div class="org-src-container">
 
@@ -58,30 +57,31 @@
                           (buffer-string)))
           command section title hints icon needs)
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"command=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> command (match-string 1 file-content)))
+        (setq command (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"section=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> section (match-string 1 file-content)))
+        (setq section (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"title=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> title (match-string 1 file-content)))
+        (setq title (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"hints=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> hints (match-string 1 file-content)))
+        (setq hints (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"icon=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> icon (match-string 1 file-content)))
+        (setq icon (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> (string-match <span style="color: #61CE3C;">"needs=\"</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">(</span><span style="color: #61CE3C;">[</span><span style="color: #61CE3C;">^</span><span style="color: #61CE3C;">\"]+</span><span style="color: #E9C062;">\\</span><span style="color: #ff0000;">)</span><span style="color: #61CE3C;">\""</span> file-content)
-        (<span style="color: #4c83ff;">setq</span> needs (match-string 1 file-content)))
+        (setq needs (match-string 1 file-content)))
       (<span style="color: #4c83ff;">when</span> command
         (<span style="color: #4c83ff;">if</span> (equal needs <span style="color: #61CE3C;">"text"</span>)
-            (eval `(<span style="color: #4c83ff;">defun</span> ,(intern (concat <span style="color: #61CE3C;">"exwm-x-menu/"</span> file-name)) ()
-                     (<span style="color: #4c83ff;">interactive</span>)
+            (eval `(<span style="color: #4c83ff;">defun</span> ,(intern (concat <span style="color: #61CE3C;">"exwm-x/menu/"</span> file-name)) ()
+                     (interactive)
                      (start-process-shell-command
                       ,command nil
-                      ,(format <span style="color: #61CE3C;">"x-terminal-emulator --title %s -e %s"</span> command command))))
-          (eval `(<span style="color: #4c83ff;">defun</span> ,(intern (concat <span style="color: #61CE3C;">"exwm-x-menu/"</span> file-name)) ()
-                   (<span style="color: #4c83ff;">interactive</span>)
+                      ,(format <span style="color: #61CE3C;">"x-terminal-emulator -e %s"</span> command))))
+          (eval `(<span style="color: #4c83ff;">defun</span> ,(intern (concat <span style="color: #61CE3C;">"exwm-x/menu/"</span> file-name)) ()
+                   (interactive)
                    (start-process-shell-command ,command nil ,command))))))))
 
 (<span style="color: #4c83ff;">defun</span> <span style="color: #ff1493;">exwm-x-generate-debian-menus</span> ()
   <span style="color: #FBDE2D;">"Generate emacs commands for all the debian menu files available."</span>
+  (interactive)
   (<span style="color: #4c83ff;">dolist</span> (debian-menu-dir '(<span style="color: #61CE3C;">"/usr/share/menu/"</span>
                              <span style="color: #61CE3C;">"/usr/lib/menu/"</span>
                              <span style="color: #61CE3C;">"/etc/menu/"</span>
@@ -98,16 +98,13 @@
 </div>
     <div>
       <div class="post-meta">
-        <span title="post date" class="post-info">2016-03-05</span>
-        <span title="last modification date" class="post-info">2016-03-04</span>
+        <span title="post date" class="post-info">2016-03-07</span>
+        <span title="last modification date" class="post-info">2016-03-07</span>
         <span title="tags" class="post-info">N/A</span>
         <span title="author" class="post-info">Feng Shu</span>
       </div>
-      <section>
-        <h1>Comments</h1>
-      </section>
       <div class="footer">
-        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 25.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
+        <p>Generated by <a href="http://www.gnu.org/software/emacs/">Emacs</a> 24.x(<a href="http://orgmode.org">Org mode</a> 8.x)</p>
         <p>
           Copyright &copy; <span id="footerYear"></span> <a href="mailto:tumashu &lt;at&gt; 163 &lt;dot&gt; com">Feng Shu</a>
           &nbsp;&nbsp;-&nbsp;&nbsp;
