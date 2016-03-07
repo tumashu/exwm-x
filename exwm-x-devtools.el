@@ -48,6 +48,7 @@
    :default-category "documents"
    :theme (worg killjs)
    :force-absolute-url t
+   :category-ignore-list ("themes" "assets" "upload-scripts" "snapshots")
    :source-browse-url ("GitHub" "https://github.com/tumashu/exwm-x")
    :personal-avatar nil
    :personal-duoshuo-shortname nil
