@@ -32,9 +32,8 @@
 ;; #+BEGIN_SRC emacs-lisp
 (require 'exwm)
 (require 'exwm-x-core)
-(require 'exwm-x-modeline)
 
-(defun exwm-x-jump-or-exec (regexp cmd &optional shortcut-name current-window)
+(defun exwm-x-jump-or-exec (regexp cmd &optional current-window)
   "Jump to a window which class, instance or title matched `regexp',
 if matched window can't be found, run shell command `cmd'."
   (when (and (not current-window)
@@ -47,22 +46,7 @@ if matched window can't be found, run shell command `cmd'."
   (let ((buffer (exwm-x--find-buffer regexp)))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
-      (start-process-shell-command cmd nil cmd)))
-
-  (let ((name (format "[%s]" (or shortcut-name regexp))))
-    (push (exwm-x--create-mode-line-button
-           name
-           `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
-           `(exwm-x-jump-or-exec ,regexp ,cmd ,shortcut-name t)
-           `(exwm-x--delete-shortcut ,name))
-          exwm-x--mode-line-shortcuts))
-
-  (setq exwm-x--mode-line-shortcuts
-        (cl-delete-duplicates
-         exwm-x--mode-line-shortcuts
-         :test #'(lambda (x y)
-                   (equal (nth 1 (cadr x))
-                          (nth 1 (cadr y)))))))
+      (start-process-shell-command cmd nil cmd))))
 
 (defun exwm-x--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name', `exwm-instance-name'

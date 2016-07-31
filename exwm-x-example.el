@@ -33,24 +33,32 @@
 ;; the below example:
 
 ;; #+BEGIN_EXAMPLE
-;; # You may need to comment out the next line to disable access control
-;; xhost +
+;; ## You may need to comment out the next line to disable access control
 
-;; # Kill beep
+;; ## Kill beep
 ;; xset b off
 
-;; # Tell emacs load exwm-x-example.el file's content.
+;; ## Emacs X input method (exim) setting
+;; # export XMODIFIERS=@im=exim
+;; # export GTK_IM_MODULE=xim
+;; # export QT_IM_MODULE=xim
+;; # export CLUTTER_IM_MODULE=xim
+
+;; ## Tell emacs load exwm-x-example.el file's content.
 ;; export exwm_x_enable="yes"
 
-;; # Emacs X input method (exim) setting
-;; export XMODIFIERS=@im=exim
-;; export GTK_IM_MODULE=xim
-;; export QT_IM_MODULE=xim
-;; export CLUTTER_IM_MODULE=xim
+;; xhost +
 
-;; # Launch exwm
-;;  exec dbus-launch --exit-with-session emacs
+;; xprop -root -remove _NET_NUMBER_OF_DESKTOPS \
+;;     -remove _NET_DESKTOP_NAMES \
+;;     -remove _NET_CURRENT_DESKTOP 2> /dev/null
 
+;; exec dbus-launch --exit-with-session emacs &
+
+;; sleep 0.3
+
+;; # I use xfce4 with exwm
+;; exec startxfce4 $@
 ;; #+END_EXAMPLE
 
 ;; ** Run exwm
@@ -109,11 +117,11 @@
 
   (defun exwm-x/firefox ()
     (interactive)
-    (exwm-x-jump-or-exec "Iceweasel" "iceweasel" "网"))
+    (exwm-x-jump-or-exec "Iceweasel" "iceweasel"))
 
   (defun exwm-x/file-manager ()
     (interactive)
-    (exwm-x-jump-or-exec "Nautilus" "nautilus --no-desktop" "文"))
+    (exwm-x-jump-or-exec "Nautilus" "nautilus --no-desktop"))
 
   (defun exwm-x/crossover ()
     (interactive)
@@ -127,39 +135,39 @@
 
   (defun exwm-x/qq ()
     (interactive)
-    (exwm-x-launch-crossover-app "TM.exe" "腾讯_TM_2013" "TM"))
+    (exwm-x-launch-crossover-app "TM.exe" "腾讯_TM_2013"))
 
   (defun exwm-x/word ()
     (interactive)
-    (exwm-x-launch-crossover-app "WINWORD.EXE" "Microsoft_Office_2007" "Words"))
+    (exwm-x-launch-crossover-app "WINWORD.EXE" "Microsoft_Office_2007"))
 
   (defun exwm-x/excel ()
     (interactive)
-    (exwm-x-launch-crossover-app "EXCEL.EXE" "Microsoft_Office_2007" "Excel"))
+    (exwm-x-launch-crossover-app "EXCEL.EXE" "Microsoft_Office_2007"))
 
   (defun exwm-x/ppt ()
     (interactive)
-    (exwm-x-launch-crossover-app "POWERPNT.EXE" "Microsoft_Office_2007" "PPT"))
+    (exwm-x-launch-crossover-app "POWERPNT.EXE" "Microsoft_Office_2007"))
 
   (defun exwm-x/winxp ()
     (interactive)
-    (exwm-x-jump-or-exec "VirtualBox" "VBoxManage startvm winxp" "Winxp"))
+    (exwm-x-jump-or-exec "VirtualBox" "VBoxManage startvm winxp"))
 
   (defun exwm-x/virtualbox ()
     (interactive)
-    (exwm-x-jump-or-exec "VirtualBox" "virtualbox" "VBox"))
+    (exwm-x-jump-or-exec "VirtualBox" "virtualbox"))
 
   (defun exwm-x/mplayer ()
     (interactive)
-    (exwm-x-jump-or-exec "Smplayer" "smplayer" "Mplayer"))
+    (exwm-x-jump-or-exec "Smplayer" "smplayer"))
 
   (defun exwm-x/htop ()
     (interactive)
-    (exwm-x-jump-or-exec "htop" "xfce4-terminal -T htop -e htop" "Top"))
+    (exwm-x-jump-or-exec "htop" "xfce4-terminal -T htop -e htop"))
 
   (defun exwm-x/terminal ()
     (interactive)
-    (exwm-x-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal" "终"))
+    (exwm-x-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
 
   (defun exwm-x/new-terminal ()
     (interactive)
@@ -308,21 +316,11 @@
     (setq switch-window-increase 8)
     (setq switch-window-shortcut-style 'qwerty))
 
-  (use-package exwm-systemtray
-    :ensure nil
-    :config
-    (setq exwm-systemtray-height 16)
-    (exwm-systemtray-enable)
-    (add-hook 'exwm-init-hook 'exwm-x/network-manager-applet t)
-    (add-hook 'exwm-init-hook 'exwm-x/volit t)
-    (add-hook 'exwm-init-hook 'exwm-x/power-manager t)
-    (add-hook 'exwm-init-hook 'exwm-x/xscreensaver t)
-    (add-hook 'exwm-init-hook 'exwm-x/xset-bell-off t)
-    (add-hook 'exwm-init-hook 'exwm-x/xmodmap t))
+  ;; (use-package exim
+  ;;   :ensure nil
+  ;;   :config (add-hook 'exwm-init-hook 'exim-start))
 
-  (use-package exim
-    :ensure nil
-    :config (add-hook 'exwm-init-hook 'exim-start)))
+  )
 ;; #+END_SRC
 
 ;; * Footer

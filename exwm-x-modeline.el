@@ -1,4 +1,4 @@
-;;; exwm-x-modeline.el --- Simulate toolbar or dockor with emacs mode-line
+;;; exwm-x-modeline.el --- Add some exwm buttons to mode-line
 
 ;; * Header
 ;; Copyright 2015 Feng Shu
@@ -33,14 +33,6 @@
 (require 'exwm)
 (require 'exwm-x-core)
 
-(defvar exwm-x-mode-line-shortcuts-file
-  "~/.emacs.d/exwm-x/exwm-x-shortcuts.el"
-  "A Shortcut is just a button in the emacs mode line,
-When click it with mouse, an application will
-be launched.")
-
-(defvar exwm-x--mode-line-shortcuts nil)
-(defvar exwm-x--mode-line-taskbar nil)
 (defvar exwm-x--mode-line-active-p nil)
 
 (defun exwm-x--create-mode-line-button (string &optional mouse-1-action
@@ -96,7 +88,7 @@ application shortcuts ,taskbar and others useful for managing window.
 
 1. Tilling window's mode-line is like:
 
-   '[E][+][D][X] :[shortcut1][shortcut2]-[task1][task2]: [F][-][|] -:-: -------'
+   '[E][+][D][X][F][-][|] -:-: -------'
 
 2. Floating window's mode-line is like:
 
@@ -136,26 +128,19 @@ NOTE:
             ,(exwm-x--create-mode-line-button
               "[+]" '(delete-other-windows) '(delete-other-windows))
             ,(exwm-x--create-mode-line-button
-              "[<>]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-right 10))
+              "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
+            ,(exwm-x--create-mode-line-button
+              "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
             ,(exwm-x--create-mode-line-button
               "[D]" '(delete-window) '(delete-window))
             ,(exwm-x--create-mode-line-button
               "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-            " :"
-            ,@(if (< (length exwm-x--mode-line-taskbar) 4)
-                  `(,@exwm-x--mode-line-shortcuts
-                    ,(when exwm-x--mode-line-taskbar "-")
-                    ,@exwm-x--mode-line-taskbar)
-                exwm-x--mode-line-taskbar)
-            ": "
             ,(exwm-x--create-mode-line-button
               "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
             ,(exwm-x--create-mode-line-button
               "[-]" '(split-window-below) '(split-window-below))
             ,(exwm-x--create-mode-line-button
               "[|]" '(split-window-right) '(split-window-right))
-            ,(exwm-x--create-mode-line-button
-              "[<>]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-right 10))
             " -:"
             mode-line-mule-info
             "- "
@@ -177,9 +162,6 @@ NOTE:
   "Update all buffer's mode-lines, all exwm buffer will use
 shortcut-taskbar-style mode-line."
   (interactive)
-  ;; Update taskbar
-  (setq exwm-x--mode-line-taskbar
-        (exwm-x--create-taskbar (buffer-list)))
   ;; Seset all buffer's mode-line.
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
@@ -187,77 +169,6 @@ shortcut-taskbar-style mode-line."
           (exwm-x--create-mode-line)
         (exwm-x--reset-mode-line)))))
 
-(defun exwm-x--create-taskbar (buffer-list)
-  "Exwm will create a unique buffer when an application launched,
-When switch buffer, application switched to.
-
-This function will create one clickable button for every exwm buffer.
-just a piece of code worked with `mode-line-format' which will be
-insert `mode-line-format' by `exwm-x--update-mode-line'."
-  (let (buffers taskbar-buttons)
-    (setq buffers (sort buffer-list
-                        #'(lambda (x y)
-                            (string< (buffer-name y)
-                                     (buffer-name x)))))
-    (dolist (buffer buffers)
-      (with-current-buffer buffer
-        (when (and (equal major-mode 'exwm-mode)
-                   (or exwm-class-name
-                       exwm-instance-name
-                       exwm-title))
-          (push (exwm-x--create-mode-line-button
-                 (concat "[" (exwm-x--get-prefer-name) "]")
-                 `(progn (exwm-workspace-switch-to-buffer ,buffer)
-                         (exwm-x--update-mode-line))
-                 `(exwm-x-kill-exwm-buffer ,buffer))
-                taskbar-buttons))))
-    taskbar-buttons))
-
-(defun exwm-x--delete-all-shortcuts ()
-  "Delete all shortcuts from mode-line."
-  (interactive)
-  (setq exwm-x--mode-line-shortcuts nil)
-  (exwm-x--save-all-shortcuts)
-  (exwm-x--update-mode-line))
-
-(defun exwm-x--save-all-shortcuts ()
-  "Save shortcuts to file `exwm-x-mode-line-shortcuts-file'.
-for furture use."
-  (interactive)
-  (message "Save exwm-x shortcuts to \"%s\"" exwm-x-mode-line-shortcuts-file)
-  (unless (file-directory-p
-           (file-name-directory exwm-x-mode-line-shortcuts-file))
-    (make-directory (file-name-directory exwm-x-mode-line-shortcuts-file) t))
-  (with-temp-buffer
-    (erase-buffer)
-    (cl-prettyprint exwm-x--mode-line-shortcuts)
-    (write-file exwm-x-mode-line-shortcuts-file)))
-
-(defun exwm-x--load-saved-shortcuts ()
-  "Load and use shortcuts last emacs session saved from
-file `exwm-x-mode-line-shortcuts-file'. "
-  (interactive)
-  (message "Load exwm-x shortcuts from \"%s\"" exwm-x-mode-line-shortcuts-file)
-  (when (file-exists-p exwm-x-mode-line-shortcuts-file)
-    (with-temp-buffer
-      (erase-buffer)
-      (insert-file-contents exwm-x-mode-line-shortcuts-file)
-      (ignore-errors
-        (setq exwm-x--mode-line-shortcuts
-              (read (current-buffer)))))))
-
-(defun exwm-x--delete-shortcut (shortcut-name)
-  "Delete shortcut which named `shortcut-name' from mode-line."
-  (setq exwm-x--mode-line-shortcuts
-        (cl-remove-if
-         #'(lambda (x)
-             (equal shortcut-name (nth 1 (cadr x))))
-         exwm-x--mode-line-shortcuts))
-  (exwm-x--save-all-shortcuts)
-  (exwm-x--update-mode-line))
-
-(add-hook 'kill-emacs-hook #'exwm-x--save-all-shortcuts)
-(add-hook 'emacs-startup-hook #'exwm-x--load-saved-shortcuts)
 (add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
 (add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
 (add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
