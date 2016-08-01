@@ -33,8 +33,6 @@
 (require 'exwm)
 (require 'exwm-x-core)
 
-(defvar exwm-x--mode-line-active-p nil)
-
 (defun exwm-x--create-mode-line-button (string &optional mouse-1-action
                                                mouse-3-action mouse-2-action
                                                active-down-mouse)
@@ -124,7 +122,6 @@ NOTE:
               "[-]" '(split-window-below) '(split-window-below))
             ,(exwm-x--create-mode-line-button
               "[|]" '(split-window-right) '(split-window-right)))))
-   (setq exwm-x--mode-line-active-p t)
    (force-mode-line-update))
 
 (defun exwm-x--reset-mode-line ()
@@ -133,7 +130,6 @@ NOTE:
         `(,(exwm-x--create-mode-line-button
             "[E]" '(exwm-x--create-mode-line) '(start-menu-popup))
           ,(default-value 'mode-line-format)))
-  (setq exwm-x--mode-line-active-p nil)
   (force-mode-line-update))
 
 (defun exwm-x--update-mode-line ()
