@@ -70,15 +70,6 @@ execute. "
                      (interactive "e")
                      (with-selected-window (posn-window (event-start event))
                        ,mouse-3-action))))
-             (when (and (eq major-mode 'exwm-mode)
-                        exwm--floating-frame
-                        (not (eq (quote ,active-down-mouse) nil)))
-               (define-key map [mode-line down-mouse-1]
-                 #'exwm-x-mouse-move-floating-window)
-               (define-key map [mode-line down-mouse-2]
-                 #'exwm-x-mouse-move-floating-window)
-               (define-key map [mode-line down-mouse-3]
-                 #'exwm-x-mouse-resize-floating-window))
              map))))
 
 (defun exwm-x--create-mode-line ()
@@ -114,15 +105,7 @@ NOTE:
             ,(exwm-x--create-mode-line-button
               "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
             ,(exwm-x--create-mode-line-button
-              "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-            ,(exwm-x--create-mode-line-button
-              "[Zoom]" '(exwm-x-resize-floating-window event 0.75)
-              '(exwm-x-resize-floating-window event 0.5))
-            " -:"
-            mode-line-mule-info
-            "- "
-            ,(exwm-x--create-mode-line-button
-              (make-string 200 ?-) nil nil nil t))
+              "[_]" '(exwm-floating-hide) '(exwm-floating-hide)))
            (,(exwm-x--create-mode-line-button
               "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
             ,(exwm-x--create-mode-line-button
@@ -140,12 +123,7 @@ NOTE:
             ,(exwm-x--create-mode-line-button
               "[-]" '(split-window-below) '(split-window-below))
             ,(exwm-x--create-mode-line-button
-              "[|]" '(split-window-right) '(split-window-right))
-            " -:"
-            mode-line-mule-info
-            "- "
-            ,(exwm-x--create-mode-line-button
-              (make-string 200 ?-) nil nil nil t))))
+              "[|]" '(split-window-right) '(split-window-right)))))
    (setq exwm-x--mode-line-active-p t)
    (force-mode-line-update))
 
@@ -162,7 +140,7 @@ NOTE:
   "Update all buffer's mode-lines, all exwm buffer will use
 shortcut-taskbar-style mode-line."
   (interactive)
-  ;; Seset all buffer's mode-line.
+  ;; Set all buffer's mode-line.
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
       (if (eq major-mode 'exwm-mode)

@@ -96,7 +96,6 @@
 (require 'exwm-x-core)
 (require 'exwm-x-modeline)
 (require 'exwm-x-utils)
-(require 'exwm-x-mouse)
 (require 'exwm-x-move-border)
 (require 'exwm-x-debian)
 ;; #+END_SRC
