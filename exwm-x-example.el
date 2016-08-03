@@ -86,6 +86,9 @@
   ;; Disable dialog boxes since they are unusable in EXWM
   (setq use-dialog-box nil)
 
+  ;; Set workspace number
+  (setq exwm-workspace-number 4)
+
   ;; Set floating window border
   (setq exwm-floating-border-width 3)
   (setq exwm-floating-border-color "orange")

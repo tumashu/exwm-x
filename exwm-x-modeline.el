@@ -99,8 +99,6 @@ NOTE:
             ,(exwm-x--create-mode-line-button
               "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
             ,(exwm-x--create-mode-line-button
-              " - " nil nil nil t)
-            ,(exwm-x--create-mode-line-button
               "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
             ,(exwm-x--create-mode-line-button
               "[_]" '(exwm-floating-hide) '(exwm-floating-hide)))
