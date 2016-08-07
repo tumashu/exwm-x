@@ -115,6 +115,12 @@ execute. "
                'header-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
               (exwm-x--create-button
                'header-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+              (exwm-x--create-button
+               'header-line "[Z+]" '(exwm-x-resize-floating-window event 1.10)
+               '(exwm-x-resize-floating-window event 1.10))
+              (exwm-x--create-button
+               'header-line "[Z-]" '(exwm-x-resize-floating-window event 0.75)
+               '(exwm-x-resize-floating-window event 0.75))
               " -- "
               exwm-title)))
 
