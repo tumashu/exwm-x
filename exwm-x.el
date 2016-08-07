@@ -94,7 +94,7 @@
 ;; * Code                                                                 :code:
 ;; #+BEGIN_SRC emacs-lisp
 (require 'exwm-x-core)
-(require 'exwm-x-modeline)
+(require 'exwm-x-buttons)
 (require 'exwm-x-utils)
 (require 'exwm-x-move-border)
 (require 'exwm-x-debian)
