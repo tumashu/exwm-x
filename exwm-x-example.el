@@ -310,14 +310,14 @@
     (exwm-input-set-key (kbd "C-t c") 'dmenu))
 
   (use-package switch-window
-    :bind (("C-x o" . switch-window)
-           ("C-x 1" . switch-window-then-maximize)
-           ("C-x 2" . switch-window-then-split-below)
-           ("C-x 3" . switch-window-then-split-right)
-           ("C-x 0" . switch-window-then-delete))
     :config
     (setq switch-window-increase 8)
-    (setq switch-window-shortcut-style 'qwerty))
+    (setq switch-window-shortcut-style 'qwerty)
+    (exwm-input-set-key (kbd "C-x o") 'switch-window)
+    (exwm-input-set-key (kbd "C-x 1") 'switch-window-then-maximize)
+    (exwm-input-set-key (kbd "C-x 2") 'switch-window-then-split-below)
+    (exwm-input-set-key (kbd "C-x 3") 'switch-window-then-split-right)
+    (exwm-input-set-key (kbd "C-x 0") 'switch-window-then-delete))
 
   ;; (use-package exim
   ;;   :ensure nil
