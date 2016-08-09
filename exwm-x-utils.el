@@ -87,18 +87,6 @@ or `exwm-title' is matched `regexp'."
   (interactive
    (list (read-shell-command "Run shell command: ")))
   (start-process-shell-command cmd nil cmd))
-
-(defun exwm-x-resize-floating-window (event &optional scale)
-  "This is a mouse click event function, used by exwm mode-line
-button, when click such button, resize current floating window to `scale'
-property of screen size."
-  (let* ((frame (window-frame (car (car (cdr event)))))
-         (screen-width (display-pixel-width))
-         (screen-height (display-pixel-height)))
-    (set-frame-size
-     frame
-     (round (* scale screen-width))
-     (round (* scale screen-height)) t)))
 ;; #+END_SRC
 
 ;; * Footer

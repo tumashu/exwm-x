@@ -116,11 +116,17 @@ execute. "
               (exwm-x--create-button
                'header-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               (exwm-x--create-button
-               'header-line "[Z+]" '(exwm-x-resize-floating-window event 1.10)
-               '(exwm-x-resize-floating-window event 1.10))
+               'header-line "[Z+]"
+               '(progn (exwm-layout-enlarge-window 30)
+                       (exwm-layout-enlarge-window-horizontally 100))
+               '(progn (exwm-layout-enlarge-window 30)
+                       (exwm-layout-enlarge-window-horizontally 100)))
               (exwm-x--create-button
-               'header-line "[Z-]" '(exwm-x-resize-floating-window event 0.75)
-               '(exwm-x-resize-floating-window event 0.75))
+               'header-line "[Z-]"
+               '(progn (exwm-layout-enlarge-window -30)
+                       (exwm-layout-enlarge-window-horizontally -100))
+               '(progn (exwm-layout-enlarge-window -30)
+                       (exwm-layout-enlarge-window-horizontally -100)))
               " -- "
               exwm-title)))
 
