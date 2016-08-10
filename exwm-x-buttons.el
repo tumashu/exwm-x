@@ -33,9 +33,9 @@
 (require 'exwm)
 (require 'exwm-x-core)
 
-(defun exwm-x--create-button (mode-line-or-header-line string
-                                                  &optional mouse-1-action
-                                                  mouse-3-action mouse-2-action)
+(defun exwm-x--create-button (mode-line-or-header-line string &optional mouse-1-action
+                                                       mouse-3-action mouse-2-action
+                                                       active-down-mouse)
   "Generate `,mode-or-head-line-format' style code of a clickable button, which name
 is `string'.
 
@@ -68,6 +68,13 @@ execute. "
                      (interactive "e")
                      (with-selected-window (posn-window (event-start event))
                        ,mouse-3-action))))
+             (when (and (eq major-mode 'exwm-mode)
+                        exwm--floating-frame
+                        (not (eq (quote ,active-down-mouse) nil)))
+               (define-key map [,mode-line-or-header-line down-mouse-1]
+                 #'exwm-x-mouse-move-floating-window)
+               (define-key map [,mode-line-or-header-line down-mouse-3]
+                 #'exwm-x-mouse-move-floating-window))
              map))))
 
 ;; Emacs's default mode-line is not suitable for window manager,
@@ -87,25 +94,25 @@ execute. "
 ;; [<>]: Move border to left or right.
 
 (defun exwm-x--create-mode-line ()
-   (setq mode-line-format
-         (list (exwm-x--create-button
-                'mode-line "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
-               (exwm-x--create-button
-                'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
-               (exwm-x--create-button
-                'mode-line "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
-               (exwm-x--create-button
-                'mode-line "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
-               (exwm-x--create-button
-                'mode-line "[D]" '(delete-window) '(delete-window))
-               (exwm-x--create-button
-                'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-               (exwm-x--create-button
-                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
-               (exwm-x--create-button
-                'mode-line "[-]" '(split-window-below) '(split-window-below))
-               (exwm-x--create-button
-                'mode-line "[|]" '(split-window-right) '(split-window-right)))))
+  (setq mode-line-format
+        (list (exwm-x--create-button
+               'mode-line "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
+              (exwm-x--create-button
+               'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
+              (exwm-x--create-button
+               'mode-line "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
+              (exwm-x--create-button
+               'mode-line "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
+              (exwm-x--create-button
+               'mode-line "[D]" '(delete-window) '(delete-window))
+              (exwm-x--create-button
+               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
+              (exwm-x--create-button
+               'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+              (exwm-x--create-button
+               'mode-line "[-]" '(split-window-below) '(split-window-below))
+              (exwm-x--create-button
+               'mode-line "[|]" '(split-window-right) '(split-window-right)))))
 
 (defun exwm-x--create-header-line ()
   (setq header-line-format
@@ -127,8 +134,9 @@ execute. "
                        (exwm-layout-enlarge-window-horizontally -100))
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100)))
-              " -- "
-              exwm-title)))
+              (exwm-x--create-button
+               'header-line
+               (concat " -- " exwm-title (make-string 200 ? )) nil nil nil t))))
 
 (defun exwm-x--reset-mode-line ()
   "Reset mode-line to original emacs mode-line with [E] button."
