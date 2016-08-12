@@ -96,23 +96,25 @@ execute. "
 (defun exwm-x--create-mode-line ()
   (setq mode-line-format
         (list (exwm-x--create-button
-               'mode-line "[E]" '(exwm-x--reset-mode-line) '(start-menu-popup))
-              (exwm-x--create-button
-               'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
-              (exwm-x--create-button
-               'mode-line "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
-              (exwm-x--create-button
-               'mode-line "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
+               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
               (exwm-x--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
               (exwm-x--create-button
-               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-              (exwm-x--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+              " "
+              (exwm-x--create-button
+               'mode-line "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
+              (exwm-x--create-button
+               'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
+              (exwm-x--create-button
+               'mode-line "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
+              " "
               (exwm-x--create-button
                'mode-line "[-]" '(split-window-below) '(split-window-below))
               (exwm-x--create-button
-               'mode-line "[|]" '(split-window-right) '(split-window-right)))))
+               'mode-line "[|]" '(split-window-right) '(split-window-right))
+              " - "
+              exwm-title)))
 
 (defun exwm-x--create-header-line ()
   (setq header-line-format
@@ -139,11 +141,9 @@ execute. "
                (concat " -- " exwm-title (make-string 200 ? )) nil nil nil t))))
 
 (defun exwm-x--reset-mode-line ()
-  "Reset mode-line to original emacs mode-line with [E] button."
+  "Reset mode-line."
   (setq mode-line-format
-        (list (exwm-x--create-button
-               'mode-line "[E]" '(exwm-x--create-mode-line) '(start-menu-popup))
-              (default-value 'mode-line-format))))
+        (default-value 'mode-line-format)))
 
 (defun exwm-x--reset-header-line ()
   "Reset header-line."
