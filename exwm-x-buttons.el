@@ -124,6 +124,7 @@ execute. "
                'header-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
               (exwm-x--create-button
                'header-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+              " "
               (exwm-x--create-button
                'header-line "[Z+]"
                '(progn (exwm-layout-enlarge-window 30)
@@ -138,7 +139,7 @@ execute. "
                        (exwm-layout-enlarge-window-horizontally -100)))
               (exwm-x--create-button
                'header-line
-               (concat " -- " exwm-title (make-string 200 ? )) nil nil nil t))))
+               (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
 
 (defun exwm-x--reset-mode-line ()
   "Reset mode-line."
