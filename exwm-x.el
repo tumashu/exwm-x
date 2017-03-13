@@ -92,18 +92,14 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'exwm-x-core)
 (require 'exwm-x-modeline)
 (require 'exwm-x-utils)
 (require 'exwm-x-mouse)
 (require 'exwm-x-move-border)
 (require 'exwm-x-debian)
-;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x)
 
 ;;; exwm-x.el ends here
-;; #+END_SRC

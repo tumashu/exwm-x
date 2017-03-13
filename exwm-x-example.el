@@ -60,7 +60,6 @@
 
 ;; * Code                                                                 :code:
 
-;; #+BEGIN_SRC emacs-lisp
 (use-package exwm-x
   :if (string= (getenv "exwm_x_enable") "yes")
   :ensure nil
@@ -326,7 +325,6 @@
 ;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-example)
 
 ;; Local Variables:
@@ -334,4 +332,3 @@
 ;; End:
 
 ;;; exwm-x-example.el ends here
-;; #+END_SRC

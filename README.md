@@ -1,47 +1,67 @@
-- [Exwm-X](#exwm-x)
-  - [What is Exwm-X](#what-is-exwm-x)
-  - [Feature](#feature)
-  - [Pictures and videos](#pictures-and-videos)
-  - [Install](#install)
-  - [Configure](#configure)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#edit-"~/.initrc"-file-or-"~/.xsession"-file)
-    - [Edit emacs configure](#edit-emacs-configure)
+- [Exwm-X](#orga2fb85c)
+  - [What is Exwm-X](#org50086c5)
+  - [Feature](#orga48b67f)
+  - [Pictures and videos](#org6720290)
+  - [Install](#org4326b19)
+  - [Configure](#orgb6d4cdd)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org2c5224f)
+    - [Edit emacs configure](#orgb069aef)
 
-# Exwm-X<a id="orgheadline8"></a>
 
-## What is Exwm-X<a id="orgheadline1"></a>
+<a id="orga2fb85c"></a>
 
-Exwm-X is an extension of exwm (emacs x window manager), which can
-make exwm easier for Mouse-Control-People to use.
+# Exwm-X
 
-## Feature<a id="orgheadline2"></a>
+
+<a id="org50086c5"></a>
+
+## What is Exwm-X
+
+Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
+
+
+<a id="orga48b67f"></a>
+
+## Feature
 
 1.  Shortcuts, toolbar and other window operate buttons in mode-line.
 2.  Move or resize a floating-window without press WIN key.
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 
-## Pictures and videos<a id="orgheadline3"></a>
+
+<a id="org6720290"></a>
+
+## Pictures and videos
 
 1.  Tilling windows
 
-    ![img](./snapshots/tilling-window.png)
+![img](./snapshots/tilling-window.png)
 
-2.  Floating windows
+1.  Floating windows
 
-    ![img](./snapshots/floating-window.png)
+![img](./snapshots/floating-window.png)
 
-3.  Exwm-X videos
+1.  Exwm-X videos
 
-    <https://github.com/tumashu/exwm-x-videos>
+<https://github.com/tumashu/exwm-x-videos>
 
-## Install<a id="orgheadline4"></a>
+
+<a id="org4326b19"></a>
+
+## Install
 
 1.  Config melpa repository, please see：<http://melpa.org/#/getting-started>
 2.  M-x package-install RET exwm-x RET
 
-## Configure<a id="orgheadline7"></a>
 
-### Edit "~/.initrc" file or "~/.xsession" file<a id="orgheadline5"></a>
+<a id="orgb6d4cdd"></a>
+
+## Configure
+
+
+<a id="org2c5224f"></a>
+
+### Edit "~/.initrc" file or "~/.xsession" file
 
 You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
@@ -59,13 +79,17 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
     exec dbus-launch --exit-with-session emacs
 
-### Edit emacs configure<a id="orgheadline6"></a>
+
+<a id="orgb069aef"></a>
+
+### Edit emacs configure
 
 Add the below two lines to your emacs configure file:
 
     (require 'exwm-x)
     (require 'exwm-x-example) ;; Adjust this line.
 
-Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's
-features. If it doesn't suit for your need, just copy and paste its useful pieces
-to your own exwm config :-)
+Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's features. If it doesn't suit for your need, just copy and paste its useful pieces to your own exwm config :-)
+
+
+Converted from exwm-x.el by [el2org](https://github.com/tumashu/el2org) .

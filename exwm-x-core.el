@@ -29,7 +29,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'exwm)
 
 (defvar exwm-x-prefer-name-alist
@@ -82,11 +81,8 @@ string."
     (when buffer
       (exwm-workspace-switch-to-buffer buffer))))
 
-;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-core)
 
 ;;; exwm-x-core.el ends here
-;; #+END_SRC

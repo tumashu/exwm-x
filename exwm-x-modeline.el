@@ -28,7 +28,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'cl-lib)
 (require 'exwm)
 (require 'exwm-x-core)
@@ -261,12 +260,9 @@ file `exwm-x-mode-line-shortcuts-file'. "
 (add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
 (add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
 (add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
-;; #+END_SRC
 
 ;; * Footer
 
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-modeline)
 
 ;;; exwm-x-modeline.el ends here
-;; #+END_SRC

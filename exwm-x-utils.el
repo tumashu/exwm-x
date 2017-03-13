@@ -29,7 +29,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'exwm)
 (require 'exwm-x-core)
 (require 'exwm-x-modeline)
@@ -106,8 +105,6 @@ or `exwm-title' is matched `regexp'."
 ;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-utils)
 
 ;;; exwm-x-utils.el ends here
-;; #+END_SRC

@@ -23,7 +23,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (defun exwm-x--xor (b1 b2)
   (or (and b1 b2)
       (and (not b1) (not b2))))
@@ -63,11 +62,8 @@ If DIR is t, then move up, otherwise move down."
 (defun exwm-x-move-border-down (arg)
   (interactive "P")
   (exwm-x--move-border-up-or-down arg nil))
-;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-move-border)
 
 ;;; exwm-x-move-border.el ends here
-;; #+END_SRC

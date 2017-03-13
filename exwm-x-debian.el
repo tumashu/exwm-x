@@ -29,7 +29,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (defun exwm-x-generate-debian-menu (debian-menu-file)
   "Generate a emacs command based of the info of `debian-menu-file'."
   (when (file-exists-p debian-menu-file)
@@ -71,11 +70,8 @@
     (when (file-exists-p debian-menu-dir)
       (dolist (debian-menu-file (directory-files debian-menu-dir t "[^.].*"))
         (exwm-x-generate-debian-menu debian-menu-file)))))
-;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-debian)
 
 ;;; exwm-x-debian.el ends here
-;; #+END_SRC

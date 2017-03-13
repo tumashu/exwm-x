@@ -29,11 +29,9 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'org-webpage)
 (require 'owp-web-server)
-(require 'owp-lentic)
-(require 'easy-lentic)
+(require 'owp-el2org)
 
 (defvar exwm-x-repository-directory
   "~/project/emacs-packages/exwm-x/")
@@ -52,17 +50,15 @@
    :source-browse-url ("GitHub" "https://github.com/tumashu/exwm-x")
    :personal-avatar nil
    :personal-duoshuo-shortname nil
-   :preparation-function owp/lentic-preparation-function
-   :org-export-function owp/lentic-org-export-function
-   :lentic-doc-sources ("exwm-x-.*\\.el$")
-   :lentic-readme-sources ("exwm-x.el")
-   :lentic-index-sources ("exwm-x.el")
+   :preparation-function owp/el2org-preparation-function
+   :org-export-function owp/el2org-org-export-function
+   :el2org-doc-sources ("exwm-x-.*\\.el$")
+   :el2org-readme-sources ("exwm-x.el")
+   :el2org-index-sources ("exwm-x.el")
    :web-server-port 8765))
-;; #+END_SRC
 
 ;; * Footer
 
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-devtools)
 
 ;; Local Variables:
@@ -70,4 +66,3 @@
 ;; End:
 
 ;;; exwm-x-devtools.el ends here
-;; #+END_SRC
