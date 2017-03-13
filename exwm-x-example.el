@@ -322,7 +322,6 @@
   (use-package exim
     :ensure nil
     :config (add-hook 'exwm-init-hook 'exim-start)))
-;; #+END_SRC
 
 ;; * Footer
 (provide 'exwm-x-example)

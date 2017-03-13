@@ -102,7 +102,6 @@ or `exwm-title' is matched `regexp'."
   (interactive
    (list (read-shell-command "Run shell command: ")))
   (start-process-shell-command cmd nil cmd))
-;; #+END_SRC
 
 ;; * Footer
 (provide 'exwm-x-utils)
