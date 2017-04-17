@@ -61,9 +61,6 @@
 ;; You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
 ;; #+BEGIN_EXAMPLE
-;; # The below line make sure "exwm-x-example" package correct loaded,
-;; # don't delete!
-;; export exwm_x_enable="yes"
 
 ;; # Emacs X input method (exim) setting
 ;; # export XMODIFIERS=@im=exim
@@ -71,12 +68,20 @@
 ;; # export QT_IM_MODULE=xim
 ;; # export CLUTTER_IM_MODULE=xim
 
-;; # xhost +
+;; xhost +SI:localuser:$USER
 
-;; exec dbus-launch --exit-with-session emacs
+;; exec dbus-launch --exit-with-session emacs --eval "(if (file-exists-p \"~/.exwm.el\")(load \"~/.exwm.el\")(require 'exwm)(require 'exwm-config)(exwm-config-default)(message \"EXWM: ~/.exwm.el is not exist. use exwm fallback configure.\"))"
+
 ;; #+END_EXAMPLE
 
-;; *** Edit emacs configure
+;; *** Make "~/.initrc" or "~/.xsession" excutable
+
+;; #+BEGIN_EXAMPLE
+;; chmod a+x ~/.initrc
+;; chmod a+x ~/.xsession
+;; #+END_EXAMELP
+
+;; *** Edit "~/.exwm.el"
 ;; Add the below two lines to your emacs configure file:
 
 ;; #+BEGIN_EXAMPLE
