@@ -1,27 +1,27 @@
-- [Exwm-X](#orgb9d7b5b)
-  - [What is Exwm-X](#org51737be)
-  - [Feature](#orgc692904)
-  - [Pictures and videos](#orgbca6f49)
-  - [Install](#org83bdd9a)
-  - [Configure](#org6b5cb00)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org26799fc)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org7d31e04)
-    - [Edit "~/.exwm.el"](#orgb211b8c)
+- [Exwm-X](#org9eca8bc)
+  - [What is Exwm-X](#orgeb8cf74)
+  - [Feature](#orgee2c93e)
+  - [Pictures and videos](#org5a5c9da)
+  - [Install](#org1145e5c)
+  - [Configure](#org2459463)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org7da755a)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org0c406e4)
+    - [Edit "~/.exwm.el"](#org4fb75e6)
 
 
-<a id="orgb9d7b5b"></a>
+<a id="org9eca8bc"></a>
 
 # Exwm-X
 
 
-<a id="org51737be"></a>
+<a id="orgeb8cf74"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="orgc692904"></a>
+<a id="orgee2c93e"></a>
 
 ## Feature
 
@@ -30,7 +30,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 
 
-<a id="orgbca6f49"></a>
+<a id="org5a5c9da"></a>
 
 ## Pictures and videos
 
@@ -47,7 +47,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     <https://github.com/tumashu/exwm-x-videos>
 
 
-<a id="org83bdd9a"></a>
+<a id="org1145e5c"></a>
 
 ## Install
 
@@ -55,12 +55,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org6b5cb00"></a>
+<a id="org2459463"></a>
 
 ## Configure
 
 
-<a id="org26799fc"></a>
+<a id="org7da755a"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -77,14 +77,15 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval "(if (file-exists-p \"~/.exwm.el\")(load \"~/.exwm.el\")(require 'exwm)(require 'exwm-config)(exwm-config-default)(message \"EXWM: ~/.exwm.el is not exist. use exwm fallback configure.\"))"
 
 
-<a id="org7d31e04"></a>
+<a id="org0c406e4"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
-\#+BEGIN\_EXAMPLE chmod a+x ~/.initrc chmod a+x ~/.xsession \\#+END\_EXAMELP
+    chmod a+x ~/.initrc
+    chmod a+x ~/.xsession
 
 
-<a id="orgb211b8c"></a>
+<a id="org4fb75e6"></a>
 
 ### Edit "~/.exwm.el"
 

@@ -79,7 +79,7 @@
 ;; #+BEGIN_EXAMPLE
 ;; chmod a+x ~/.initrc
 ;; chmod a+x ~/.xsession
-;; #+END_EXAMELP
+;; #+END_EXAMPLE
 
 ;; *** Edit "~/.exwm.el"
 ;; Add the below two lines to your emacs configure file:
