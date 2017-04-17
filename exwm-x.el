@@ -77,14 +77,20 @@
 ;; *** Make "~/.initrc" or "~/.xsession" excutable
 
 ;; #+BEGIN_EXAMPLE
-;; chmod a+x ~/.initrc
 ;; chmod a+x ~/.xsession
+;; #+END_EXAMPLE
+
+;; or
+
+;; #+BEGIN_EXAMPLE
+;; chmod a+x ~/.initrc
 ;; #+END_EXAMPLE
 
 ;; *** Edit "~/.exwm.el"
 ;; Add the below two lines to your emacs configure file:
 
 ;; #+BEGIN_EXAMPLE
+;; (add-to-list 'load-path "/path/to/exwm-x")
 ;; (require 'exwm-x)
 ;; (require 'exwm-x-example) ;; Adjust this line.
 ;; #+END_EXAMPLE
