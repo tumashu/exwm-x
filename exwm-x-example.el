@@ -61,7 +61,7 @@
   (exwm-workspace-rename-buffer
    (concat "Exwm:" (exwm-x--get-prefer-name))))
 
-(defun exwm-x/icecat ()
+(defun exwm-x/web-browser ()
   (interactive)
   (exwm-x-jump-or-exec "Icecat" "icecat"))
 
@@ -110,7 +110,7 @@
 (exwm-input-set-key (kbd "C-t m")  nil)
 (exwm-input-set-key (kbd "C-t v")  'exwm-x/file-manager)
 (exwm-input-set-key (kbd "C-t c")  'exwm-x/terminal)
-(exwm-input-set-key (kbd "C-t ff") 'exwm-x/icecat)
+(exwm-input-set-key (kbd "C-t ff") 'exwm-x/web-browser)
 (exwm-input-set-key (kbd "C-t C-x")  'exwm-x/new-terminal)
 (exwm-input-set-key (kbd "C-t c")  'exwm-x/run-shell-command-interactively)
 
@@ -123,7 +123,6 @@
 (exwm-input-set-key (kbd "C-S-<down>") 'exwm-x-move-border-down)
 (exwm-input-set-key (kbd "C-S-<left>") 'exwm-x-move-border-left)
 (exwm-input-set-key (kbd "C-S-<right>") 'exwm-x-move-border-right)
-
 
 ;; We always need a way to go back to line-mode from char-mode
 (exwm-input-set-key (kbd "C-t t") 'exwm-reset)
