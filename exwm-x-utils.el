@@ -29,7 +29,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-;; #+BEGIN_SRC emacs-lisp
 (require 'exwm)
 (require 'exwm-x-core)
 
@@ -154,11 +153,8 @@ button, when drag mouse from such button, resize current floating window dynamic
                      (exwm-floating-move
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
-;; #+END_SRC
 
 ;; * Footer
-;; #+BEGIN_SRC emacs-lisp
 (provide 'exwm-x-utils)
 
 ;;; exwm-x-utils.el ends here
-;; #+END_SRC
