@@ -107,7 +107,6 @@
 (require 'exwm-x-buttons)
 (require 'exwm-x-utils)
 (require 'exwm-x-move-border)
-(require 'exwm-x-debian)
 
 ;; * Footer
 (provide 'exwm-x)

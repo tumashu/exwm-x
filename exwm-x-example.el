@@ -112,7 +112,6 @@
 (exwm-input-set-key (kbd "C-t c")  'exwm-x/terminal)
 (exwm-input-set-key (kbd "C-t ff") 'exwm-x/web-browser)
 (exwm-input-set-key (kbd "C-t C-x")  'exwm-x/new-terminal)
-(exwm-input-set-key (kbd "C-t c")  'exwm-x/run-shell-command-interactively)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwm-x-switch-to-1-workspace)
 (exwm-input-set-key (kbd "C-t 2")  'exwm-x-switch-to-2-workspace)
