@@ -1,4 +1,4 @@
-;;; exwm-x-buttons.el --- Add some exwm buttons to mode-line or header-line
+;;; exwm-x-buttons.el --- Add some exwm buttons to mode-line
 
 ;; * Header
 ;; Copyright 2015 Feng Shu
@@ -32,9 +32,9 @@
 (require 'exwm)
 (require 'exwm-x-core)
 
-(defun exwm-x--create-button (mode-line-or-header-line string &optional mouse-1-action
-                                                       mouse-3-action mouse-2-action
-                                                       active-down-mouse)
+(defun exwm-x--create-button (mode-line string &optional mouse-1-action
+                                        mouse-3-action mouse-2-action
+                                        active-down-mouse)
   "Generate `,mode-or-head-line-format' style code of a clickable button, which name
 is `string'.
 
@@ -50,19 +50,19 @@ execute. "
            'local-map
            (let ((map (make-sparse-keymap)))
              (unless (eq (quote ,mouse-1-action) nil)
-               (define-key map [,mode-line-or-header-line mouse-1]
+               (define-key map [,mode-line mouse-1]
                  #'(lambda (event)
                      (interactive "e")
                      (with-selected-window (posn-window (event-start event))
                        ,mouse-1-action))))
              (unless (eq (quote ,mouse-2-action) nil)
-               (define-key map [,mode-line-or-header-line mouse-2]
+               (define-key map [,mode-line mouse-2]
                  #'(lambda (event)
                      (interactive "e")
                      (with-selected-window (posn-window (event-start event))
                        ,mouse-2-action))))
              (unless (eq (quote ,mouse-3-action) nil)
-               (define-key map [,mode-line-or-header-line mouse-3]
+               (define-key map [,mode-line mouse-3]
                  #'(lambda (event)
                      (interactive "e")
                      (with-selected-window (posn-window (event-start event))
@@ -70,29 +70,24 @@ execute. "
              (when (and (eq major-mode 'exwm-mode)
                         exwm--floating-frame
                         (not (eq (quote ,active-down-mouse) nil)))
-               (define-key map [,mode-line-or-header-line down-mouse-1]
+               (define-key map [,mode-line down-mouse-1]
                  #'exwm-x-mouse-move-floating-window)
-               (define-key map [,mode-line-or-header-line down-mouse-3]
+               (define-key map [,mode-line down-mouse-3]
                  #'exwm-x-mouse-move-floating-window))
              map))))
 
 ;; Emacs's default mode-line is not suitable for window manager,
-;; This function will create a new mode-line, which has start-menu,
-;; application shortcuts ,taskbar and others useful for managing window.
+;; This function will create a new mode-line, which has:
 
-;; 1. Tilling window's mode-line is like:
-
-;;    '[E][+][D][X][F][-][|]'
-
-;; [E]: Switch mode-line.
 ;; [+]: Maximize current window.
 ;; [D]: Delete current window.
 ;; [F]: toggle floating window.
 ;; [-]: Split window horizontal.
 ;; [|]: Split window vertical.
-;; [<>]: Move border to left or right.
+;; [<]: Move border to left.
+;; [>]: Move border to right.
 
-(defun exwm-x--create-mode-line ()
+(defun exwm-x--create-tilling-mode-line ()
   (setq mode-line-format
         (list (exwm-x--create-button
                'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
@@ -115,62 +110,54 @@ execute. "
               " - "
               exwm-title)))
 
-(defun exwm-x--create-header-line ()
-  (setq header-line-format
+(defun exwm-x--create-floating-mode-line ()
+  (setq mode-line-format
         (list (exwm-x--create-button
-               'header-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
+               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
               (exwm-x--create-button
-               'header-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
+               'mode-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
               (exwm-x--create-button
-               'header-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+               'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
               (exwm-x--create-button
-               'header-line "[Z+]"
+               'mode-line "[Z+]"
                '(progn (exwm-layout-enlarge-window 30)
                        (exwm-layout-enlarge-window-horizontally 100))
                '(progn (exwm-layout-enlarge-window 30)
                        (exwm-layout-enlarge-window-horizontally 100)))
               (exwm-x--create-button
-               'header-line "[Z-]"
+               'mode-line "[Z-]"
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100))
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100)))
               (exwm-x--create-button
-               'header-line
+               'mode-line
                (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
 
 (defun exwm-x--reset-mode-line ()
-  "Reset mode-line."
+  "Reset mode-line for tilling window"
   (setq mode-line-format
         (default-value 'mode-line-format)))
 
-(defun exwm-x--reset-header-line ()
-  "Reset header-line."
-  (setq header-line-format
-        (default-value 'header-line-format)))
-
-(defun exwm-x--update-mode-or-header-line ()
-  "Update all buffer's mode-lines and header-lines."
+(defun exwm-x--update-mode-line ()
+  "Update all buffer's mode-lines."
   (interactive)
   ;; Set all buffer's mode-line.
   (dolist (buffer (buffer-list))
     (with-current-buffer buffer
       (cond ((and (eq major-mode 'exwm-mode)
                   (not exwm--floating-frame))
-             (exwm-x--create-mode-line)
-             (exwm-x--reset-header-line))
+             (exwm-x--create-tilling-mode-line))
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
-             (exwm-x--create-header-line)
-             (setq mode-line-format nil))
-            (t (exwm-x--reset-mode-line)
-               (exwm-x--reset-header-line))))
+             (exwm-x--create-floating-mode-line))
+            (t (exwm-x--reset-mode-line))))
     (force-mode-line-update)))
 
-(add-hook 'exwm-update-class-hook #'exwm-x--update-mode-or-header-line)
-(add-hook 'exwm-update-title-hook #'exwm-x--update-mode-or-header-line)
-(add-hook 'buffer-list-update-hook #'exwm-x--update-mode-or-header-line)
+(add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
+(add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
+(add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
 
 ;; * Footer
 
