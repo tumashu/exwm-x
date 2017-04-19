@@ -30,11 +30,11 @@
 (require 'exwm)
 (require 'exwmx-core)
 
-(defun exwmx-xfce--start ()
+(defun exwmx-xfce-start ()
   (interactive)
   (exwmx-shell-command "startxfce4"))
 
-(add-hook 'exwm-init-hook #'exwmx-xfce--start)
+(add-hook 'exwm-init-hook #'exwmx-xfce-start)
 
 ;; * Footer
 (provide 'exwmx-xfce)
