@@ -1,10 +1,10 @@
-;;; exwm-x-example.el --- a example configure of exwm-x
+;;; exwmx-example.el --- a example configure of exwmx
 
 ;; * Header
 ;; Copyright 2016 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
-;; URL: https://github.com/tumashu/exwm-x
+;; URL: https://github.com/tumashu/exwmx
 ;; Version: 0.0.1
 ;; Keywords: window-manager, exwm
 
@@ -24,8 +24,8 @@
 
 ;;; Commentary:
 
-;; * exwm-x-example                                                  :doc:
-;; exwm-x configure example.
+;; * exwmx-example                                                  :doc:
+;; exwmx configure example.
 
 ;;; Code:
 
@@ -54,50 +54,50 @@
 ;; You may want to change when a new window class name
 ;; or title is available. it in `exwm-update-class-hook'
 ;; and `exwm-update-title-hook', which are run
-(add-hook 'exwm-update-class-hook #'exwm-x-rename-exwm-buffer)
-(add-hook 'exwm-update-title-hook #'exwm-x-rename-exwm-buffer)
+(add-hook 'exwm-update-class-hook #'exwmx-rename-exwm-buffer)
+(add-hook 'exwm-update-title-hook #'exwmx-rename-exwm-buffer)
 
-(defun exwm-x-rename-exwm-buffer ()
+(defun exwmx-rename-exwm-buffer ()
   (exwm-workspace-rename-buffer
-   (concat "Exwm:" (exwm-x--get-prefer-name))))
+   (concat "Exwm:" (exwmx--get-prefer-name))))
 
-(defun exwm-x/web-browser ()
+(defun exwmx/web-browser ()
   (interactive)
-  (exwm-x-jump-or-exec "Icecat" "icecat"))
+  (exwmx-jump-or-exec "Icecat" "icecat"))
 
-(defun exwm-x/file-manager ()
+(defun exwmx/file-manager ()
   (interactive)
-  (exwm-x-jump-or-exec "Thunar" "thunar"))
+  (exwmx-jump-or-exec "Thunar" "thunar"))
 
-(defun exwm-x/terminal ()
+(defun exwmx/terminal ()
   (interactive)
-  (exwm-x-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
+  (exwmx-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
 
-(defun exwm-x/new-terminal ()
+(defun exwmx/new-terminal ()
   (interactive)
-  (exwm-x-run-shell-command "xfce4-terminal"))
+  (exwmx-run-shell-command "xfce4-terminal"))
 
-(defun exwm-x/xset-bell-off ()
+(defun exwmx/xset-bell-off ()
   (interactive)
-  (exwm-x-run-shell-command "xset b off"))
+  (exwmx-run-shell-command "xset b off"))
 
-(defun exwm-x/xmodmap ()
+(defun exwmx/xmodmap ()
   (interactive)
-  (exwm-x-run-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
+  (exwmx-run-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
 
-(defun exwm-x-switch-to-1-workspace ()
+(defun exwmx-switch-to-1-workspace ()
   (interactive)
   (exwm-workspace-switch 0))
 
-(defun exwm-x-switch-to-2-workspace ()
+(defun exwmx-switch-to-2-workspace ()
   (interactive)
   (exwm-workspace-switch 1))
 
-(defun exwm-x-switch-to-3-workspace ()
+(defun exwmx-switch-to-3-workspace ()
   (interactive)
   (exwm-workspace-switch 2))
 
-(defun exwm-x-switch-to-4-workspace ()
+(defun exwmx-switch-to-4-workspace ()
   (interactive)
   (exwm-workspace-switch 3))
 
@@ -108,20 +108,20 @@
 (exwm-input-set-key (kbd "C-t R")  nil)
 (exwm-input-set-key (kbd "C-t q")  nil)
 (exwm-input-set-key (kbd "C-t m")  nil)
-(exwm-input-set-key (kbd "C-t v")  'exwm-x/file-manager)
-(exwm-input-set-key (kbd "C-t c")  'exwm-x/terminal)
-(exwm-input-set-key (kbd "C-t ff") 'exwm-x/web-browser)
-(exwm-input-set-key (kbd "C-t C-x")  'exwm-x/new-terminal)
+(exwm-input-set-key (kbd "C-t v")  'exwmx/file-manager)
+(exwm-input-set-key (kbd "C-t c")  'exwmx/terminal)
+(exwm-input-set-key (kbd "C-t ff") 'exwmx/web-browser)
+(exwm-input-set-key (kbd "C-t C-x")  'exwmx/new-terminal)
 
-(exwm-input-set-key (kbd "C-t 1")  'exwm-x-switch-to-1-workspace)
-(exwm-input-set-key (kbd "C-t 2")  'exwm-x-switch-to-2-workspace)
-(exwm-input-set-key (kbd "C-t 3")  'exwm-x-switch-to-3-workspace)
-(exwm-input-set-key (kbd "C-t 4")  'exwm-x-switch-to-4-workspace)
+(exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
+(exwm-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
+(exwm-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
+(exwm-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
 
-(exwm-input-set-key (kbd "C-S-<up>") 'exwm-x-move-border-up)
-(exwm-input-set-key (kbd "C-S-<down>") 'exwm-x-move-border-down)
-(exwm-input-set-key (kbd "C-S-<left>") 'exwm-x-move-border-left)
-(exwm-input-set-key (kbd "C-S-<right>") 'exwm-x-move-border-right)
+(exwm-input-set-key (kbd "C-S-<up>") 'exwmx-move-border-up)
+(exwm-input-set-key (kbd "C-S-<down>") 'exwmx-move-border-down)
+(exwm-input-set-key (kbd "C-S-<left>") 'exwmx-move-border-left)
+(exwm-input-set-key (kbd "C-S-<right>") 'exwmx-move-border-right)
 
 ;; We always need a way to go back to line-mode from char-mode
 (exwm-input-set-key (kbd "C-t t") 'exwm-reset)
@@ -178,10 +178,10 @@
 (exwm-input-set-key (kbd "C-x 0") 'switch-window-then-delete)
 
 ;; * Footer
-(provide 'exwm-x-example)
+(provide 'exwmx-example)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
 
-;;; exwm-x-example.el ends here
+;;; exwmx-example.el ends here

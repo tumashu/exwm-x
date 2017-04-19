@@ -92,10 +92,10 @@
 ;; #+BEGIN_EXAMPLE
 ;; (add-to-list 'load-path "/path/to/exwm-x")
 ;; (require 'exwm-x)
-;; (require 'exwm-x-example) ;; Adjust this line.
+;; (require 'exwmx-example) ;; Adjust this line.
 ;; #+END_EXAMPLE
 
-;; Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's
+;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
 ;; features. If it doesn't suit for your need, just copy and paste its useful pieces
 ;; to your own exwm config :-)
 
@@ -103,10 +103,10 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'exwm-x-core)
-(require 'exwm-x-buttons)
-(require 'exwm-x-utils)
-(require 'exwm-x-move-border)
+(require 'exwmx-core)
+(require 'exwmx-buttons)
+(require 'exwmx-utils)
+(require 'exwmx-move-border)
 
 ;; * Footer
 (provide 'exwm-x)

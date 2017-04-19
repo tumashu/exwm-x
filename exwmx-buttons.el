@@ -1,12 +1,12 @@
-;;; exwm-x-buttons.el --- Add some exwm buttons to mode-line
+;;; exwmx-buttons.el --- Add some exwm buttons to mode-line
 
 ;; * Header
 ;; Copyright 2015 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
-;; URL: https://github.com/tumashu/exwm-x
+;; URL: https://github.com/tumashu/exwmx
 ;; Version: 0.0.1
-;; Keywords: exwm, exwm-x
+;; Keywords: exwm, exwmx
 
 ;; This program is free software; you can redistribute it and/or modify
 ;; it under the terms of the GNU General Public License as published by
@@ -30,9 +30,9 @@
 ;; * Code                                                                 :code:
 (require 'cl-lib)
 (require 'exwm)
-(require 'exwm-x-core)
+(require 'exwmx-core)
 
-(defun exwm-x--create-button (mode-line string &optional mouse-1-action
+(defun exwmx--create-button (mode-line string &optional mouse-1-action
                                         mouse-3-action mouse-2-action
                                         active-down-mouse)
   "Generate `,mode-or-head-line-format' style code of a clickable button, which name
@@ -71,9 +71,9 @@ execute. "
                         exwm--floating-frame
                         (not (eq (quote ,active-down-mouse) nil)))
                (define-key map [,mode-line down-mouse-1]
-                 #'exwm-x-mouse-move-floating-window)
+                 #'exwmx-mouse-move-floating-window)
                (define-key map [,mode-line down-mouse-3]
-                 #'exwm-x-mouse-move-floating-window))
+                 #'exwmx-mouse-move-floating-window))
              map))))
 
 ;; Emacs's default mode-line is not suitable for window manager,
@@ -87,60 +87,60 @@ execute. "
 ;; [<]: Move border to left.
 ;; [>]: Move border to right.
 
-(defun exwm-x--create-tilling-mode-line ()
+(defun exwmx--create-tilling-mode-line ()
   (setq mode-line-format
-        (list (exwm-x--create-button
-               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-              (exwm-x--create-button
+        (list (exwmx--create-button
+               'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
+              (exwmx--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
-              (exwm-x--create-button
-               'mode-line "[<]" '(exwm-x-move-border-left 10) '(exwm-x-move-border-left 10))
-              (exwm-x--create-button
+              (exwmx--create-button
+               'mode-line "[<]" '(exwmx-move-border-left 10) '(exwmx-move-border-left 10))
+              (exwmx--create-button
                'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
-              (exwm-x--create-button
-               'mode-line "[>]" '(exwm-x-move-border-right 10) '(exwm-x-move-border-right 10))
+              (exwmx--create-button
+               'mode-line "[>]" '(exwmx-move-border-right 10) '(exwmx-move-border-right 10))
               " "
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[-]" '(split-window-below) '(split-window-below))
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[|]" '(split-window-right) '(split-window-right))
               " - "
               exwm-title)))
 
-(defun exwm-x--create-floating-mode-line ()
+(defun exwmx--create-floating-mode-line ()
   (setq mode-line-format
-        (list (exwm-x--create-button
-               'mode-line "[X]" '(exwm-x-kill-exwm-buffer) '(exwm-x-kill-exwm-buffer))
-              (exwm-x--create-button
+        (list (exwmx--create-button
+               'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
+              (exwmx--create-button
                'mode-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[Z+]"
                '(progn (exwm-layout-enlarge-window 30)
                        (exwm-layout-enlarge-window-horizontally 100))
                '(progn (exwm-layout-enlarge-window 30)
                        (exwm-layout-enlarge-window-horizontally 100)))
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line "[Z-]"
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100))
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100)))
-              (exwm-x--create-button
+              (exwmx--create-button
                'mode-line
                (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
 
-(defun exwm-x--reset-mode-line ()
+(defun exwmx--reset-mode-line ()
   "Reset mode-line for tilling window"
   (setq mode-line-format
         (default-value 'mode-line-format)))
 
-(defun exwm-x--update-mode-line ()
+(defun exwmx--update-mode-line ()
   "Update all buffer's mode-lines."
   (interactive)
   ;; Set all buffer's mode-line.
@@ -148,19 +148,19 @@ execute. "
     (with-current-buffer buffer
       (cond ((and (eq major-mode 'exwm-mode)
                   (not exwm--floating-frame))
-             (exwm-x--create-tilling-mode-line))
+             (exwmx--create-tilling-mode-line))
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
-             (exwm-x--create-floating-mode-line))
-            (t (exwm-x--reset-mode-line))))
+             (exwmx--create-floating-mode-line))
+            (t (exwmx--reset-mode-line))))
     (force-mode-line-update)))
 
-(add-hook 'exwm-update-class-hook #'exwm-x--update-mode-line)
-(add-hook 'exwm-update-title-hook #'exwm-x--update-mode-line)
-(add-hook 'buffer-list-update-hook #'exwm-x--update-mode-line)
+(add-hook 'exwm-update-class-hook #'exwmx--update-mode-line)
+(add-hook 'exwm-update-title-hook #'exwmx--update-mode-line)
+(add-hook 'buffer-list-update-hook #'exwmx--update-mode-line)
 
 ;; * Footer
 
-(provide 'exwm-x-buttons)
+(provide 'exwmx-buttons)
 
-;;; exwm-x-modeline.el ends here
+;;; exwmx-modeline.el ends here

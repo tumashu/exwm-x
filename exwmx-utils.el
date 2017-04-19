@@ -1,10 +1,10 @@
-;;; exwm-x-utils.el --- Some useful exwm-x commands
+;;; exwmx-utils.el --- Some useful exwmx commands
 
 ;; * Header
 ;; Copyright 2016 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
-;; URL: https://github.com/tumashu/exwm-x
+;; URL: https://github.com/tumashu/exwmx
 ;; Version: 0.0.1
 ;; Keywords: window-manager, exwm
 
@@ -24,15 +24,15 @@
 
 ;;; Commentary:
 
-;; * exwm-x-utils manual                                                   :doc:
+;; * exwmx-utils manual                                                   :doc:
 
 ;;; Code:
 
 ;; * Code                                                                 :code:
 (require 'exwm)
-(require 'exwm-x-core)
+(require 'exwmx-core)
 
-(defun exwm-x-jump-or-exec (regexp cmd &optional current-window)
+(defun exwmx-jump-or-exec (regexp cmd &optional current-window)
   "Jump to a window which class, instance or title matched `regexp',
 if matched window can't be found, run shell command `cmd'."
   (when (and (not current-window)
@@ -42,12 +42,12 @@ if matched window can't be found, run shell command `cmd'."
      #'(lambda () (other-window 1))
      nil nil 1))
 
-  (let ((buffer (exwm-x--find-buffer regexp)))
+  (let ((buffer (exwmx--find-buffer regexp)))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (start-process-shell-command cmd nil cmd))))
 
-(defun exwm-x--find-buffer (regexp)
+(defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name', `exwm-instance-name'
 or `exwm-title' is matched `regexp'."
   (let* ((buffers (buffer-list))
@@ -58,7 +58,7 @@ or `exwm-title' is matched `regexp'."
                        (1 . ,(buffer-local-value 'exwm-instance-name buffer))
                        (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
         (dolist (x wininfo)
-          (when (exwm-x--string-match-p regexp (cdr x))
+          (when (exwmx--string-match-p regexp (cdr x))
             (setf (nth (car x) buffers-list)
                   (append (list buffer) (nth (car x) buffers-list)))))))
 
@@ -67,41 +67,41 @@ or `exwm-title' is matched `regexp'."
                       #'(lambda (a b)
                           (< (length a) (length b))))))))
 
-(defun exwm-x-kill-exwm-buffer (&optional buffer-or-name)
+(defun exwmx-kill-exwm-buffer (&optional buffer-or-name)
   "Kill buffer, if current buffer is a exwm buffer."
   (let ((buffer (or buffer-or-name
                     (current-buffer))))
     (with-current-buffer buffer
       (if (eq major-mode 'exwm-mode)
           (progn (kill-buffer buffer)
-                 (exwm-x--next-exwm-buffer))
+                 (exwmx--next-exwm-buffer))
         (message "This buffer is not a exwm buffer!")))))
 
-(defun exwm-x-run-shell-command (cmd)
+(defun exwmx-run-shell-command (cmd)
   "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))
 
-(defun exwm-x-run-shell-command-interactively (cmd)
+(defun exwmx-run-shell-command-interactively (cmd)
   "Run shell command `cmd' interactively."
   (interactive
    (list (read-shell-command "Run shell command: ")))
   (start-process-shell-command cmd nil cmd))
 
-(defun exwm-x-mouse-move-floating-window (start-event)
+(defun exwmx-mouse-move-floating-window (start-event)
   "This is a mouse drag event function, used by exwm mode-line
 button, when drag mouse from such button, move current floating window dynamic."
   (interactive "e")
-  (exwm-x--mouse-operate-floating-window start-event))
+  (exwmx--mouse-operate-floating-window start-event))
 
-(defun exwm-x-mouse-resize-floating-window (start-event)
+(defun exwmx-mouse-resize-floating-window (start-event)
   "This is a mouse drag event function, used by exwm mode-line
 button, when drag mouse from such button, resize current floating window dynamic."
   (interactive "e")
-  (exwm-x--mouse-operate-floating-window start-event t))
+  (exwmx--mouse-operate-floating-window start-event t))
 
-(defun exwm-x--mouse-operate-floating-window (start-event &optional resize)
-  "Internal function of `exwm-x-mouse-move-floating-window' and
-`exwm-x-mouse-move-floating-window'"
+(defun exwmx--mouse-operate-floating-window (start-event &optional resize)
+  "Internal function of `exwmx-mouse-move-floating-window' and
+`exwmx-mouse-move-floating-window'"
   (interactive "e")
   (when exwm--floating-frame
     (let* ((orig-mouse (mouse-position))
@@ -155,6 +155,6 @@ button, when drag mouse from such button, resize current floating window dynamic
                       (* char-width (- y orig-y)))))))))))
 
 ;; * Footer
-(provide 'exwm-x-utils)
+(provide 'exwmx-utils)
 
-;;; exwm-x-utils.el ends here
+;;; exwmx-utils.el ends here
