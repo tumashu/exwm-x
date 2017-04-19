@@ -1,10 +1,10 @@
-;;; exwm-x-devtools.el --- Tools for exwm-x developers
+;;; exwmx-devtools.el --- Tools for exwmx developers
 
 ;; * Header
 ;; Copyright 2016 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
-;; URL: https://github.com/tumashu/exwm-x
+;; URL: https://github.com/tumashu/exwmx
 ;; Version: 0.0.1
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -24,7 +24,7 @@
 ;;; Commentary:
 
 ;; * README                                                               :doc:
-;; This file include org-webpage configure for exwm-x project.
+;; This file include org-webpage configure for exwmx project.
 
 ;;; Code:
 
@@ -33,12 +33,12 @@
 (require 'owp-web-server)
 (require 'owp-el2org)
 
-(defvar exwm-x-repository-directory
-  "~/project/emacs-packages/exwm-x/")
+(defvar exwmx-repository-directory
+  "~/project/emacs-packages/exwmx/")
 
 (owp/add-project-config
  '("exwm-x"
-   :repository-directory (:eval exwm-x-repository-directory)
+   :repository-directory (:eval exwmx-repository-directory)
    :remote (git "https://github.com/tumashu/exwm-x.git" "gh-pages")
    :site-domain "http://tumashu.github.com/exwm-x"
    :site-main-title "Exwm-X"
@@ -58,11 +58,8 @@
    :web-server-port 8765))
 
 ;; * Footer
-
-(provide 'exwm-x-devtools)
+(provide 'exwmx-devtools)
 
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:
-
-;;; exwm-x-devtools.el ends here

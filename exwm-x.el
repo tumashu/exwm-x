@@ -33,7 +33,7 @@
 ;; make exwm easier for Mouse-Control-People to use.
 
 ;; ** Feature
-;; 1. Shortcuts, toolbar and other window operate buttons in mode-line.
+;; 1. Window operate buttons in mode-line.
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 
@@ -46,11 +46,6 @@
 
 ;;    [[./snapshots/floating-window.png]]
 
-;; 3. Exwm-X videos
-
-;;    [[https://github.com/tumashu/exwm-x-videos]]
-
-
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started
 ;; 2. M-x package-install RET exwm-x RET
@@ -61,9 +56,6 @@
 ;; You should edit "~/.initrc" file or "~/.xsession" file like below example:
 
 ;; #+BEGIN_EXAMPLE
-;; # The below line make sure "exwm-x-example" package correct loaded,
-;; # don't delete!
-;; export exwm_x_enable="yes"
 
 ;; # Emacs X input method (exim) setting
 ;; # export XMODIFIERS=@im=exim
@@ -71,20 +63,39 @@
 ;; # export QT_IM_MODULE=xim
 ;; # export CLUTTER_IM_MODULE=xim
 
-;; # xhost +
+;; xhost +SI:localuser:$USER
 
-;; exec dbus-launch --exit-with-session emacs
+;; # Fallback cursor
+;; # xsetroot -cursor_name left_ptr
+
+;; # Keyboard repeat rate
+;; # xset r rate 200 60
+
+;; exec dbus-launch --exit-with-session emacs --eval '(cond ((file-exists-p "~/.exwm") (load-file "~/.exwm")) ((not (featurep (quote exwm))) (require (quote exwm)) (require (quote exwm-config)) (exwm-config-default) (message "exwm configuration not found. Falling back to default configuration...")))'
 ;; #+END_EXAMPLE
 
-;; *** Edit emacs configure
+;; *** Make "~/.initrc" or "~/.xsession" excutable
+
+;; #+BEGIN_EXAMPLE
+;; chmod a+x ~/.xsession
+;; #+END_EXAMPLE
+
+;; or
+
+;; #+BEGIN_EXAMPLE
+;; chmod a+x ~/.initrc
+;; #+END_EXAMPLE
+
+;; *** Edit "~/.exwm.el"
 ;; Add the below two lines to your emacs configure file:
 
 ;; #+BEGIN_EXAMPLE
+;; (add-to-list 'load-path "/path/to/exwm-x")
 ;; (require 'exwm-x)
-;; (require 'exwm-x-example) ;; Adjust this line.
+;; (require 'exwmx-example) ;; Adjust this line.
 ;; #+END_EXAMPLE
 
-;; Note: Package "exwm-x-example" is Exwm-X buildin example, user can use it to test Exwm-X's
+;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
 ;; features. If it doesn't suit for your need, just copy and paste its useful pieces
 ;; to your own exwm config :-)
 
@@ -92,12 +103,10 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'exwm-x-core)
-(require 'exwm-x-modeline)
-(require 'exwm-x-utils)
-(require 'exwm-x-mouse)
-(require 'exwm-x-move-border)
-(require 'exwm-x-debian)
+(require 'exwmx-core)
+(require 'exwmx-buttons)
+(require 'exwmx-utils)
+(require 'exwmx-move-border)
 
 ;; * Footer
 (provide 'exwm-x)
