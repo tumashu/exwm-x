@@ -33,7 +33,7 @@
 ;; make exwm easier for Mouse-Control-People to use.
 
 ;; ** Feature
-;; 1. Shortcuts, toolbar and other window operate buttons in mode-line.
+;; 1. Window operate buttons in mode-line.
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 
@@ -45,11 +45,6 @@
 ;; 2. Floating windows
 
 ;;    [[./snapshots/floating-window.png]]
-
-;; 3. Exwm-X videos
-
-;;    [[https://github.com/tumashu/exwm-x-videos]]
-
 
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started
@@ -70,8 +65,13 @@
 
 ;; xhost +SI:localuser:$USER
 
-;; exec dbus-launch --exit-with-session emacs --eval "(if (file-exists-p \"~/.exwm.el\")(load \"~/.exwm.el\")(require 'exwm)(require 'exwm-config)(exwm-config-default)(message \"EXWM: ~/.exwm.el is not exist. use exwm fallback configure.\"))"
+;; # Fallback cursor
+;; # xsetroot -cursor_name left_ptr
 
+;; # Keyboard repeat rate
+;; # xset r rate 200 60
+
+;; exec dbus-launch --exit-with-session emacs --eval '(cond ((file-exists-p "~/.exwm") (load-file "~/.exwm")) ((not (featurep (quote exwm))) (require (quote exwm)) (require (quote exwm-config)) (exwm-config-default) (message "exwm configuration not found. Falling back to default configuration...")))'
 ;; #+END_EXAMPLE
 
 ;; *** Make "~/.initrc" or "~/.xsession" excutable
