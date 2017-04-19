@@ -86,11 +86,12 @@
 ;; chmod a+x ~/.initrc
 ;; #+END_EXAMPLE
 
-;; *** Edit "~/.exwm.el"
-;; Add the below two lines to your emacs configure file:
+;; *** Edit "~/.exwm"
+;; Add the below lines to your emacs configure file:
 
 ;; #+BEGIN_EXAMPLE
 ;; (add-to-list 'load-path "/path/to/exwm-x")
+;; (require 'exwm)
 ;; (require 'exwm-x)
 ;; ;; (require 'exwmx-xfce)
 ;; (require 'exwmx-example) ;; Adjust this line.
