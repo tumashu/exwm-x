@@ -101,8 +101,12 @@
   (interactive)
   (exwm-workspace-switch 3))
 
-;; Don't Delete the below two lines
 (global-unset-key (kbd "C-t"))
+(dolist (x (split-string "abcdefghijklmnopqrstuvwxyz" ""))
+  (let ((key (concat "\C-t" x)))
+    (unbind-key key dired-mode-map)
+    (unbind-key key ibuffer-mode-map)))
+
 (push ?\C-t exwm-input-prefix-keys)
 
 (exwm-input-set-key (kbd "C-t R")  nil)
