@@ -32,6 +32,7 @@
 
 (defun exwmx-xfce-start ()
   (interactive)
+  (message "Exwm-X: starting Xfce ...")
   (exwmx-shell-command "startxfce4"))
 
 (add-hook 'exwm-init-hook #'exwmx-xfce-start)
