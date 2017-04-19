@@ -37,7 +37,7 @@
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 
-;; ** Pictures and videos
+;; ** Pictures
 ;; 1. Tilling windows
 
 ;;    [[./snapshots/tilling-window.png]]
