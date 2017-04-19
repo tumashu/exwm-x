@@ -33,8 +33,8 @@
 (require 'exwmx-core)
 
 (defun exwmx--create-button (mode-line string &optional mouse-1-action
-                                        mouse-3-action mouse-2-action
-                                        active-down-mouse)
+                                       mouse-3-action mouse-2-action
+                                       active-down-mouse)
   "Generate `,mode-or-head-line-format' style code of a clickable button, which name
 is `string'.
 
@@ -79,13 +79,17 @@ execute. "
 ;; Emacs's default mode-line is not suitable for window manager,
 ;; This function will create a new mode-line, which has:
 
-;; [+]: Maximize current window.
+;; [X]: Delete current application.
 ;; [D]: Delete current window.
 ;; [F]: toggle floating window.
+;; [<]: Move border to left.
+;; [+]: Maximize current window.
+;; [>]: Move border to right.
 ;; [-]: Split window horizontal.
 ;; [|]: Split window vertical.
-;; [<]: Move border to left.
-;; [>]: Move border to right.
+;; [_]: minumize floating application
+;; [Z+]: Zoom+ floating application's window
+;; [Z-]: Zoom- floating application's window
 
 (defun exwmx--create-tilling-mode-line ()
   (setq mode-line-format
