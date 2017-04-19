@@ -92,6 +92,7 @@
 ;; #+BEGIN_EXAMPLE
 ;; (add-to-list 'load-path "/path/to/exwm-x")
 ;; (require 'exwm-x)
+;; ;; (require 'exwmx-xfce)
 ;; (require 'exwmx-example) ;; Adjust this line.
 ;; #+END_EXAMPLE
 

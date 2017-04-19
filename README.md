@@ -1,27 +1,27 @@
-- [Exwm-X](#orgf3549d0)
-  - [What is Exwm-X](#orgf991c6d)
-  - [Feature](#org02fd42d)
-  - [Pictures and videos](#org97882ac)
-  - [Install](#org0ab460b)
-  - [Configure](#orge8ace6f)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org7d5c148)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org81ba65d)
-    - [Edit "~/.exwm.el"](#orga5af899)
+- [Exwm-X](#orgf9b81a5)
+  - [What is Exwm-X](#org7f96429)
+  - [Feature](#org025ed8c)
+  - [Pictures and videos](#org5d58b72)
+  - [Install](#org0927c9d)
+  - [Configure](#org097262f)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org3813919)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org63068d6)
+    - [Edit "~/.exwm.el"](#org3c0c1d4)
 
 
-<a id="orgf3549d0"></a>
+<a id="orgf9b81a5"></a>
 
 # Exwm-X
 
 
-<a id="orgf991c6d"></a>
+<a id="org7f96429"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="org02fd42d"></a>
+<a id="org025ed8c"></a>
 
 ## Feature
 
@@ -30,7 +30,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 
 
-<a id="org97882ac"></a>
+<a id="org5d58b72"></a>
 
 ## Pictures and videos
 
@@ -43,7 +43,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org0ab460b"></a>
+<a id="org0927c9d"></a>
 
 ## Install
 
@@ -51,12 +51,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="orge8ace6f"></a>
+<a id="org097262f"></a>
 
 ## Configure
 
 
-<a id="org7d5c148"></a>
+<a id="org3813919"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -79,7 +79,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(cond ((file-exists-p "~/.exwm") (load-file "~/.exwm")) ((not (featurep (quote exwm))) (require (quote exwm)) (require (quote exwm-config)) (exwm-config-default) (message "exwm configuration not found. Falling back to default configuration...")))'
 
 
-<a id="org81ba65d"></a>
+<a id="org63068d6"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -90,7 +90,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="orga5af899"></a>
+<a id="org3c0c1d4"></a>
 
 ### Edit "~/.exwm.el"
 
@@ -98,6 +98,7 @@ Add the below two lines to your emacs configure file:
 
     (add-to-list 'load-path "/path/to/exwm-x")
     (require 'exwm-x)
+    (require 'exwmx-xfce)
     (require 'exwmx-example) ;; Adjust this line.
 
 Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's features. If it doesn't suit for your need, just copy and paste its useful pieces to your own exwm config :-)
