@@ -77,11 +77,11 @@ or `exwm-title' is matched `regexp'."
                  (exwmx--next-exwm-buffer))
         (message "This buffer is not a exwm buffer!")))))
 
-(defun exwmx-run-shell-command (cmd)
+(defun exwmx-shell-command (cmd)
   "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))
 
-(defun exwmx-run-shell-command-interactively (cmd)
+(defun exwmx-shell-command-interactively (cmd)
   "Run shell command `cmd' interactively."
   (interactive
    (list (read-shell-command "Run shell command: ")))

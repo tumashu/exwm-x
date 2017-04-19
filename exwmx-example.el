@@ -75,15 +75,15 @@
 
 (defun exwmx/new-terminal ()
   (interactive)
-  (exwmx-run-shell-command "xfce4-terminal"))
+  (exwmx-shell-command "xfce4-terminal"))
 
 (defun exwmx/xset-bell-off ()
   (interactive)
-  (exwmx-run-shell-command "xset b off"))
+  (exwmx-shell-command "xset b off"))
 
 (defun exwmx/xmodmap ()
   (interactive)
-  (exwmx-run-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
+  (exwmx-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
 
 (defun exwmx-switch-to-1-workspace ()
   (interactive)
