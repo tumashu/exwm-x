@@ -54,10 +54,10 @@
 ;; You may want to change when a new window class name
 ;; or title is available. it in `exwm-update-class-hook'
 ;; and `exwm-update-title-hook', which are run
-(add-hook 'exwm-update-class-hook #'exwmx-rename-exwm-buffer)
-(add-hook 'exwm-update-title-hook #'exwmx-rename-exwm-buffer)
+(add-hook 'exwm-update-class-hook #'exwmx--rename-exwm-buffer)
+(add-hook 'exwm-update-title-hook #'exwmx--rename-exwm-buffer)
 
-(defun exwmx-rename-exwm-buffer ()
+(defun exwmx--rename-exwm-buffer ()
   (exwm-workspace-rename-buffer
    (concat "Exwm:" (exwmx--get-prefer-name))))
 
