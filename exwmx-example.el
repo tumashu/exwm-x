@@ -110,7 +110,7 @@
 (exwm-input-set-key (kbd "C-t m")  nil)
 (exwm-input-set-key (kbd "C-t v")  'exwmx/file-manager)
 (exwm-input-set-key (kbd "C-t c")  'exwmx/terminal)
-(exwm-input-set-key (kbd "C-t ff") 'exwmx/web-browser)
+(exwm-input-set-key (kbd "C-t f") 'exwmx/web-browser)
 (exwm-input-set-key (kbd "C-t C-x")  'exwmx/new-terminal)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
@@ -160,13 +160,9 @@
 (exwm-input-set-key (kbd "C-<left>") 'windmove-left)
 (exwm-input-set-key (kbd "C-<right>") 'windmove-right)
 
-(require 'start-menu)
-(start-menu-enable)
-(exwm-input-set-key (kbd "C-t ,")  'start-menu-popup)
-
 (require 'dmenu)
 (setq dmenu-prompt-string "dmenu: ")
-(exwm-input-set-key (kbd "C-t c") 'dmenu)
+(exwm-input-set-key (kbd "C-t C-c") 'dmenu)
 
 (require 'switch-window)
 (setq switch-window-increase 8)
