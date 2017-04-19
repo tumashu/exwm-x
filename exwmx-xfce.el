@@ -30,6 +30,22 @@
 (require 'exwm)
 (require 'exwmx-core)
 
+(defun exwmx-xfce-file-manager ()
+  (interactive)
+  (exwmx-jump-or-exec "Thunar" "thunar"))
+
+(defun exwmx-xfce-web-browser ()
+  (interactive)
+  (exwmx-jump-or-exec "Icecat" "icecat"))
+
+(defun exwmx-xfce-terminal ()
+  (interactive)
+  (exwmx-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
+
+(defun exwmx-xfce-new-terminal ()
+  (interactive)
+  (exwmx-shell-command "xfce4-terminal"))
+
 (defun exwmx-xfce-start ()
   (interactive)
   (message "Exwm-X: starting Xfce ...")

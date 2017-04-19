@@ -65,26 +65,6 @@
   (interactive)
   (exwmx-jump-or-exec "Icecat" "icecat"))
 
-(defun exwmx/file-manager ()
-  (interactive)
-  (exwmx-jump-or-exec "Thunar" "thunar"))
-
-(defun exwmx/terminal ()
-  (interactive)
-  (exwmx-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
-
-(defun exwmx/new-terminal ()
-  (interactive)
-  (exwmx-shell-command "xfce4-terminal"))
-
-(defun exwmx/xset-bell-off ()
-  (interactive)
-  (exwmx-shell-command "xset b off"))
-
-(defun exwmx/xmodmap ()
-  (interactive)
-  (exwmx-shell-command "xmodmap -e 'keycode 135 = Super_R'"))
-
 (defun exwmx-switch-to-1-workspace ()
   (interactive)
   (exwm-workspace-switch 0))
@@ -108,14 +88,6 @@
     (unbind-key key ibuffer-mode-map)))
 
 (push ?\C-t exwm-input-prefix-keys)
-
-(exwm-input-set-key (kbd "C-t R")  nil)
-(exwm-input-set-key (kbd "C-t q")  nil)
-(exwm-input-set-key (kbd "C-t m")  nil)
-(exwm-input-set-key (kbd "C-t v")  'exwmx/file-manager)
-(exwm-input-set-key (kbd "C-t c")  'exwmx/terminal)
-(exwm-input-set-key (kbd "C-t f") 'exwmx/web-browser)
-(exwm-input-set-key (kbd "C-t C-x")  'exwmx/new-terminal)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
 (exwm-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
