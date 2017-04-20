@@ -38,6 +38,9 @@
     ("default-terminal" . "Term"))
   "Dict used by `exwmx--get-prefer-name'")
 
+(defvar exwmx-terminal-emulator "xterm"
+  "exwmx default terminal emulator")
+
 (defun exwmx--get-prefer-name ()
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."

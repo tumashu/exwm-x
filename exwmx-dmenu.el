@@ -29,6 +29,7 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'comint)
+(require 'exwmx-core)
 (require 'exwmx-utils)
 
 (defgroup exwmx-dmenu nil
@@ -61,10 +62,9 @@ dmenu should keep a record. "
 (defvar exwmx-dmenu--update-timer nil)
 
 ;;;###autoload
-(defun exwmx-dmenu(&optional prefix)
-  (interactive "p")
-  (make-directory
-   (file-name-directory exwmx-dmenu-cache-file) t)
+(defun exwmx-dmenu ()
+  (interactive)
+  (make-directory (file-name-directory exwmx-dmenu-cache-file) t)
   (unless exwmx-dmenu--initialized-p
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
@@ -78,10 +78,7 @@ dmenu should keep a record. "
                           (append exwmx-dmenu--history
                                   exwmx-dmenu--commands)
                           :from-end t :test #'equal))
-           nil 'confirm nil 'exwmx-dmenu--history))
-         (args (when (= prefix 4)
-                 (split-string-and-unquote
-                  (read-string "please input the parameters: ")))))
+           nil 'confirm nil 'exwmx-dmenu--history)))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
@@ -90,14 +87,14 @@ dmenu should keep a record. "
       (setcdr (nthcdr (- exwmx-dmenu-history-size 1)
                       exwmx-dmenu--history)
               nil))
-    (switch-to-buffer
-     (apply #'make-comint
-            command command nil args))
-    (set-process-sentinel
-     (get-buffer-process (current-buffer))
-     (lambda (process event)
-       (when (eq 'exit (process-status process))
-         (kill-buffer (process-buffer process)))))))
+    (if (string-match-p " +\\\\$" command)
+        (let ((cmd (concat exwmx-terminal-emulator
+                           " -e "
+                           (replace-regexp-in-string " +\\\\$" "" command))))
+          (message "Exwm-X run command: %s" cmd)
+          (exwmx-shell-command cmd))
+      (message "Exwm-X run command: %s" command)
+      (exwmx-jump-or-exec command))))
 
 (defun exwmx-dmenu-initialize ()
   (exwmx-dmenu-load-cache-file)
