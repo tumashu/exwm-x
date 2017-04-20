@@ -36,7 +36,7 @@
 ;; 1. Window operate buttons in mode-line.
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
-;; 4. dmenu, just dynamic menu
+;; 4. Dmenu, just dynamic menu
 
 ;; ** Pictures
 ;; 1. Tilling windows
