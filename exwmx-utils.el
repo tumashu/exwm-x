@@ -32,20 +32,32 @@
 (require 'exwm)
 (require 'exwmx-core)
 
-(defun exwmx-jump-or-exec (regexp cmd &optional current-window)
-  "Jump to a window which class, instance or title matched `regexp',
-if matched window can't be found, run shell command `cmd'."
+(defvar exwmx-jump-or-exec
+  '(("icecat" "Icecat")
+    ("thunar" "Thunar"))
+  "The database of command `exwmx-jump-or-exec'.")
+
+(defun exwmx-jump-or-exec (command &optional current-window)
+  "if matched window can be found, switch to this window,
+otherwise run shell command `command'."
   (when (and (not current-window)
              (featurep 'switch-window))
     (switch-window--then
      "Move to window: "
      #'(lambda () (other-window 1))
      nil nil 1))
-
-  (let ((buffer (exwmx--find-buffer regexp)))
+  (let ((buffer (exwmx--find-buffer
+                 (or (cadr (assoc command exwmx-jump-or-exec))
+                     ;; The below four rules are just guess rules :-)
+                     ;; Suggest use variable `exwmx-jump-or-exec'
+                     ;; to set you own rules.
+                     (capitalize command)
+                     (capitalize (car (split-string command " ")))
+                     command
+                     (car (split-string command " "))))))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
-      (start-process-shell-command cmd nil cmd))))
+      (start-process-shell-command command nil command))))
 
 (defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name', `exwm-instance-name'

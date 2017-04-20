@@ -32,15 +32,15 @@
 
 (defun exwmx-xfce-file-manager ()
   (interactive)
-  (exwmx-jump-or-exec "Thunar" "thunar"))
+  (exwmx-jump-or-exec "thunar"))
 
 (defun exwmx-xfce-web-browser ()
   (interactive)
-  (exwmx-jump-or-exec "Icecat" "icecat"))
+  (exwmx-jump-or-exec "icecat"))
 
 (defun exwmx-xfce-terminal ()
   (interactive)
-  (exwmx-jump-or-exec "default-terminal" "xfce4-terminal -T default-terminal"))
+  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"))
 
 (defun exwmx-xfce-new-terminal ()
   (interactive)
