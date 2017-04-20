@@ -48,20 +48,18 @@ otherwise run shell command `command'."
      nil nil 1))
   (let ((buffer (exwmx--find-buffer
                  (or (cadr (assoc command exwmx-jump-or-exec))
-                     ;; The below four rules are just guess rules :-)
+                     ;; The below two rules are just guess rules :-)
                      ;; Suggest use variable `exwmx-jump-or-exec'
                      ;; to set you own rules.
-                     (capitalize command)
                      (capitalize (car (split-string command " ")))
-                     command
                      (car (split-string command " "))))))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (start-process-shell-command command nil command))))
 
 (defun exwmx--find-buffer (regexp)
-  "Find such a exwm buffer: its local variables: `exwm-class-name', `exwm-instance-name'
-or `exwm-title' is matched `regexp'."
+  "Find such a exwm buffer: its local variables: `exwm-class-name',
+`exwm-instance-name' or `exwm-title' is matched `regexp'."
   (let* ((buffers (buffer-list))
          (buffers-list (list nil nil nil)))
 
@@ -100,20 +98,22 @@ or `exwm-title' is matched `regexp'."
   (start-process-shell-command cmd nil cmd))
 
 (defun exwmx-mouse-move-floating-window (start-event)
-  "This is a mouse drag event function, used by exwm mode-line
-button, when drag mouse from such button, move current floating window dynamic."
+  "This is a mouse drag event function, used by exwm
+mode-line button, when drag mouse from such button,
+move current floating window dynamic."
   (interactive "e")
   (exwmx--mouse-operate-floating-window start-event))
 
 (defun exwmx-mouse-resize-floating-window (start-event)
-  "This is a mouse drag event function, used by exwm mode-line
-button, when drag mouse from such button, resize current floating window dynamic."
+  "This is a mouse drag event function, used by exwm
+mode-line button, when drag mouse from such button,
+resize current floating window dynamic."
   (interactive "e")
   (exwmx--mouse-operate-floating-window start-event t))
 
 (defun exwmx--mouse-operate-floating-window (start-event &optional resize)
-  "Internal function of `exwmx-mouse-move-floating-window' and
-`exwmx-mouse-move-floating-window'"
+  "Internal function of `exwmx-mouse-move-floating-window'
+and `exwmx-mouse-move-floating-window'"
   (interactive "e")
   (when exwm--floating-frame
     (let* ((orig-mouse (mouse-position))
