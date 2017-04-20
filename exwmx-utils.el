@@ -37,7 +37,7 @@
     ("thunar" "Thunar"))
   "The database of command `exwmx-jump-or-exec'.")
 
-(defun exwmx-jump-or-exec (command &optional current-window)
+(defun exwmx-jump-or-exec (command &optional class-instance-or-title current-window)
   "if matched window can be found, switch to this window,
 otherwise run shell command `command'."
   (when (and (not current-window)
@@ -47,7 +47,8 @@ otherwise run shell command `command'."
      #'(lambda () (other-window 1))
      nil nil 1))
   (let ((buffer (exwmx--find-buffer
-                 (or (cadr (assoc command exwmx-jump-or-exec))
+                 (or class-instance-or-title
+                     (cadr (assoc command exwmx-jump-or-exec))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use variable `exwmx-jump-or-exec'
                      ;; to set you own rules.

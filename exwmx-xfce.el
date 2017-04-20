@@ -40,7 +40,8 @@
 
 (defun exwmx-xfce-terminal ()
   (interactive)
-  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"))
+  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
+                      "default-terminal"))
 
 (defun exwmx-xfce-new-terminal ()
   (interactive)
