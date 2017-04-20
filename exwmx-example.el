@@ -89,6 +89,8 @@
 
 (push ?\C-t exwm-input-prefix-keys)
 
+(exwm-input-set-key (kbd "C-t C-c") 'exwmx-dmenu)
+
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
 (exwm-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
 (exwm-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
@@ -135,10 +137,6 @@
 (exwm-input-set-key (kbd "C-<down>") 'windmove-down)
 (exwm-input-set-key (kbd "C-<left>") 'windmove-left)
 (exwm-input-set-key (kbd "C-<right>") 'windmove-right)
-
-(require 'dmenu)
-(setq dmenu-prompt-string "dmenu: ")
-(exwm-input-set-key (kbd "C-t C-c") 'dmenu)
 
 (require 'switch-window)
 (setq switch-window-increase 8)

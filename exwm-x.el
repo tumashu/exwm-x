@@ -109,6 +109,7 @@
 (require 'exwmx-buttons)
 (require 'exwmx-utils)
 (require 'exwmx-move-border)
+(require 'exwmx-dmenu)
 
 ;; * Footer
 (provide 'exwm-x)
