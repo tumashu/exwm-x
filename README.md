@@ -1,36 +1,37 @@
-- [Exwm-X](#orgb6d2dca)
-  - [What is Exwm-X](#orgb9ae9ea)
-  - [Feature](#org5624eae)
-  - [Pictures](#orgdc462de)
-  - [Install](#org446c9c4)
-  - [Configure](#org43401f2)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org0368d52)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org75ef237)
-    - [Edit "~/.exwm"](#org9a118b7)
+- [Exwm-X](#org37e4750)
+  - [What is Exwm-X](#orgde74029)
+  - [Feature](#orgd9bff12)
+  - [Pictures](#orgc4d0570)
+  - [Install](#org001bca9)
+  - [Configure](#org8f05a45)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org5ac67d6)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#orgbb1e7de)
+    - [Edit "~/.exwm"](#org7dc68b0)
 
 
-<a id="orgb6d2dca"></a>
+<a id="org37e4750"></a>
 
 # Exwm-X
 
 
-<a id="orgb9ae9ea"></a>
+<a id="orgde74029"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="org5624eae"></a>
+<a id="orgd9bff12"></a>
 
 ## Feature
 
 1.  Window operate buttons in mode-line.
 2.  Move or resize a floating-window without press WIN key.
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
+4.  dmenu, just dynamic menu
 
 
-<a id="orgdc462de"></a>
+<a id="orgc4d0570"></a>
 
 ## Pictures
 
@@ -43,7 +44,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org446c9c4"></a>
+<a id="org001bca9"></a>
 
 ## Install
 
@@ -51,12 +52,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org43401f2"></a>
+<a id="org8f05a45"></a>
 
 ## Configure
 
 
-<a id="org0368d52"></a>
+<a id="org5ac67d6"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -79,7 +80,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(cond ((file-exists-p "~/.exwm") (load-file "~/.exwm")) ((not (featurep (quote exwm))) (require (quote exwm)) (require (quote exwm-config)) (exwm-config-default) (message "exwm configuration not found. Falling back to default configuration...")))'
 
 
-<a id="org75ef237"></a>
+<a id="orgbb1e7de"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -90,7 +91,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org9a118b7"></a>
+<a id="org7dc68b0"></a>
 
 ### Edit "~/.exwm"
 

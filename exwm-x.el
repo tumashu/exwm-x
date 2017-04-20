@@ -6,7 +6,7 @@
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
 ;; Version: 0.0.1
-;; Package-Requires: ((cl-lib "0.5")(exwm "0.1")(switch-window "0.10")(dmenu "0.1")(start-menu "0.1"))
+;; Package-Requires: ((cl-lib "0.5")(exwm "0.1")(switch-window "0.10"))
 ;; Keywords: window-manager, exwm
 
 ;; This program is free software; you can redistribute it and/or modify
@@ -36,6 +36,7 @@
 ;; 1. Window operate buttons in mode-line.
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
+;; 4. dmenu, just dynamic menu
 
 ;; ** Pictures
 ;; 1. Tilling windows
