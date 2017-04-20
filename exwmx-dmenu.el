@@ -29,6 +29,7 @@
 ;;; Code:
 (require 'cl-lib)
 (require 'comint)
+(require 'exwmx-utils)
 
 (defgroup exwmx-dmenu nil
   "simulate the dmenu command line program."
