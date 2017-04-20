@@ -114,6 +114,8 @@ execute. "
                'mode-line "[-]" '(split-window-below) '(split-window-below))
               (exwmx--create-button
                'mode-line "[|]" '(split-window-right) '(split-window-right))
+              " "
+              (exwmx--create-line-char-button (exwm--buffer->id (window-buffer)))
               " - "
               exwm-title)))
 
@@ -140,9 +142,41 @@ execute. "
                        (exwm-layout-enlarge-window-horizontally -100))
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -100)))
+              " "
+              (exwmx--create-line-char-button (exwm--buffer->id (window-buffer)))
               (exwmx--create-button
                'mode-line
                (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
+
+(defun exwmx--create-line-char-button (id)
+  (or (when id (exwmx--create-line-char-button-1 id)) ""))
+
+(defun exwmx--create-line-char-button-1 (id)
+  "Update the propertized `mode-line-process' for window ID."
+  (let (help-echo cmd mode)
+    (cl-case exwm--on-KeyPress
+      ((exwm-input--on-KeyPress-line-mode)
+       (setq mode "[Line]"
+             help-echo "mouse-1: Switch to char-mode"
+             cmd `(lambda ()
+                    (interactive)
+                    (exwm-input-release-keyboard ,id))))
+      ((exwm-input--on-KeyPress-char-mode)
+       (setq mode "[Char]"
+             help-echo "mouse-1: Switch to line-mode"
+             cmd `(lambda ()
+                    (interactive)
+                    (exwm-input-grab-keyboard ,id)))))
+    (with-current-buffer (exwm--id->buffer id)
+      `(""
+        (:propertize ,mode
+                     help-echo ,help-echo
+                     mouse-face mode-line-highlight
+                     local-map
+                     (keymap
+                      (mode-line
+                       keymap
+                       (down-mouse-1 . ,cmd))))))))
 
 (defun exwmx--reset-mode-line ()
   "Reset mode-line for tilling window"
