@@ -104,8 +104,6 @@
 (exwm-input-set-key (kbd "C-S-<right>") 'exwmx-move-border-right)
 
 ;; We always need a way to go back to line-mode from char-mode
-(exwm-input-set-key (kbd "C-t t") 'exwm-reset)
-(exwm-input-set-key (kbd "C-t C-t") 'exwm-reset)
 (exwm-input-set-key (kbd "s-r") 'exwm-reset)
 
 ;; The following example demonstrates how to set a key binding only available
