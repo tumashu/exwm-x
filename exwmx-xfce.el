@@ -29,23 +29,10 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 (require 'exwmx-core)
+(require 'exwmx-dmenu)
 
-(defun exwmx-xfce-file-manager ()
-  (interactive)
-  (exwmx-jump-or-exec "thunar"))
-
-(defun exwmx-xfce-web-browser ()
-  (interactive)
-  (exwmx-jump-or-exec "icecat"))
-
-(defun exwmx-xfce-terminal ()
-  (interactive)
-  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
-                      "default-terminal"))
-
-(defun exwmx-xfce-new-terminal ()
-  (interactive)
-  (exwmx-shell-command "xfce4-terminal"))
+(defvar exwmx-terminal-emulator)
+(setq exwmx-terminal-emulator "xfce4-terminal")
 
 (defun exwmx-xfce-start ()
   (interactive)
@@ -53,6 +40,23 @@
   (exwmx-shell-command "startxfce4"))
 
 (add-hook 'exwm-init-hook #'exwmx-xfce-start)
+
+(defun exwmx-dmenu:thunar ()
+  (interactive)
+  (exwmx-jump-or-exec "thunar"))
+
+(defun exwmx-dmenu:icecat ()
+  (interactive)
+  (exwmx-jump-or-exec "icecat"))
+
+(defun exwmx-dmenu:xfce4-terminal ()
+  (interactive)
+  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
+                      "default-terminal"))
+
+(defun exwmx-dmenu:xfce4-new-terminal ()
+  (interactive)
+  (exwmx-shell-command "xfce4-terminal"))
 
 ;; * Footer
 (provide 'exwmx-xfce)
