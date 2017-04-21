@@ -69,16 +69,16 @@ dmenu should keep a record. "
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
 	(exwmx-dmenu--commands))
-  (let* ((command
-          (completing-read
-           exwmx-dmenu-prompt
-           (cl-remove-if #'(lambda (x)
-                             (string-match-p "^\\." x))
-                         (cl-remove-duplicates
-                          (append exwmx-dmenu--history
-                                  exwmx-dmenu--commands)
-                          :from-end t :test #'equal))
-           nil 'confirm nil 'exwmx-dmenu--history)))
+  (let* ((command (substring-no-properties
+                   (completing-read
+                    exwmx-dmenu-prompt
+                    (cl-remove-if #'(lambda (x)
+                                      (string-match-p "^\\." x))
+                                  (cl-remove-duplicates
+                                   (append exwmx-dmenu--history
+                                           exwmx-dmenu--commands)
+                                   :from-end t :test #'equal))
+                    nil 'confirm nil 'exwmx-dmenu--history))))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
@@ -87,14 +87,20 @@ dmenu should keep a record. "
       (setcdr (nthcdr (- exwmx-dmenu-history-size 1)
                       exwmx-dmenu--history)
               nil))
-    (if (string-match-p " +\\\\$" command)
-        (let ((cmd (concat exwmx-terminal-emulator
-                           " -e "
-                           (replace-regexp-in-string " +\\\\$" "" command))))
-          (message "Exwm-X run command: %s" cmd)
+    (if (string-match-p " *\\\\$" command)
+        (let ((cmd (format "%s -e %S"
+                           exwmx-terminal-emulator
+                           (concat (replace-regexp-in-string ";? *\\\\$" "" command)
+                                   "; $SHELL"))))
+          (message "Exwm-X run shell command: %s" cmd)
           (exwmx-shell-command cmd))
-      (message "Exwm-X run command: %s" command)
-      (exwmx-jump-or-exec command))))
+      (let ((func (intern (concat "exwmx-dmenu:" command))))
+        (if (functionp func)
+            (progn
+              (message "Exwm-X run emacs command: `%s'" func)
+              (funcall func))
+          (message "Exwm-X run shell command: %s" command)
+          (exwmx-jump-or-exec command))))))
 
 (defun exwmx-dmenu-initialize ()
   (exwmx-dmenu-load-cache-file)
