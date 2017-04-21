@@ -88,6 +88,11 @@ otherwise run shell command `command'."
                  (exwmx--next-exwm-buffer))
         (message "This buffer is not a exwm buffer!")))))
 
+(defun exwmx-floating-toggle ()
+  (interactive)
+  (call-interactively 'exwm-floating-toggle-floating)
+  (exwm-layout--refresh))
+
 (defun exwmx-shell-command (cmd)
   "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))

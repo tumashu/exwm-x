@@ -31,6 +31,7 @@
 (require 'cl-lib)
 (require 'exwm)
 (require 'exwmx-core)
+(require 'exwmx-utils)
 
 (defun exwmx--create-button (mode-line string &optional mouse-1-action
                                        mouse-3-action mouse-2-action
@@ -101,7 +102,7 @@ execute. "
               (exwmx--create-button
                'mode-line "[R]" '(exwm-reset) '(exwm-reset))
               (exwmx--create-button
-               'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+               'mode-line "[F]" '(exwmx-floating-toggle) '(exwmx-floating-toggle))
               " "
               (exwmx--create-button
                'mode-line "[<]" '(exwmx-move-border-left 10) '(exwmx-move-border-left 10))
@@ -128,7 +129,7 @@ execute. "
               (exwmx--create-button
                'mode-line "[R]" '(exwm-reset) '(exwm-reset))
               (exwmx--create-button
-               'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+               'mode-line "[F]" '(exwmx-floating-toggle) '(exwmx-floating-toggle))
               " "
               (exwmx--create-button
                'mode-line "[Z+]"
