@@ -94,7 +94,7 @@ dmenu should keep a record. "
                                    "; $SHELL"))))
           (message "Exwm-X run shell command: %s" cmd)
           (exwmx-shell-command cmd))
-      (let ((func (intern (concat "exwmx-dmenu:" command))))
+      (let ((func (intern (concat "exwmx:" command))))
         (if (functionp func)
             (progn
               (message "Exwm-X run emacs command: `%s'" func)
