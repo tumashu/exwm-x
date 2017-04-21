@@ -76,6 +76,7 @@ dmenu should keep a record. "
                                       (string-match-p "^\\." x))
                                   (cl-remove-duplicates
                                    (append exwmx-dmenu--history
+                                           (exwmx-dmenu--get-emacs-commands)
                                            exwmx-dmenu--commands)
                                    :from-end t :test #'equal))
                     nil 'confirm nil 'exwmx-dmenu--history))))
@@ -94,13 +95,23 @@ dmenu should keep a record. "
                                    "; $SHELL"))))
           (message "Exwm-X run shell command: %s" cmd)
           (exwmx-shell-command cmd))
-      (let ((func (intern (concat "exwmx:" command))))
+      (let ((func (intern (if (string-match-p "^exwmx:" command)
+                              command
+                            (concat "exwmx:" command)))))
         (if (functionp func)
             (progn
               (message "Exwm-X run emacs command: `%s'" func)
               (funcall func))
           (message "Exwm-X run shell command: %s" command)
           (exwmx-jump-or-exec command))))))
+
+(defun exwmx-dmenu--get-emacs-commands ()
+  (let (output)
+    (mapatoms
+     #'(lambda (symbol)
+         (if (string-match-p "^exwmx:" (symbol-name symbol))
+             (push (symbol-name symbol) output))))
+    output))
 
 (defun exwmx-dmenu-initialize ()
   (exwmx-dmenu-load-cache-file)
