@@ -49,6 +49,10 @@
   (interactive)
   (exwmx-jump-or-exec "icecat"))
 
+(defun exwmx:firefox ()
+  (interactive)
+  (exwmx-jump-or-exec "icecat"))
+
 (defun exwmx:xfce4-terminal ()
   (interactive)
   (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
