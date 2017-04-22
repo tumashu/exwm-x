@@ -28,6 +28,7 @@
 
 ;;; Code:
 (require 'cl-lib)
+(require 'swiper)
 (require 'exwmx-core)
 (require 'exwmx-utils)
 
@@ -44,8 +45,8 @@ Variables stored are: `exwmx-dmenu--commands',
   :type 'string
   :group 'exwmx-dmenu)
 
-(defcustom exwmx-dmenu-prompt "Exwmx-dmenu: "
-  "String to display in the dmenu prompt."
+(defcustom exwmx-dmenu-prompt "Exwmx-dmenu"
+  "String to display in the exwm-dmenu or exwm-dmenu-simple prompt."
   :type 'string
   :group 'exwmx-dmenu)
 
@@ -59,6 +60,11 @@ dmenu should keep a record. "
 (defvar exwmx-dmenu--history nil)
 (defvar exwmx-dmenu--commands nil)
 (defvar exwmx-dmenu--update-timer nil)
+
+(defvar exwmx-dmenu-ivy-minibuffer-map
+  (let ((map (copy-keymap ivy-minibuffer-map)))
+    (define-key map (kbd "<return>") 'ivy-immediate-done)
+    map))
 
 ;;;###autoload
 (defun exwmx-dmenu ()
@@ -80,9 +86,11 @@ dmenu should keep a record. "
   (let* ((command
           (substring-no-properties
            (if simple-mode
-               (read-from-minibuffer exwmx-dmenu-prompt)
-             (completing-read
-              exwmx-dmenu-prompt
+               (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
+             (ivy-read
+              (concat exwmx-dmenu-prompt
+                      (substitute-command-keys
+                       "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
               (cl-remove-if #'(lambda (x)
                                 (string-match-p "^\\." x))
                             (cl-remove-duplicates
@@ -90,10 +98,7 @@ dmenu should keep a record. "
                                      (exwmx-dmenu--get-emacs-commands)
                                      exwmx-dmenu--commands)
                              :from-end t :test #'equal))
-              nil 'confirm nil 'exwmx-dmenu--history)))))
-    (setq command (if simple-mode
-                      command
-                    (read-string "Run this command? " command)))
+              :keymap ivy-minibuffer-map)))))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
