@@ -1,7 +1,7 @@
 ;;; exwm-x.el --- Addition tools for exwm (emacs x window manager)
 
 ;; * Header
-;; Copyright 2016 Feng Shu
+;; Copyright 2016-2017 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x

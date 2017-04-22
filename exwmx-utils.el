@@ -1,7 +1,7 @@
 ;;; exwmx-utils.el --- Some useful exwmx commands
 
 ;; * Header
-;; Copyright 2016 Feng Shu
+;; Copyright 2016-2017 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwmx
