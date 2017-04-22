@@ -89,10 +89,10 @@ dmenu should keep a record. "
                       exwmx-dmenu--history)
               nil))
     (if (string-match-p " *\\\\$" command)
-        (let ((cmd (format "%s -e %S"
+        (let ((cmd (format "%s -e 'bash -c %S'"
                            exwmx-terminal-emulator
                            (concat (replace-regexp-in-string ";? *\\\\$" "" command)
-                                   "; $SHELL"))))
+                                   "; exec bash"))))
           (message "Exwm-X run shell command: %s" cmd)
           (exwmx-shell-command cmd))
       (let ((func (intern (if (string-match-p "^exwmx:" command)
