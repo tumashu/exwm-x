@@ -76,7 +76,7 @@ dmenu should keep a record. "
   (unless exwmx-dmenu--initialized-p
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
-	(exwmx-dmenu--commands))
+	(exwmx-dmenu--get-commands))
   (let* ((command (substring-no-properties
                    (if simple-mode
                        (read-from-minibuffer exwmx-dmenu-prompt)
