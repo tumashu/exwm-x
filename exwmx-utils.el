@@ -46,13 +46,15 @@ otherwise run shell command `command'."
      "Move to window: "
      #'(lambda () (other-window 1))
      nil nil 1))
-  (let ((buffer (exwmx--find-buffer
-                 (or class-instance-or-title
-                     (cadr (assoc command exwmx-jump-or-exec))
-                     ;; The below two rules are just guess rules :-)
-                     ;; Suggest use variable `exwmx-jump-or-exec'
-                     ;; to set you own rules.
-                     (capitalize (car (split-string command " ")))
+  (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
+                    (exwmx--find-buffer
+                     (cadr (assoc command exwmx-jump-or-exec)))
+                    ;; The below two rules are just guess rules :-)
+                    ;; Suggest use variable `exwmx-jump-or-exec'
+                    ;; to set you own rules.
+                    (exwmx--find-buffer
+                     (capitalize (car (split-string command " "))))
+                    (exwmx--find-buffer
                      (car (split-string command " "))))))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
@@ -61,22 +63,23 @@ otherwise run shell command `command'."
 (defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name',
 `exwm-instance-name' or `exwm-title' is matched `regexp'."
-  (let* ((buffers (buffer-list))
-         (buffers-list (list nil nil nil)))
+  (when (and regexp (stringp regexp))
+    (let* ((buffers (buffer-list))
+           (buffers-list (list nil nil nil)))
 
-    (dolist (buffer buffers)
-      (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
-                       (1 . ,(buffer-local-value 'exwm-instance-name buffer))
-                       (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
-        (dolist (x wininfo)
-          (when (exwmx--string-match-p regexp (cdr x))
-            (setf (nth (car x) buffers-list)
-                  (append (list buffer) (nth (car x) buffers-list)))))))
+      (dolist (buffer buffers)
+        (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
+                         (1 . ,(buffer-local-value 'exwm-instance-name buffer))
+                         (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
+          (dolist (x wininfo)
+            (when (exwmx--string-match-p regexp (cdr x))
+              (setf (nth (car x) buffers-list)
+                    (append (list buffer) (nth (car x) buffers-list)))))))
 
-    (caar (delq nil
-                (sort buffers-list
-                      #'(lambda (a b)
-                          (< (length a) (length b))))))))
+      (caar (delq nil
+                  (sort buffers-list
+                        #'(lambda (a b)
+                            (< (length a) (length b)))))))))
 
 (defun exwmx-kill-exwm-buffer (&optional buffer-or-name)
   "Kill buffer, if current buffer is a exwm buffer."
