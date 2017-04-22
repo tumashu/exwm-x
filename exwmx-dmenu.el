@@ -77,19 +77,20 @@ dmenu should keep a record. "
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
 	(exwmx-dmenu--get-commands))
-  (let* ((command (substring-no-properties
-                   (if simple-mode
-                       (read-from-minibuffer exwmx-dmenu-prompt)
-                     (completing-read
-                      exwmx-dmenu-prompt
-                      (cl-remove-if #'(lambda (x)
-                                        (string-match-p "^\\." x))
-                                    (cl-remove-duplicates
-                                     (append exwmx-dmenu--history
-                                             (exwmx-dmenu--get-emacs-commands)
-                                             exwmx-dmenu--commands)
-                                     :from-end t :test #'equal))
-                      nil 'confirm nil 'exwmx-dmenu--history)))))
+  (let* ((command
+          (substring-no-properties
+           (if simple-mode
+               (read-from-minibuffer exwmx-dmenu-prompt)
+             (completing-read
+              exwmx-dmenu-prompt
+              (cl-remove-if #'(lambda (x)
+                                (string-match-p "^\\." x))
+                            (cl-remove-duplicates
+                             (append exwmx-dmenu--history
+                                     (exwmx-dmenu--get-emacs-commands)
+                                     exwmx-dmenu--commands)
+                             :from-end t :test #'equal))
+              nil 'confirm nil 'exwmx-dmenu--history)))))
     (setq command (if simple-mode
                       command
                     (read-string "Run this command? " command)))
