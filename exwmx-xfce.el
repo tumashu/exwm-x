@@ -31,6 +31,9 @@
 (require 'exwmx-core)
 (require 'exwmx-dmenu)
 
+(defvar exwmx-terminal-emulator nil)
+(setq exwmx-terminal-emulator "xfce4-terminal")
+
 (defun exwmx:startxfce4 ()
   (interactive)
   (message "Exwm-X: starting Xfce ...")
