@@ -65,6 +65,7 @@ dmenu should keep a record. "
   (interactive)
   (exwmx-dmenu--internal))
 
+;;;###autoload
 (defun exwmx-dmenu-simple ()
   (interactive)
   (exwmx-dmenu--internal t))
