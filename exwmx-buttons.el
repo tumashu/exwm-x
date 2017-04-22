@@ -5,7 +5,7 @@
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwmx
-;; Version: 0.0.1
+;; Version: 0.3
 ;; Keywords: exwm, exwmx
 
 ;; This program is free software; you can redistribute it and/or modify
