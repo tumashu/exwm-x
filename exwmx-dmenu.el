@@ -90,6 +90,9 @@ dmenu should keep a record. "
                                              exwmx-dmenu--commands)
                                      :from-end t :test #'equal))
                       nil 'confirm nil 'exwmx-dmenu--history)))))
+    (setq command (if simple-mode
+                      command
+                    (read-string "Run this command? " command)))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))

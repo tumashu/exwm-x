@@ -90,8 +90,8 @@
 (push ?\C-t exwm-input-prefix-keys)
 
 (exwm-input-set-key (kbd "C-t C-c") 'exwmx-dmenu)
-(exwm-input-set-key (kbd "C-t c") 'exwmx-dmenu)
-(exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu-simple)
+(exwm-input-set-key (kbd "C-t c") 'exwmx-dmenu-simple)
+(exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
 (exwm-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
