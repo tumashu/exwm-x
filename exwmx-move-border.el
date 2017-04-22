@@ -61,7 +61,7 @@ If DIR is t, then move up, otherwise move down."
 
 (defun exwmx-move-border-down (arg)
   (interactive "P")
-  (exwm-x--move-border-up-or-down arg nil))
+  (exwmx--move-border-up-or-down arg nil))
 
 ;; * Footer
 (provide 'exwmx-move-border)
