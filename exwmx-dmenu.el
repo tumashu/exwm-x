@@ -64,22 +64,32 @@ dmenu should keep a record. "
 ;;;###autoload
 (defun exwmx-dmenu ()
   (interactive)
+  (exwmx-dmenu--internal))
+
+(defun exwmx-dmenu-simple ()
+  (interactive)
+  (exwmx-dmenu--internal t))
+
+(defun exwmx-dmenu--internal (&optional simple-mode)
+  (interactive)
   (make-directory (file-name-directory exwmx-dmenu-cache-file) t)
   (unless exwmx-dmenu--initialized-p
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
 	(exwmx-dmenu--commands))
   (let* ((command (substring-no-properties
-                   (completing-read
-                    exwmx-dmenu-prompt
-                    (cl-remove-if #'(lambda (x)
-                                      (string-match-p "^\\." x))
-                                  (cl-remove-duplicates
-                                   (append exwmx-dmenu--history
-                                           (exwmx-dmenu--get-emacs-commands)
-                                           exwmx-dmenu--commands)
-                                   :from-end t :test #'equal))
-                    nil 'confirm nil 'exwmx-dmenu--history))))
+                   (if simple-mode
+                       (read-from-minibuffer exwmx-dmenu-prompt)
+                     (completing-read
+                      exwmx-dmenu-prompt
+                      (cl-remove-if #'(lambda (x)
+                                        (string-match-p "^\\." x))
+                                    (cl-remove-duplicates
+                                     (append exwmx-dmenu--history
+                                             (exwmx-dmenu--get-emacs-commands)
+                                             exwmx-dmenu--commands)
+                                     :from-end t :test #'equal))
+                      nil 'confirm nil 'exwmx-dmenu--history)))))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
