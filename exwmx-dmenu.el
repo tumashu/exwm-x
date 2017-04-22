@@ -28,7 +28,6 @@
 
 ;;; Code:
 (require 'cl-lib)
-(require 'comint)
 (require 'exwmx-core)
 (require 'exwmx-utils)
 
