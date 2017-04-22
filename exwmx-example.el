@@ -89,7 +89,7 @@
 
 (push ?\C-t exwm-input-prefix-keys)
 
-(exwm-input-set-key (kbd "C-t C-c") 'exwmx-dmenu)
+(exwm-input-set-key (kbd "C-t C-c") 'exwmx-dmenu-simple)
 (exwm-input-set-key (kbd "C-t c") 'exwmx-dmenu-simple)
 (exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
 
