@@ -1,4 +1,4 @@
-;;; exwmx-xfce.el --- Let Exwm-X work with xfce
+;;; exwmx-apps.el --- Emacs commands used by Exwm-X
 
 ;; * Header
 ;; Copyright 2016 Feng Shu
@@ -29,19 +29,31 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 (require 'exwmx-core)
+(require 'exwmx-utils)
 (require 'exwmx-dmenu)
 
-(defvar exwmx-terminal-emulator nil)
-(setq exwmx-terminal-emulator "xfce4-terminal")
-
-(defun exwmx:startxfce4 ()
+(defun exwmx:thunar ()
   (interactive)
-  (message "Exwm-X: starting Xfce ...")
-  (exwmx-shell-command "startxfce4"))
+  (exwmx-jump-or-exec "thunar"))
 
-(add-hook 'exwm-init-hook #'exwmx:startxfce4)
+(defun exwmx:icecat ()
+  (interactive)
+  (exwmx-jump-or-exec "icecat"))
+
+(defun exwmx:firefox ()
+  (interactive)
+  (exwmx-jump-or-exec "firefox"))
+
+(defun exwmx:xfce4-terminal ()
+  (interactive)
+  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
+                      "default-terminal"))
+
+(defun exwmx:xfce4-new-terminal ()
+  (interactive)
+  (exwmx-shell-command "xfce4-terminal"))
 
 ;; * Footer
-(provide 'exwmx-xfce)
+(provide 'exwmx-apps)
 
-;;; exwmx-xfce.el ends here
+;;; exwmx-apps.el ends here

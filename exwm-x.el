@@ -111,6 +111,7 @@
 (require 'exwmx-utils)
 (require 'exwmx-move-border)
 (require 'exwmx-dmenu)
+(require 'exwmx-apps)
 
 ;; * Footer
 (provide 'exwm-x)
