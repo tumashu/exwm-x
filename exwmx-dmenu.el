@@ -88,10 +88,10 @@ dmenu should keep a record. "
       (setcdr (nthcdr (- exwmx-dmenu-history-size 1)
                       exwmx-dmenu--history)
               nil))
-    (if (string-match-p " *\\\\$" command)
+    (if (string-match-p " *;+$" command)
         (let ((cmd (format "%s -e 'bash -c %S'"
                            exwmx-terminal-emulator
-                           (concat (replace-regexp-in-string ";? *\\\\$" "" command)
+                           (concat (replace-regexp-in-string " *;+$" "" command)
                                    "; exec bash"))))
           (message "Exwm-X run shell command: %s" cmd)
           (exwmx-shell-command cmd))
