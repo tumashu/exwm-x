@@ -1,11 +1,11 @@
 ;;; exwmx-dmenu.el --- simulate the dmenu command line program
 
-;; Copyright (C) 2004-2015 Free Software Foundation, Inc.
+;; Copyright (C) 2004-2017 Free Software Foundation, Inc.
 
 ;; Author: DarkSun <lujun9972@gmail.com>
 ;;         Feng Shu <tumashu@163.com>
 ;; Created: 2015-12-01
-;; Version: 0.1
+;; Version: 0.3
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: convenience, usability
 
