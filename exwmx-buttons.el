@@ -4,7 +4,7 @@
 ;; Copyright 2015 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
-;; URL: https://github.com/tumashu/exwmx
+;; URL: https://github.com/tumashu/exwm-x
 ;; Version: 0.3
 ;; Keywords: exwm, exwmx
 
