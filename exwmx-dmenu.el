@@ -119,8 +119,9 @@ dmenu should keep a record. "
   (let (output)
     (mapatoms
      #'(lambda (symbol)
-         (if (string-match-p "^exwmx:" (symbol-name symbol))
-             (push (symbol-name symbol) output))))
+         (when (and (string-match-p "^exwmx:" (symbol-name symbol))
+                    (functionp symbol))
+           (push (symbol-name symbol) output))))
     output))
 
 (defun exwmx-dmenu-initialize ()
