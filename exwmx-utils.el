@@ -53,9 +53,9 @@ otherwise run shell command `command'."
                     ;; Suggest use variable `exwmx-jump-or-exec'
                     ;; to set you own rules.
                     (exwmx--find-buffer
-                     (capitalize (car (split-string command " "))))
+                     (capitalize (concat "^" (car (split-string command " ")))))
                     (exwmx--find-buffer
-                     (car (split-string command " "))))))
+                     (concat "^" (car (split-string command " ")))))))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (start-process-shell-command command nil command))))
