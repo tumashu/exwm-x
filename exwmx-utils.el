@@ -43,7 +43,7 @@ otherwise run shell command `command'."
   (when (and (not current-window)
              (featurep 'switch-window))
     (switch-window--then
-     "Move to window: "
+     "Run command in window: "
      #'(lambda () (other-window 1))
      nil nil 1))
   (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
