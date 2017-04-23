@@ -98,7 +98,7 @@ dmenu should keep a record. "
                                      (exwmx-dmenu--get-emacs-commands)
                                      exwmx-dmenu--commands)
                              :from-end t :test #'equal))
-              :keymap ivy-minibuffer-map)))))
+              :keymap exwmx-dmenu-ivy-minibuffer-map)))))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
