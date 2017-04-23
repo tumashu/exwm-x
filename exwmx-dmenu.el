@@ -60,7 +60,13 @@ dmenu should keep a record. "
   '(("," . exwmx-dmenu--run-with-terminal)
     (";" . exwmx-dmenu--run-with-terminal)
     ("^" . (lambda (_) (split-window-below)))
-    ("<" . (lambda (_) (split-window-right))))
+    ("<" . (lambda (_) (split-window-right)))
+    (">" . (lambda (_)
+             (split-window-right)
+             (other-window 1)))
+    ("_" . (lambda (_)
+             (split-window-below)
+             (other-window 1))))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
