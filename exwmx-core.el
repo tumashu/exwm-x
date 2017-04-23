@@ -38,8 +38,25 @@
     ("default-terminal" . "Term"))
   "Dict used by `exwmx--get-prefer-name'")
 
+(defvar exwmx-switch-window 'switch-window
+  "Which tool will be used to switch window,
+ace-window or switch-window.")
+
 (defvar exwmx-terminal-emulator "xterm"
   "exwmx default terminal emulator")
+
+(defun exwmx--switch-window ()
+  (cond
+   ((and (eq exwmx-switch-window 'switch-window)
+         (featurep 'switch-window))
+    (switch-window--then
+     "Run command in window: "
+     #'(lambda () (other-window 1))
+     nil nil 1))
+   ((and (eq exwmx-switch-window 'ace-window)
+         (featurep 'ace-window))
+    (call-interactively 'ace-window))
+   (t t)))
 
 (defun exwmx--get-prefer-name ()
   "Get a prefer name of a application, based on its class-name, instance-name

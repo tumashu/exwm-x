@@ -155,16 +155,13 @@ dmenu should keep a record. "
                  (string-match-p "^exwmx:" command)
                  (functionp emacs-command))
             (progn (message "Exwm-X run emacs command: `%s'" emacs-command)
+                   (exwmx--switch-window)
                    (funcall emacs-command))
           (if (> (length prefix-list) 0)
               (dolist (prefix prefix-list)
                 (let ((func (cdr (assoc prefix exwmx-dmenu-prefix-setting))))
                   (when (functionp func)
-                    (when (featurep 'switch-window)
-                      (switch-window--then
-                       "Run command in window: "
-                       #'(lambda () (other-window 1))
-                       nil nil 1))
+                    (exwmx--switch-window)
                     (funcall func command))))
             (message "Exwm-X jump-or-exec: %s" command)
             (exwmx-jump-or-exec command)))))))

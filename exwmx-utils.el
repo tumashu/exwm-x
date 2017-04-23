@@ -40,12 +40,8 @@
 (defun exwmx-jump-or-exec (command &optional class-instance-or-title current-window)
   "if matched window can be found, switch to this window,
 otherwise run shell command `command'."
-  (when (and (not current-window)
-             (featurep 'switch-window))
-    (switch-window--then
-     "Run command in window: "
-     #'(lambda () (other-window 1))
-     nil nil 1))
+  (when current-window
+    (exwmx--switch-window))
   (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
                     (exwmx--find-buffer
                      (cadr (assoc command exwmx-jump-or-exec)))
