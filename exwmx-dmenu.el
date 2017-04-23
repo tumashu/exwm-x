@@ -150,15 +150,12 @@ dmenu should keep a record. "
          (command (cadr list)))
     (if (not command)
         (message "Exwm-X: No command will be executed.")
-      (let ((emacs-command
-             (intern (if (string-match-p "^exwmx:" command)
-                         command
-                       (concat "exwmx:" command)))))
+      (let ((emacs-command (intern command)))
         (if (and (< (length prefix-list) 1)
+                 (string-match-p "^exwmx:" command)
                  (functionp emacs-command))
-            (progn
-              (message "Exwm-X run emacs command: `%s'" emacs-command)
-              (funcall emacs-command))
+            (progn (message "Exwm-X run emacs command: `%s'" emacs-command)
+                   (funcall emacs-command))
           (if (> (length prefix-list) 0)
               (dolist (prefix prefix-list)
                 (let ((func (cdr (assoc prefix exwmx-dmenu-prefix-setting))))
