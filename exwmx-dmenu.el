@@ -116,6 +116,11 @@ dmenu should keep a record. "
       (setcdr (nthcdr (- exwmx-dmenu-history-size 1)
                       exwmx-dmenu--history)
               nil))
+    (when (featurep 'switch-window)
+      (switch-window--then
+       "Run command in window: "
+       #'(lambda () (other-window 1))
+       nil nil 1))
     (exwmx-dmenu--run command)))
 
 (defun exwmx-dmenu--run-with-terminal (command)
@@ -162,7 +167,7 @@ dmenu should keep a record. "
                   (when (functionp func)
                     (funcall func command))))
             (message "Exwm-X jump-or-exec: %s" command)
-            (exwmx-jump-or-exec command)))))))
+            (exwmx-jump-or-exec command nil t)))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
   (let (output)
