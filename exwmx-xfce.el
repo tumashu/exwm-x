@@ -36,8 +36,11 @@
 
 (defun exwmx:startxfce4 ()
   (interactive)
-  (message "Exwm-X: starting Xfce ...")
-  (exwmx-shell-command "startxfce4"))
+  (if (executable-find "startxfce4")
+      (progn
+        (message "Exwm-X: starting Xfce ...")
+        (exwmx-shell-command "startxfce4"))
+    (message "Exwm-X: xfce is not installed, abort!")))
 
 (add-hook 'exwm-init-hook #'exwmx:startxfce4)
 
