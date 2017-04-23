@@ -55,6 +55,14 @@ dmenu should keep a record. "
   :type 'integer
   :group 'exwmx-dmenu)
 
+(defcustom exwmx-dmenu-prefix-setting
+  '(("," . exwmx-dmenu--run-with-terminal)
+    (";" . exwmx-dmenu--run-with-terminal)
+    ("^" . (lambda (_) (split-window-below)))
+    ("<" . (lambda (_) (split-window-right))))
+  "Exwmx-dmenu command-prefix's setting."
+  :group 'exwmx-dmenu)
+
 (defvar exwmx-dmenu--initialized-p nil)
 (defvar exwmx-dmenu--history nil)
 (defvar exwmx-dmenu--commands nil)
@@ -92,7 +100,8 @@ dmenu should keep a record. "
                           (substitute-command-keys
                            "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
                   (cl-remove-if #'(lambda (x)
-                                    (string-match-p "^\\." x))
+                                    (or (string-match-p "^\\." x)
+                                        (string-match-p "^ *$" x)))
                                 (cl-remove-duplicates
                                  (append exwmx-dmenu--history
                                          (exwmx-dmenu--get-emacs-commands)
@@ -109,22 +118,56 @@ dmenu should keep a record. "
       (setcdr (nthcdr (- exwmx-dmenu-history-size 1)
                       exwmx-dmenu--history)
               nil))
-    (if (string-match-p " *;+$" command)
-        (let ((cmd (format "%s -e 'bash -c %S'"
-                           exwmx-terminal-emulator
-                           (concat (replace-regexp-in-string " *;+$" "" command)
-                                   "; exec bash"))))
-          (message "Exwm-X run shell command: %s" cmd)
-          (exwmx-shell-command cmd))
-      (let ((func (intern (if (string-match-p "^exwmx:" command)
-                              command
-                            (concat "exwmx:" command)))))
-        (if (functionp func)
+    (exwmx-dmenu--run command)))
+
+(defun exwmx-dmenu--run-with-terminal (command)
+  (let ((cmd (format "%s -e 'bash -c %S'"
+                     exwmx-terminal-emulator
+                     (concat command "; exec bash"))))
+    (message "Exwm-X run shell command: %s" cmd)
+    (exwmx-shell-command cmd)))
+
+(defun exwmx-dmenu--parse-command (string)
+  (let ((prefix-list '())
+        command)
+    (while (> (length string) 0)
+      (let ((first (substring string 0 1))
+            (rest (substring string 1)))
+        (if (or (assoc first exwmx-dmenu-prefix-setting)
+                (equal first " "))
             (progn
-              (message "Exwm-X run emacs command: `%s'" func)
-              (funcall func))
-          (message "Exwm-X jump-or-exec: %s" command)
-          (exwmx-jump-or-exec command))))))
+              (unless (equal first " ")
+                (progn (push first prefix-list)))
+              (setq command rest)
+              (setq string rest))
+          (setq command string)
+          (setq string nil))))
+    (when (> (length command) 0)
+      (list (delete-dups (reverse prefix-list))
+            command))))
+
+(defun exwmx-dmenu--run (command)
+  (let* ((list (exwmx-dmenu--parse-command command))
+         (prefix-list (car list))
+         (command (cadr list)))
+    (if (not command)
+        (message "Exwm-X: No command will be executed.")
+      (let ((emacs-command
+             (intern (if (string-match-p "^exwmx:" command)
+                         command
+                       (concat "exwmx:" command)))))
+        (if (and (< (length prefix-list) 1)
+                 (functionp emacs-command))
+            (progn
+              (message "Exwm-X run emacs command: `%s'" emacs-command)
+              (funcall emacs-command))
+          (if (> (length prefix-list) 0)
+              (dolist (prefix prefix-list)
+                (let ((func (cdr (assoc prefix exwmx-dmenu-prefix-setting))))
+                  (when (functionp func)
+                    (funcall func command))))
+            (message "Exwm-X jump-or-exec: %s" command)
+            (exwmx-jump-or-exec command)))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
   (let (output)
