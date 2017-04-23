@@ -6,7 +6,7 @@
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
 ;; Version: 0.3
-;; Package-Requires: ((cl-lib "0.5")(exwm "0.1")(switch-window "0.10")(swiper "0.9.0"))
+;; Package-Requires: ((cl-lib "0.5")(exwm "0.1")(switch-window "0.10"))
 ;; Keywords: window-manager, exwm
 
 ;; This program is free software; you can redistribute it and/or modify

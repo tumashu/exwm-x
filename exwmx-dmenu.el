@@ -28,7 +28,6 @@
 
 ;;; Code:
 (require 'cl-lib)
-(require 'swiper)
 (require 'exwmx-core)
 (require 'exwmx-utils)
 
@@ -87,18 +86,21 @@ dmenu should keep a record. "
           (substring-no-properties
            (if simple-mode
                (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
-             (ivy-read
-              (concat exwmx-dmenu-prompt
-                      (substitute-command-keys
-                       "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
-              (cl-remove-if #'(lambda (x)
-                                (string-match-p "^\\." x))
-                            (cl-remove-duplicates
-                             (append exwmx-dmenu--history
-                                     (exwmx-dmenu--get-emacs-commands)
-                                     exwmx-dmenu--commands)
-                             :from-end t :test #'equal))
-              :keymap exwmx-dmenu-ivy-minibuffer-map)))))
+             (if (featurep 'swiper)
+                 (ivy-read
+                  (concat exwmx-dmenu-prompt
+                          (substitute-command-keys
+                           "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
+                  (cl-remove-if #'(lambda (x)
+                                    (string-match-p "^\\." x))
+                                (cl-remove-duplicates
+                                 (append exwmx-dmenu--history
+                                         (exwmx-dmenu--get-emacs-commands)
+                                         exwmx-dmenu--commands)
+                                 :from-end t :test #'equal))
+                  :keymap exwmx-dmenu-ivy-minibuffer-map)
+               (message (concat "Exwmx-dmenu: package `swiper' is required, "
+                                "install it or use `exwmx-dmenu-simple' instead.")))))))
     (setq exwmx-dmenu--history
           (cons command
                 (remove command exwmx-dmenu--history)))
