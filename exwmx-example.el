@@ -138,8 +138,6 @@
 (exwm-input-set-key (kbd "C-<right>") 'windmove-right)
 
 (require 'switch-window)
-(setq switch-window-increase 8)
-(setq switch-window-shortcut-style 'qwerty)
 (exwm-input-set-key (kbd "C-x o") 'switch-window)
 (exwm-input-set-key (kbd "C-x 1") 'switch-window-then-maximize)
 (exwm-input-set-key (kbd "C-x 2") 'switch-window-then-split-below)
