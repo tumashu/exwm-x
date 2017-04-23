@@ -123,7 +123,7 @@ dmenu should keep a record. "
             (progn
               (message "Exwm-X run emacs command: `%s'" func)
               (funcall func))
-          (message "Exwm-X run shell command: %s" command)
+          (message "Exwm-X jump-or-exec: %s" command)
           (exwmx-jump-or-exec command))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
