@@ -52,6 +52,7 @@ otherwise run shell command `command'."
                      (capitalize (concat "^" (car (split-string command " ")))))
                     (exwmx--find-buffer
                      (concat "^" (car (split-string command " ")))))))
+    (message "Exwm-X jump-or-exec: %s" command)
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (start-process-shell-command command nil command))))

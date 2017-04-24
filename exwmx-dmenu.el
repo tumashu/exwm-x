@@ -163,7 +163,6 @@ dmenu should keep a record. "
                   (when (functionp func)
                     (exwmx--switch-window)
                     (funcall func command))))
-            (message "Exwm-X jump-or-exec: %s" command)
             (exwmx-jump-or-exec command)))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
