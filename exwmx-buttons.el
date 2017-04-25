@@ -170,7 +170,7 @@ execute. "
     (with-current-buffer (exwm--id->buffer id)
       `(""
         (:propertize ,mode
-                     face 'mode-line-buffer-id
+                     face mode-line-buffer-id
                      help-echo ,help-echo
                      mouse-face mode-line-highlight
                      local-map
