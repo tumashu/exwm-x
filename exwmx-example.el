@@ -137,12 +137,17 @@
 (exwm-input-set-key (kbd "C-<left>") 'windmove-left)
 (exwm-input-set-key (kbd "C-<right>") 'windmove-right)
 
-(require 'switch-window)
-(exwm-input-set-key (kbd "C-x o") 'switch-window)
-(exwm-input-set-key (kbd "C-x 1") 'switch-window-then-maximize)
-(exwm-input-set-key (kbd "C-x 2") 'switch-window-then-split-below)
-(exwm-input-set-key (kbd "C-x 3") 'switch-window-then-split-right)
-(exwm-input-set-key (kbd "C-x 0") 'switch-window-then-delete)
+(cond
+ ((equal exwmx-switch-window 'switch-window)
+  (require 'switch-window)
+  (exwm-input-set-key (kbd "C-x o") 'switch-window)
+  (exwm-input-set-key (kbd "C-x 1") 'switch-window-then-maximize)
+  (exwm-input-set-key (kbd "C-x 2") 'switch-window-then-split-below)
+  (exwm-input-set-key (kbd "C-x 3") 'switch-window-then-split-right)
+  (exwm-input-set-key (kbd "C-x 0") 'switch-window-then-delete))
+ ((equal exwmx-switch-window 'ace-window)
+  (require 'ace-window)
+  (exwm-input-set-key (kbd "C-x o") 'ace-window)))
 
 ;; * Footer
 (provide 'exwmx-example)
