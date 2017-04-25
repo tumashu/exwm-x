@@ -95,7 +95,8 @@ execute. "
 
 (defun exwmx--create-tilling-mode-line ()
   (setq mode-line-format
-        (list (exwmx--create-button
+        (list (exwmx--create-ace-window-char)
+              (exwmx--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
               (exwmx--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
@@ -122,7 +123,8 @@ execute. "
 
 (defun exwmx--create-floating-mode-line ()
   (setq mode-line-format
-        (list (exwmx--create-button
+        (list (exwmx--create-ace-window-char)
+              (exwmx--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
               (exwmx--create-button
                'mode-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
@@ -177,6 +179,10 @@ execute. "
                      local-map
                      (keymap (mode-line keymap
                                         (down-mouse-1 . ,cmd))))))))
+
+(defun exwmx--create-ace-window-char ()
+  '(ace-window-display-mode
+    (:eval (concat (window-parameter (selected-window) 'ace-window-path) ":"))))
 
 (defun exwmx--reset-mode-line ()
   "Reset mode-line for tilling window"
