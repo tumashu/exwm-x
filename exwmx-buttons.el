@@ -1,7 +1,7 @@
 ;;; exwmx-buttons.el --- Add some exwm buttons to mode-line
 
 ;; * Header
-;; Copyright 2015 Feng Shu
+;; Copyright 2015-2017 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
