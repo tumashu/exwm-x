@@ -171,13 +171,12 @@ execute. "
     (with-current-buffer (exwm--id->buffer id)
       `(""
         (:propertize ,mode
+                     face 'mode-line-buffer-id
                      help-echo ,help-echo
                      mouse-face mode-line-highlight
                      local-map
-                     (keymap
-                      (mode-line
-                       keymap
-                       (down-mouse-1 . ,cmd))))))))
+                     (keymap (mode-line keymap
+                                        (down-mouse-1 . ,cmd))))))))
 
 (defun exwmx--reset-mode-line ()
   "Reset mode-line for tilling window"
