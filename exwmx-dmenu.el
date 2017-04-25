@@ -58,9 +58,7 @@ dmenu should keep a record. "
 
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
-    (";" . exwmx-dmenu--run-with-terminal)
-    ("-" . (lambda (_) (split-window-below)))
-    ("|" . (lambda (_) (split-window-right))))
+    (";" . exwmx-dmenu--run-with-terminal))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
