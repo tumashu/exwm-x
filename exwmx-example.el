@@ -97,11 +97,6 @@
 (exwm-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
 (exwm-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
 
-(exwm-input-set-key (kbd "C-S-<up>") 'exwmx-move-border-up)
-(exwm-input-set-key (kbd "C-S-<down>") 'exwmx-move-border-down)
-(exwm-input-set-key (kbd "C-S-<left>") 'exwmx-move-border-left)
-(exwm-input-set-key (kbd "C-S-<right>") 'exwmx-move-border-right)
-
 ;; We always need a way to go back to line-mode from char-mode
 (exwm-input-set-key (kbd "s-r") 'exwm-reset)
 
@@ -130,12 +125,6 @@
 
 ;; Don't delete it
 (exwm-enable)
-
-(require 'windmove)
-(exwm-input-set-key (kbd "C-<up>") 'windmove-up)
-(exwm-input-set-key (kbd "C-<down>") 'windmove-down)
-(exwm-input-set-key (kbd "C-<left>") 'windmove-left)
-(exwm-input-set-key (kbd "C-<right>") 'windmove-right)
 
 (require 'switch-window)
 (exwm-input-set-key (kbd "C-x o") 'switch-window)
