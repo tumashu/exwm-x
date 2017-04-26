@@ -70,6 +70,8 @@ dmenu should keep a record. "
 (defvar exwmx-dmenu-ivy-minibuffer-map
   (let ((map (copy-keymap ivy-minibuffer-map)))
     (define-key map (kbd "<return>") 'ivy-immediate-done)
+    (define-key map (kbd "C-j") 'ivy-alt-done)
+    (define-key map (kbd "M-j") 'ivy-alt-done)
     map))
 
 ;;;###autoload
