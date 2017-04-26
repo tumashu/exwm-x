@@ -89,7 +89,6 @@
 
 (push ?\C-t exwm-input-prefix-keys)
 
-(exwm-input-set-key (kbd "C-t C-c") 'exwmx-dmenu-simple)
 (exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
@@ -108,6 +107,13 @@
 (push ?\C-\\ exwm-input-prefix-keys)
 (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
 
+(require 'switch-window)
+(define-key exwm-mode-map (kbd "C-x o") 'switch-window)
+(define-key exwm-mode-map (kbd "C-x 1") 'switch-window-then-maximize)
+(define-key exwm-mode-map (kbd "C-x 2") 'switch-window-then-split-below)
+(define-key exwm-mode-map (kbd "C-x 3") 'switch-window-then-split-right)
+(define-key exwm-mode-map (kbd "C-x 0") 'switch-window-then-delete)
+
 ;; The following example demonstrates how to use simulation keys to mimic the
 ;; behavior of Emacs. The argument to `exwm-input-set-simulation-keys' is a
 ;; list of cons cells (SRC . DEST), where SRC is the key sequence you press and
@@ -125,13 +131,6 @@
 
 ;; Don't delete it
 (exwm-enable)
-
-(require 'switch-window)
-(exwm-input-set-key (kbd "C-t o") 'switch-window)
-(exwm-input-set-key (kbd "C-t 1") 'switch-window-then-maximize)
-(exwm-input-set-key (kbd "C-t 2") 'switch-window-then-split-below)
-(exwm-input-set-key (kbd "C-t 3") 'switch-window-then-split-right)
-(exwm-input-set-key (kbd "C-t 0") 'switch-window-then-delete)
 
 ;; * Footer
 (provide 'exwmx-example)
