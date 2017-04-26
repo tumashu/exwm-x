@@ -127,11 +127,11 @@
 (exwm-enable)
 
 (require 'switch-window)
-(exwm-input-set-key (kbd "C-x o") 'switch-window)
-(exwm-input-set-key (kbd "C-x 1") 'switch-window-then-maximize)
-(exwm-input-set-key (kbd "C-x 2") 'switch-window-then-split-below)
-(exwm-input-set-key (kbd "C-x 3") 'switch-window-then-split-right)
-(exwm-input-set-key (kbd "C-x 0") 'switch-window-then-delete)
+(exwm-input-set-key (kbd "C-t o") 'switch-window)
+(exwm-input-set-key (kbd "C-t 1") 'switch-window-then-maximize)
+(exwm-input-set-key (kbd "C-t 2") 'switch-window-then-split-below)
+(exwm-input-set-key (kbd "C-t 3") 'switch-window-then-split-right)
+(exwm-input-set-key (kbd "C-t 0") 'switch-window-then-delete)
 
 ;; * Footer
 (provide 'exwmx-example)
