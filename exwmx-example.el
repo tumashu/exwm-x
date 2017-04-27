@@ -108,6 +108,8 @@
 (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
 
 (require 'switch-window)
+;; switch-window 'default input style do not work well with exwm.
+(setq switch-window-input-style 'minibuffer)
 (define-key exwm-mode-map (kbd "C-x o") 'switch-window)
 (define-key exwm-mode-map (kbd "C-x 1") 'switch-window-then-maximize)
 (define-key exwm-mode-map (kbd "C-x 2") 'switch-window-then-split-below)
