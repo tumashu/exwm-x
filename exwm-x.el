@@ -72,7 +72,7 @@
 ;; # Keyboard repeat rate
 ;; # xset r rate 200 60
 
-;; exec dbus-launch --exit-with-session emacs --eval '(cond ((file-exists-p "~/.exwm") (load-file "~/.exwm")) ((not (featurep (quote exwm))) (require (quote exwm)) (require (quote exwm-config)) (exwm-config-default) (message "exwm configuration not found. Falling back to default configuration...")))'
+;; exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 ;; #+END_EXAMPLE
 
 ;; *** Make "~/.initrc" or "~/.xsession" excutable
