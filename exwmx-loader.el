@@ -39,4 +39,8 @@
 ;; * Footer
 (provide 'exwmx-loader)
 
+;; Local Variables:
+;; no-byte-compile: t
+;; End:
+
 ;;; exwmx-loader.el ends here
