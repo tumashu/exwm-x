@@ -31,6 +31,9 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 
+(defvar exwm--keyboard-grabbed)
+(declare-function exwmx--update-mode-line "exwmx-button" nil)
+
 (defvar exwmx-prefer-name-alist
   '(("navigator" . "Firefox")
     ("virtual[ ]*box" . "VirtualBox")
@@ -90,6 +93,24 @@ string."
                (buffer-list)))))
     (when buffer
       (exwm-workspace-switch-to-buffer buffer))))
+
+(defun exwmx-toggle-keyboard (&optional id)
+  "Toggle between 'line-mode' and 'char-mode'."
+  (interactive (list (exwm--buffer->id (window-buffer))))
+  (if id
+      (with-current-buffer (exwm--id->buffer id)
+        (if exwm--keyboard-grabbed
+            (progn
+              (message "Switch to `char-mode', application will take up your keyboard.")
+              (exwm-input-release-keyboard id))
+          (message
+           (substitute-command-keys
+            (concat
+             "\\<exwm-mode-map>Reset to `line-mode', "
+             "`\\[exwm-input-send-next-key]' -> send next key to application.")))
+          (exwm-reset)))
+    (message "Exwm-x: No application is actived."))
+  (exwmx--update-mode-line))
 
 ;; Override exwm's exwm-floating-toggle-floating
 (defun exwm-floating-toggle-floating ()

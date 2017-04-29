@@ -156,13 +156,15 @@ execute. "
   (let (help-echo cmd mode)
     (cl-case exwm--on-KeyPress
       ((exwm-input--on-KeyPress-line-mode)
-       (setq mode "[Line]"
+       (setq mode (substitute-command-keys
+                   "[Line `\\[exwmx-toggle-keyboard]']")
              help-echo "mouse-1: Switch to char-mode"
              cmd `(lambda ()
                     (interactive)
                     (exwm-input-release-keyboard ,id))))
       ((exwm-input--on-KeyPress-char-mode)
-       (setq mode "[Char]"
+       (setq mode (substitute-command-keys
+                   "[Char `\\[exwmx-toggle-keyboard]']")
              help-echo "mouse-1: Switch to line-mode"
              cmd `(lambda ()
                     (interactive)

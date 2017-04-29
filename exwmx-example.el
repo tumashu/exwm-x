@@ -103,16 +103,18 @@
 (exwm-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
 (exwm-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
 
-;; We always need a way to go back to line-mode from char-mode
-(exwm-input-set-key (kbd "s-r") 'exwm-reset)
+;; We always need a way to switch between line-mode and char-mode
+(exwm-input-set-key (kbd "C-t C-t") 'exwmx-toggle-keyboard)
 
 ;; The following example demonstrates how to set a key binding only available
 ;; in line mode. It's simply done by first push the prefix key to
 ;; `exwm-input-prefix-keys' and then add the key sequence to `exwm-mode-map'.
 ;; The example shorten 'C-c q' to 'C-q'.
 (push ?\C-q exwm-input-prefix-keys)
-(push ?\C-\\ exwm-input-prefix-keys)
 (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+
+;; If you don't use exim, you may need not to set "?\C-\\"
+;; (push ?\C-\\ exwm-input-prefix-keys)
 
 (require 'switch-window)
 ;; switch-window 'default input style do not work well with exwm.
