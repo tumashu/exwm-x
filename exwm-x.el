@@ -100,7 +100,6 @@
 ;; (exwm-input-set-key (kbd "C-t c") 'exwmx:xfce4-terminal)
 ;; (exwm-input-set-key (kbd "C-t f") 'exwmx:icecat)
 ;; (exwm-input-set-key (kbd "C-t C-x") 'exwmx:xfce4-new-terminal)
-;; (exwm-input-set-key (kbd "C-t C-t") 'exwmx:xfce4-terminal)
 ;; #+END_EXAMPLE
 
 ;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
