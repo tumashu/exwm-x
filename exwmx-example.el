@@ -89,6 +89,13 @@
 
 (push ?\C-t exwm-input-prefix-keys)
 
+;; Note: keybinds setting with `exwm-input-set-key' are
+;; *global keybinds*, if you can solve the problem with
+;; other approach, for example: `exwm-mode-map', you should
+;; not use it.
+;;
+;; * Setting it only you have no choice... *
+;;
 (exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
 
 (exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
