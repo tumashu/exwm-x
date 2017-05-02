@@ -91,37 +91,38 @@ dmenu should keep a record. "
 	(exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
 	(exwmx-dmenu--get-commands))
-  (let* ((command
-          (substring-no-properties
-           (if simple-mode
-               (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
-             (ivy-read
-              (concat exwmx-dmenu-prompt
-                      (substitute-command-keys
-                       "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
-              (cl-remove-if #'(lambda (x)
-                                (or (string-match-p "^\\." x)
-                                    (string-match-p "^ *$" x)))
-                            (cl-remove-duplicates
-                             (append
-                              (let* ((history (cl-remove-duplicates
-                                               exwmx-dmenu--history
-                                               :from-end t :test #'equal))
-                                     (length (- (length history) 1)))
-                                (cl-subseq history 0 (min length exwmx-dmenu-history-size)))
-                              (exwmx-dmenu--get-emacs-commands)
-                              exwmx-dmenu--commands)
-                             :from-end t :test #'equal))
-              :keymap exwmx-dmenu-ivy-minibuffer-map)))))
-    (if (< (length command) 1)
-        (message "Exwm-X: No command is inputed.")
+  (let (command)
+    (while (< (length command) 1)
+      (setq command
+            (substring-no-properties
+             (if simple-mode
+                 (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
+               (ivy-read
+                (concat exwmx-dmenu-prompt
+                        (substitute-command-keys
+                         "\\<exwmx-dmenu-ivy-minibuffer-map> (select with `\\[ivy-alt-done]'): "))
+                (cl-remove-if #'(lambda (x)
+                                  (or (null x)
+                                      (string-match-p "^\\." x)
+                                      (string-match-p "^ *$" x)))
+                              (cl-remove-duplicates
+                               (append
+                                (let* ((history (cl-remove-duplicates
+                                                 exwmx-dmenu--history
+                                                 :from-end t :test #'equal))
+                                       (length (- (length history) 1)))
+                                  (cl-subseq history 0 (min length exwmx-dmenu-history-size)))
+                                (exwmx-dmenu--get-emacs-commands)
+                                exwmx-dmenu--commands)
+                               :from-end t :test #'equal))
+                :keymap exwmx-dmenu-ivy-minibuffer-map)))))
+    (setq exwmx-dmenu--history
+          (cons command exwmx-dmenu--history))
+    ;; We must record more history to cache file.
+    (when (> (length exwmx-dmenu--history) 101)
       (setq exwmx-dmenu--history
-            (cons command exwmx-dmenu--history))
-      ;; We must record more history to cache file.
-      (when (> (length exwmx-dmenu--history) 101)
-        (setq exwmx-dmenu--history
-              (cl-subseq exwmx-dmenu--history 0 exwmx-dmenu-history-size)))
-      (exwmx-dmenu--run command))))
+            (cl-subseq exwmx-dmenu--history 0 exwmx-dmenu-history-size)))
+    (exwmx-dmenu--run command)))
 
 (defun exwmx-dmenu--run-with-terminal (command)
   (let ((cmd (format "%s -e 'bash -c %S'"
