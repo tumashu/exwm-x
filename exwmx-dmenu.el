@@ -66,7 +66,6 @@ dmenu should keep a record. "
 (defvar exwmx-dmenu--history nil)
 (defvar exwmx-dmenu--commands nil)
 (defvar exwmx-dmenu--update-timer nil)
-(defvar exwmx-dmenu--last-command nil)
 
 (defvar exwmx-dmenu-ivy-minibuffer-map
   (let ((map (copy-keymap ivy-minibuffer-map)))
@@ -114,18 +113,15 @@ dmenu should keep a record. "
                               exwmx-dmenu--commands)
                              :from-end t :test #'equal))
               :keymap exwmx-dmenu-ivy-minibuffer-map)))))
-    (when (and (< (length command) 1)
-               exwmx-dmenu--last-command)
-      (setq command
-            (read-string "Exwm-X: run this command? " exwmx-dmenu--last-command)))
-    (setq exwmx-dmenu--history
-          (cons command exwmx-dmenu--history))
-    (setq exwmx-dmenu--last-command command)
-    ;; We must record more history to cache file.
-    (when (> (length exwmx-dmenu--history) 101)
+    (if (< (length command) 1)
+        (message "Exwm-X: No command is inputed.")
       (setq exwmx-dmenu--history
-            (cl-subseq exwmx-dmenu--history 0 exwmx-dmenu-history-size)))
-    (exwmx-dmenu--run command)))
+            (cons command exwmx-dmenu--history))
+      ;; We must record more history to cache file.
+      (when (> (length exwmx-dmenu--history) 101)
+        (setq exwmx-dmenu--history
+              (cl-subseq exwmx-dmenu--history 0 exwmx-dmenu-history-size)))
+      (exwmx-dmenu--run command))))
 
 (defun exwmx-dmenu--run-with-terminal (command)
   (let ((cmd (format "%s -e 'bash -c %S'"
