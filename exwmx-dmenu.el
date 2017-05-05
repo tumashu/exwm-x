@@ -58,6 +58,7 @@ dmenu should keep a record. "
 
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
+    ("." . exwmx-dmenu--run-emacs-command)
     (";" . exwmx-dmenu--split-window))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
@@ -130,6 +131,14 @@ dmenu should keep a record. "
                      (concat command "; exec bash"))))
     (message "Exwm-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
+
+(defun exwmx-dmenu--run-emacs-command (command)
+  (let ((emacs-command
+         (intern (concat "exwmx:" command))))
+    (if (not (functionp emacs-command))
+        (message "Exwm-X can't find emacs command: `%s'" emacs-command)
+      (message "Exwm-X run emacs command: `%s'" emacs-command)
+      (call-interactively emacs-command))))
 
 (defun exwmx-dmenu--split-window (command)
   (let ((list (remove "" (split-string command "")))
