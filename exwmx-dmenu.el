@@ -58,7 +58,7 @@ dmenu should keep a record. "
 
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
-    (";" . exwmx-dmenu--run-with-terminal))
+    (";" . exwmx-dmenu--split-window))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
@@ -130,6 +130,35 @@ dmenu should keep a record. "
                      (concat command "; exec bash"))))
     (message "Exwm-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
+
+(defun exwmx-dmenu--split-window (command)
+  (let ((list (remove "" (split-string command "")))
+        (window-number (length (window-list)))
+        cmd num1 num1)
+    (if (= (length list) 3)
+        (progn
+          (setq cmd (nth 0 list))
+          (setq num1 (string-to-number (nth 1 list)))
+          (setq num2 (string-to-number (nth 2 list))))
+      (setq cmd "h")
+      (setq num1 (string-to-number (nth 0 list)))
+      (setq num2 (string-to-number (nth 1 list))))
+    (when (> window-number 1)
+      (delete-other-windows))
+    (if (equal cmd "h")
+        (split-window-horizontally)
+      (split-window-vertically))
+    (dotimes (_ (- num1 1))
+      (if (equal cmd "h")
+          (split-window-below)
+        (split-window-right)))
+    (other-window num1)
+    (dotimes (_ (- num2 1))
+      (if (equal cmd "h")
+          (split-window-below)
+        (split-window-right)))
+    (other-window num2)
+    (balance-windows)))
 
 (defun exwmx-dmenu--parse-command (string)
   (let ((prefix-list '())
