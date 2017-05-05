@@ -143,7 +143,7 @@ dmenu should keep a record. "
 (defun exwmx-dmenu--split-window (command)
   (let ((list (remove "" (split-string command "")))
         (window-number (length (window-list)))
-        cmd num1 num1)
+        cmd num1 num2)
     (if (= (length list) 3)
         (progn
           (setq cmd (nth 0 list))
