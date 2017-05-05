@@ -142,7 +142,6 @@ dmenu should keep a record. "
 
 (defun exwmx-dmenu--split-window (command)
   (let ((list (remove "" (split-string command "")))
-        (window-number (length (window-list)))
         cmd num1 num2)
     (if (= (length list) 3)
         (progn
@@ -152,8 +151,7 @@ dmenu should keep a record. "
       (setq cmd "h")
       (setq num1 (string-to-number (nth 0 list)))
       (setq num2 (string-to-number (nth 1 list))))
-    (when (> window-number 1)
-      (delete-other-windows))
+    (delete-other-windows)
     (if (equal cmd "h")
         (split-window-horizontally)
       (split-window-vertically))
