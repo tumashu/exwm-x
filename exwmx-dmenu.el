@@ -58,8 +58,8 @@ dmenu should keep a record. "
 
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
-    ("." . exwmx-dmenu--run-emacs-command)
-    (";" . exwmx-dmenu--split-window))
+    (";" . exwmx-dmenu--run-emacs-command)
+    ("." . exwmx-dmenu--split-window))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
