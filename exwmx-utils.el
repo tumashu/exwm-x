@@ -31,6 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 (require 'exwmx-core)
+(require 'counsel)
 
 (defvar exwmx-jump-or-exec
   '(("icecat" "Icecat")
@@ -166,6 +167,23 @@ and `exwmx-mouse-move-floating-window'"
                      (exwm-floating-move
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
+
+(defun exwmx-yank-pop ()
+  (interactive)
+  (if (not (derived-mode-p 'exwm-mode))
+      (call-interactively 'counsel-yank-pop)
+    (let* ((ivy-format-function #'counsel--yank-pop-format-function)
+           (ivy-height 5)
+           (cands (mapcar #'ivy-cleanup-string
+                          (cl-remove-if
+                           (lambda (s)
+                             (or (< (length s) 3)
+                                 (string-match "\\`[\n[:blank:]]+\\'" s)))
+                           (delete-dups kill-ring))))
+           (keys (string-to-list
+                  (completing-read "kill-ring: " cands))))
+      (dolist (key keys)
+        (exwm-input--fake-key key)))))
 
 (provide 'exwmx-utils)
 

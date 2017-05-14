@@ -1,27 +1,27 @@
-- [Exwm-X](#orgb297e78)
-  - [What is Exwm-X](#org002eca8)
-  - [Feature](#org76ff990)
-  - [Pictures](#org897b53a)
-  - [Install](#org34fe116)
-  - [Configure](#org300756e)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#orgd1007cb)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#orgdd8f0d2)
-    - [Edit "~/.exwm"](#org29465a3)
+- [Exwm-X](#org3009901)
+  - [What is Exwm-X](#org2339100)
+  - [Feature](#org44320f3)
+  - [Pictures](#org7cb2b7f)
+  - [Install](#orgd43ba91)
+  - [Configure](#orgd1e6f71)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#orgdbea293)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#orgec3ad9b)
+    - [Edit "~/.exwm"](#org7908204)
 
 
-<a id="orgb297e78"></a>
+<a id="org3009901"></a>
 
 # Exwm-X
 
 
-<a id="org002eca8"></a>
+<a id="org2339100"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="org76ff990"></a>
+<a id="org44320f3"></a>
 
 ## Feature
 
@@ -29,9 +29,10 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  Move or resize a floating-window without press WIN key.
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 4.  Dmenu, just dynamic menu
+5.  Emacs's kill-ring integration
 
 
-<a id="org897b53a"></a>
+<a id="org7cb2b7f"></a>
 
 ## Pictures
 
@@ -44,7 +45,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org34fe116"></a>
+<a id="orgd43ba91"></a>
 
 ## Install
 
@@ -52,12 +53,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org300756e"></a>
+<a id="orgd1e6f71"></a>
 
 ## Configure
 
 
-<a id="orgd1007cb"></a>
+<a id="orgdbea293"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -80,7 +81,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="orgdd8f0d2"></a>
+<a id="orgec3ad9b"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -91,7 +92,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org29465a3"></a>
+<a id="org7908204"></a>
 
 ### Edit "~/.exwm"
 

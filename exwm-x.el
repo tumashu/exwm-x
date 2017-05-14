@@ -37,6 +37,7 @@
 ;; 2. Move or resize a floating-window without press WIN key.
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 ;; 4. Dmenu, just dynamic menu
+;; 5. Emacs's kill-ring integration
 
 ;; ** Pictures
 ;; 1. Tilling windows

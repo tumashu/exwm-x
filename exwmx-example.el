@@ -125,6 +125,9 @@
 (define-key exwm-mode-map (kbd "C-x 3") 'switch-window-then-split-right)
 (define-key exwm-mode-map (kbd "C-x 0") 'switch-window-then-delete)
 
+;; Let kill-ring works with app
+(define-key exwm-mode-map (kbd "C-c y") 'exwmx-yank-pop)
+
 ;; The following example demonstrates how to use simulation keys to mimic the
 ;; behavior of Emacs. The argument to `exwm-input-set-simulation-keys' is a
 ;; list of cons cells (SRC . DEST), where SRC is the key sequence you press and
