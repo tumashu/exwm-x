@@ -168,11 +168,6 @@ and `exwmx-mouse-move-floating-window'"
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
 
-(defun exwmx-send-string ()
-  (interactive)
-  (exwmx--send-string
-   (read-from-minibuffer "Exwm-X: please input: ")))
-
 (defun exwmx-yank-pop ()
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))

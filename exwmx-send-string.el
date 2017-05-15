@@ -1,4 +1,4 @@
-;;; exwmx-commit.el --- Exwm-X commit mode
+;;; exwmx-send-string.el --- Send string to application
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu
@@ -24,7 +24,7 @@
 
 ;;; Commentary:
 
-;; * exwmx-commit manual                                                   :doc:
+;; * exwmx-send-string manual                                                   :doc:
 
 ;;; Code:
 
@@ -32,45 +32,52 @@
 (require 'exwm)
 (require 'exwmx-core)
 
-(defvar exwmx-commit-mode-map
+(defvar exwmx-send-string-mode-map
   (let ((keymap (make-sparse-keymap)))
-    (define-key keymap "\C-c\C-c" 'exwmx-commit-finish)
-    (define-key keymap "\C-c\C-q" 'exwmx-commit-ignore)
+    (define-key keymap "\C-c\C-c" 'exwmx-send-string-finish)
+    (define-key keymap "\C-c\C-q" 'exwmx-send-string-ignore)
     keymap)
-  "Keymap for `exwmx-commit-mode'")
+  "Keymap for `exwmx-send-string-mode'")
 
-(define-minor-mode exwmx-commit-mode
-  "Minor for exwmx-commit."
-  nil " exwmx-commit" exwmx-commit-mode-map)
+(define-minor-mode exwmx-send-string-mode
+  "Minor for exwmx-send-string."
+  nil " exwmx-send-string" exwmx-send-string-mode-map)
 
-(defvar exwmx-commit-buffer "*Exwm-X-Edit*")
+(defvar exwmx-send-string-buffer " *exwmx-send-string*")
 
-(defun exwmx-commit ()
+(defun exwmx-send-string-with-minibuffer ()
   (interactive)
-  (let ((buffer (get-buffer-create exwmx-commit-buffer)))
+  (exwmx--send-string
+   (read-from-minibuffer "Exwm-X: please input: ")))
+
+(defun exwmx-send-string ()
+  (interactive)
+  (let ((buffer (get-buffer-create exwmx-send-string-buffer)))
     (with-current-buffer buffer
-      (emacs-lisp-mode)
-      (exwmx-commit-mode 1)
+      (text-mode)
+      (exwmx-send-string-mode)
       (erase-buffer)
       (setq header-line-format
             (substitute-command-keys
              (concat
-              "\\<exwmx-commit-mode-map>Finish with `\\[exwmx-commit-finish]', "
-              "Ignore with `\\[exwmx-commit-ignore]' "))))
+              "\\<exwmx-send-string-mode-map>"
+              "Finish with `\\[exwmx-send-string-finish]', "
+              "Ignore with `\\[exwmx-send-string-ignore]'. "))))
     (pop-to-buffer buffer)))
 
-(defun exwmx-commit-finish ()
+(defun exwmx-send-string-finish ()
   (interactive)
   (let ((string (buffer-string)))
     (delete-window)
+    (kill-buffer exwmx-send-string-buffer)
     (exwmx--send-string string)))
 
-(defun exwmx-commit-ignore ()
+(defun exwmx-send-string-ignore ()
   (interactive)
   (delete-window)
-  (kill-buffer exwmx-commit-buffer))
+  (kill-buffer exwmx-send-string-buffer))
 
 
-(provide 'exwmx-commit)
+(provide 'exwmx-send-string)
 
-;;; exwmx-commit.el ends here
+;;; exwmx-send-string.el ends here
