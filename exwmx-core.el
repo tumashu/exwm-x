@@ -41,6 +41,14 @@
     ("default-terminal" . "Term"))
   "Dict used by `exwmx--get-prefer-name'")
 
+(defvar exwmx-send-paste-key "\C-v")
+
+(defvar exwmx-send-paste-key-alist
+  '(("Icecat" . "\C-v"))
+  "`exwmx--send-string' will send app's paste keybinding to
+trigger paste operation, some apps use special paste keybinding,
+user should declare in this variable.")
+
 (defvar exwmx-terminal-emulator "xterm"
   "exwmx default terminal emulator")
 
@@ -93,6 +101,25 @@ string."
                (buffer-list)))))
     (when buffer
       (exwm-workspace-switch-to-buffer buffer))))
+
+(defun exwmx--send-string (string)
+  "Send `string' to clipboard and then send paste key to
+application to trigger paste operation, `string' will be
+inserted into the application."
+  (if (derived-mode-p 'exwm-mode)
+      (let ((paste-key exwmx-send-paste-key)
+            (paste-key-alist exwmx-send-paste-key-alist)
+            x)
+        (while paste-key-alist
+          (setq x (pop paste-key-alist))
+          (when (or (string-match-p (car x) exwm-instance-name)
+                    (string-match-p (car x) exwm-class-name))
+            (setq paste-key (cdr x))
+            (setq paste-key-alist nil)))
+        (kill-new string)
+        (exwm-input--fake-key (string-to-list paste-key))
+        (setq kill-ring (cdr kill-ring)))
+    (insert-string string)))
 
 (defun exwmx-toggle-keyboard (&optional id)
   "Toggle between 'line-mode' and 'char-mode'."

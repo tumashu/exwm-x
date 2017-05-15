@@ -168,6 +168,11 @@ and `exwmx-mouse-move-floating-window'"
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
 
+(defun exwmx-send-string ()
+  (interactive)
+  (exwmx--send-string
+   (read-from-minibuffer "Exwm-X: please input: ")))
+
 (defun exwmx-yank-pop ()
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
@@ -180,10 +185,8 @@ and `exwmx-mouse-move-floating-window'"
                              (or (< (length s) 3)
                                  (string-match "\\`[\n[:blank:]]+\\'" s)))
                            (delete-dups kill-ring))))
-           (keys (string-to-list
-                  (completing-read "kill-ring: " cands))))
-      (dolist (key keys)
-        (exwm-input--fake-key key)))))
+           (string (completing-read "kill-ring: " cands)))
+      (exwmx--send-string string))))
 
 (provide 'exwmx-utils)
 
