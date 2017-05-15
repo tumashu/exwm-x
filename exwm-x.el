@@ -116,6 +116,7 @@
 (require 'exwmx-utils)
 (require 'exwmx-move-border)
 (require 'exwmx-dmenu)
+(require 'exwmx-commit)
 (require 'exwmx-apps)
 
 ;; * Footer
