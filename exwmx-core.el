@@ -41,10 +41,11 @@
     ("default-terminal" . "Term"))
   "Dict used by `exwmx--get-prefer-name'")
 
-(defvar exwmx-send-paste-key "\C-v")
+(defvar exwmx-send-paste-key "C-v")
 
 (defvar exwmx-send-paste-key-alist
-  '(("Icecat" . "\C-v"))
+  '(("Icecat" . "C-v")
+    ("Xfce4-terminal" . "C-S-v"))
   "`exwmx--send-string' will send app's paste keybinding to
 trigger paste operation, some apps use special paste keybinding,
 user should declare in this variable.")
@@ -117,7 +118,8 @@ inserted into the application."
             (setq paste-key (cdr x))
             (setq paste-key-alist nil)))
         (kill-new string)
-        (exwm-input--fake-key (string-to-list paste-key))
+        (dolist (key (string-to-list (kbd paste-key)))
+          (exwm-input--fake-key key))
         (setq kill-ring (cdr kill-ring)))
     (insert-string string)))
 
