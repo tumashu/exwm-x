@@ -47,12 +47,12 @@
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx--update-mode-line "exwmx-button" nil)
 
-(defun exwmx--search-apps-db (string prop &optional search-prop equal)
+(defun exwmx--search-apps-db (string return-prop &optional search-prop equal)
   (when (and string (stringp string))
     (let (output)
       (dolist (x exwmx-apps-db)
         (let ((regexp (plist-get x (or search-prop :regexp)))
-              (value (plist-get x prop)))
+              (value (plist-get x return-prop)))
           (if equal
               (when (equal regexp string)
                 (push value output))
