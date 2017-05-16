@@ -53,8 +53,8 @@ application to trigger paste operation, `string' will be
 inserted into the application."
   (if (derived-mode-p 'exwm-mode)
       (let ((paste-key
-             (or (exwmx--search-apps-db exwm-class-name :paste-key nil t)
-                 (exwmx--search-apps-db exwm-instance-name :paste-key nil t)
+             (or (exwmx--search-apps-db exwm-class-name :regexp :paste-key nil t)
+                 (exwmx--search-apps-db exwm-instance-name :regexp :paste-key nil t)
                  exwmx-sendstring-default-paste-key)))
         (kill-new string)
         (dolist (key (string-to-list (kbd paste-key)))

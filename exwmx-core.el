@@ -47,16 +47,16 @@
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx--update-mode-line "exwmx-button" nil)
 
-(defun exwmx--search-apps-db (string return-prop &optional search-prop equal)
+(defun exwmx--search-apps-db (string search-prop return-prop &optional equal)
   (when (and string (stringp string))
     (let (output)
       (dolist (x exwmx-apps-db)
-        (let ((regexp (plist-get x (or search-prop :regexp)))
+        (let ((search-string (plist-get x search-prop))
               (value (plist-get x return-prop)))
           (if equal
-              (when (equal regexp string)
+              (when (equal search-string string)
                 (push value output))
-            (when (exwmx--string-match-p regexp string)
+            (when (exwmx--string-match-p search-string string)
               (push value output)))))
       (car (reverse (remove nil output))))))
 
@@ -78,9 +78,9 @@ string."
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."
   (let ((prefer-name
-         (or (exwmx--search-apps-db exwm-title :prefer-name)
-             (exwmx--search-apps-db exwm-instance-name :prefer-name)
-             (exwmx--search-apps-db exwm-class-name :prefer-name))))
+         (or (exwmx--search-apps-db exwm-title :regexp :prefer-name)
+             (exwmx--search-apps-db exwm-instance-name :regexp :prefer-name)
+             (exwmx--search-apps-db exwm-class-name :regexp :prefer-name))))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
