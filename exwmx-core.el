@@ -31,27 +31,43 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 
-(defvar exwm--keyboard-grabbed)
-(declare-function exwmx--update-mode-line "exwmx-button" nil)
-
-(defvar exwmx-prefer-name-alist
-  '(("navigator" . "Firefox")
-    ("virtual[ ]*box" . "VirtualBox")
-    ("gimp" . "Gimp")
-    ("default-terminal" . "Term"))
-  "Dict used by `exwmx--get-prefer-name'")
-
-(defvar exwmx-send-paste-key "C-v")
-
-(defvar exwmx-send-paste-key-alist
-  '(("Icecat" . "C-v")
-    ("Xfce4-terminal" . "C-S-v"))
-  "`exwmx--send-string' will send app's paste keybinding to
-trigger paste operation, some apps use special paste keybinding,
-user should declare in this variable.")
+(defvar exwmx-apps-db
+  '((:regexp "navigator" :prefer-name "Firefox")
+    (:regexp "virtual[ ]*box" :prefer-name "VirtualBox")
+    (:regexp "gimp" :prefer-name "Gimp")
+    (:regexp "default-terminal" :prefer-name "Term")
+    (:regexp "Icecat" :jump-or-exec "icecat" :paste-key "C-v")
+    (:regexp "Thunar" :jump-or-exec "thunar")
+    (:regexp "Xfce4-terminal" :paste-key "C-S-v"))
+  "Applications information database used by Exwm-X's command.")
 
 (defvar exwmx-terminal-emulator "xterm"
   "exwmx default terminal emulator")
+
+(defvar exwmx-send-paste-key "C-v")
+
+(defvar exwm--keyboard-grabbed)
+(declare-function exwmx--update-mode-line "exwmx-button" nil)
+
+(defun exwmx--search-apps-db (string prop &optional search-prop equal)
+  (when (and string (stringp string))
+    (let (output)
+      (dolist (x exwmx-apps-db)
+        (let ((regexp (plist-get x (or search-prop :regexp)))
+              (value (plist-get x prop)))
+          (if equal
+              (when (equal regexp string)
+                (push value output))
+            (when (exwmx--string-match-p regexp string)
+              (push value output)))))
+      (car (reverse (remove nil output))))))
+
+(defun exwmx--string-match-p (regexp string)
+  "A wrap of `string-match-p', it can work when `string' is not a
+string."
+  (and (stringp regexp)
+       (stringp string)
+       (string-match-p regexp string)))
 
 (defun exwmx--switch-window ()
   (when (featurep 'switch-window)
@@ -63,34 +79,15 @@ user should declare in this variable.")
 (defun exwmx--get-prefer-name ()
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."
-  (let* ((dict-alist exwmx-prefer-name-alist)
-         (prefer-name
-          (or (exwmx--replace-string exwm-title dict-alist)
-              (exwmx--replace-string exwm-instance-name dict-alist)
-              (exwmx--replace-string exwm-class-name dict-alist))))
+  (let ((prefer-name
+         (or (exwmx--search-apps-db exwm-title :prefer-name)
+             (exwmx--search-apps-db exwm-instance-name :prefer-name)
+             (exwmx--search-apps-db exwm-class-name :prefer-name))))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
           (exwm-instance-name exwm-instance-name)
           (exwm-class-name exwm-class-name))))
-
-(defun exwmx--replace-string (string dict-alist)
-  "If the `string' match the car of element in `dict-alist',
-return its cdr value."
-  (let ((case-fold-search t)
-        new-string)
-    (dolist (x dict-alist)
-      (when (exwmx--string-match-p (car x) string)
-        (setq dict-alist nil)
-        (setq new-string (cdr x))))
-    new-string))
-
-(defun exwmx--string-match-p (regexp string)
-  "A wrap of `string-match-p', it can work when `string' is not a
-string."
-  (and (stringp regexp)
-       (stringp string)
-       (string-match-p regexp string)))
 
 (defun exwmx--next-exwm-buffer ()
   "Switch to next exwm buffer."
