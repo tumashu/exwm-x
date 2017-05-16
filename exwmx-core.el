@@ -44,8 +44,6 @@
 (defvar exwmx-terminal-emulator "xterm"
   "exwmx default terminal emulator")
 
-(defvar exwmx-send-paste-key "C-v")
-
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx--update-mode-line "exwmx-button" nil)
 

@@ -45,6 +45,7 @@
   nil " exwmx-sendstring" exwmx-sendstring-mode-map)
 
 (defvar exwmx-sendstring-buffer " *exwmx-sendstring*")
+(defvar exwmx-sendstring-default-paste-key "C-v")
 
 (defun exwmx-sendstring--send (string)
   "Send `string' to clipboard and then send paste key to
@@ -54,7 +55,7 @@ inserted into the application."
       (let ((paste-key
              (or (exwmx--search-apps-db exwm-class-name :paste-key nil t)
                  (exwmx--search-apps-db exwm-instance-name :paste-key nil t)
-                 exwmx-send-paste-key)))
+                 exwmx-sendstring-default-paste-key)))
         (kill-new string)
         (dolist (key (string-to-list (kbd paste-key)))
           (exwm-input--fake-key key))
