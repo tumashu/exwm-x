@@ -129,7 +129,6 @@
 
 ;; Let kill-ring works with app
 (define-key exwm-mode-map (kbd "C-c y") 'exwmx-sendstring-from-kill-ring)
-(define-key exwm-mode-map (kbd "C-'") 'exwmx-sendstring)
 
 ;; The following example demonstrates how to use simulation keys to mimic the
 ;; behavior of Emacs. The argument to `exwm-input-set-simulation-keys' is a
