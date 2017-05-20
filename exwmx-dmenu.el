@@ -112,7 +112,8 @@ dmenu should keep a record. "
                                                  exwmx-dmenu--history
                                                  :from-end t :test #'equal))
                                        (length (- (length history) 1)))
-                                  (cl-subseq history 0 (min length exwmx-dmenu-history-size)))
+                                  (when history
+                                    (cl-subseq history 0 (min length exwmx-dmenu-history-size))))
                                 (exwmx-dmenu--get-emacs-commands)
                                 exwmx-dmenu--commands)
                                :from-end t :test #'equal))
