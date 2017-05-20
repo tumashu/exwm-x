@@ -39,7 +39,7 @@ otherwise run shell command `command'."
     (exwmx--switch-window))
   (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
                     (exwmx--find-buffer
-                     (exwmx--search-apps-db command :jump-or-exec :class t))
+                     (exwmx--search-apps-db command :command :class t))
                     ;; The below two rules are just guess rules :-)
                     ;; Suggest use variable `exwmx-jump-or-exec'
                     ;; to set you own rules.

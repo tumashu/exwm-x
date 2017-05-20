@@ -36,8 +36,8 @@
     (:class "virtual[ ]*box" :prefer-name "VirtualBox")
     (:class "gimp" :prefer-name "Gimp")
     (:class "default-terminal" :prefer-name "Term")
-    (:class "Icecat" :jump-or-exec "icecat" :paste-key "C-v")
-    (:class "Thunar" :jump-or-exec "thunar")
+    (:class "Icecat" :command "icecat" :paste-key "C-v")
+    (:class "Thunar" :command "thunar")
     (:class "Xfce4-terminal" :paste-key "C-S-v"))
   "Applications information database used by Exwm-X's command.")
 
