@@ -86,7 +86,10 @@
                                      :paste-key exwmx-sendstring-default-paste-key
                                      :class exwm-class-name
                                      :instance exwm-instance-name
-                                     :title exwm-title))))
+                                     :title
+                                     (if (yes-or-no-p "Exwm-X: insert title too? ")
+                                         exwm-title
+                                       "")))))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
