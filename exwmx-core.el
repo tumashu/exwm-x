@@ -56,10 +56,7 @@ string."
 (defun exwmx--get-prefer-name ()
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."
-  (let ((prefer-name
-         (or (exwmx-appconfig--search exwm-title :class :alias)
-             (exwmx-appconfig--search exwm-instance-name :class :alias)
-             (exwmx-appconfig--search exwm-class-name :class :alias))))
+  (let ((prefer-name (exwmx-appconfig--search exwm-title :class :alias t)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
