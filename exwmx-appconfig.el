@@ -48,6 +48,9 @@
 
 (defvar exwmx-appconfig-buffer " *exwmx-appconfig*")
 
+;; Fix compile warn
+(defvar exwmx-sendstring-default-paste-key)
+
 (defun exwmx-appconfig--search (string search-prop return-prop &optional equal)
   (when (and string (stringp string))
     (let ((file (expand-file-name exwmx-appconfig-file))
