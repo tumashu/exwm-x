@@ -32,13 +32,13 @@
 (require 'exwm)
 
 (defvar exwmx-apps-db
-  '((:regexp "navigator" :prefer-name "Firefox")
-    (:regexp "virtual[ ]*box" :prefer-name "VirtualBox")
-    (:regexp "gimp" :prefer-name "Gimp")
-    (:regexp "default-terminal" :prefer-name "Term")
-    (:regexp "Icecat" :jump-or-exec "icecat" :paste-key "C-v")
-    (:regexp "Thunar" :jump-or-exec "thunar")
-    (:regexp "Xfce4-terminal" :paste-key "C-S-v"))
+  '((:class "navigator" :prefer-name "Firefox")
+    (:class "virtual[ ]*box" :prefer-name "VirtualBox")
+    (:class "gimp" :prefer-name "Gimp")
+    (:class "default-terminal" :prefer-name "Term")
+    (:class "Icecat" :jump-or-exec "icecat" :paste-key "C-v")
+    (:class "Thunar" :jump-or-exec "thunar")
+    (:class "Xfce4-terminal" :paste-key "C-S-v"))
   "Applications information database used by Exwm-X's command.")
 
 (defvar exwmx-terminal-emulator "xterm"
@@ -78,9 +78,9 @@ string."
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."
   (let ((prefer-name
-         (or (exwmx--search-apps-db exwm-title :regexp :prefer-name)
-             (exwmx--search-apps-db exwm-instance-name :regexp :prefer-name)
-             (exwmx--search-apps-db exwm-class-name :regexp :prefer-name))))
+         (or (exwmx--search-apps-db exwm-title :class :prefer-name)
+             (exwmx--search-apps-db exwm-instance-name :class :prefer-name)
+             (exwmx--search-apps-db exwm-class-name :class :prefer-name))))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
