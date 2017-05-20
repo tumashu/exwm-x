@@ -79,15 +79,20 @@ inserted into the application."
 
 (defun exwmx-sendstring-finish ()
   (interactive)
-  (let ((string (buffer-string)))
-    (delete-window)
-    (kill-buffer exwmx-sendstring-buffer)
-    (exwmx-sendstring--send string)))
+  (if exwmx-sendstring-mode
+      (let ((string (buffer-string)))
+        (delete-window)
+        (kill-buffer exwmx-sendstring-buffer)
+        (exwmx-sendstring--send string))
+    (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-ignore ()
   (interactive)
-  (delete-window)
-  (kill-buffer exwmx-sendstring-buffer))
+  (if exwmx-sendstring-mode
+      (progn
+        (delete-window)
+        (kill-buffer exwmx-sendstring-buffer))
+    (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-from-minibuffer ()
   (interactive)
