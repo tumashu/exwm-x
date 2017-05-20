@@ -36,9 +36,6 @@
        (exwm-config-default)
        (message "exwm configuration not found. Falling back to default configuration...")))
 
-;; * Footer
-(provide 'exwmx-loader)
-
 ;; Local Variables:
 ;; no-byte-compile: t
 ;; End:

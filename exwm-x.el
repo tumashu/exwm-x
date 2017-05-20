@@ -73,7 +73,7 @@
 ;; # Keyboard repeat rate
 ;; # xset r rate 200 60
 
-;; exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
+;; exec dbus-launch --exit-with-session emacs --eval '(load "/path/to/exwmx-loader.el")'
 ;; #+END_EXAMPLE
 
 ;; *** Make "~/.initrc" or "~/.xsession" excutable
