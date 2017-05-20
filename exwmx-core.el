@@ -31,34 +31,13 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 
-(defvar exwmx-apps-db
-  '((:class "navigator" :alias "Firefox")
-    (:class "virtual[ ]*box" :alias "VirtualBox")
-    (:class "gimp" :alias "Gimp")
-    (:class "default-terminal" :alias "Term")
-    (:class "Icecat" :command "icecat" :paste-key "C-v")
-    (:class "Thunar" :command "thunar")
-    (:class "Xfce4-terminal" :paste-key "C-S-v"))
-  "Applications information database used by Exwm-X's command.")
-
 (defvar exwmx-terminal-emulator "xterm"
   "exwmx default terminal emulator")
 
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx--update-mode-line "exwmx-button" nil)
-
-(defun exwmx--search-apps-db (string search-prop return-prop &optional equal)
-  (when (and string (stringp string))
-    (let (output)
-      (dolist (x exwmx-apps-db)
-        (let ((search-string (plist-get x search-prop))
-              (value (plist-get x return-prop)))
-          (if equal
-              (when (equal search-string string)
-                (push value output))
-            (when (exwmx--string-match-p search-string string)
-              (push value output)))))
-      (car (reverse (remove nil output))))))
+(declare-function exwmx-appconfig--search "exwmx-appconfig"
+                  '(string search-prop return-prop &optional equal))
 
 (defun exwmx--string-match-p (regexp string)
   "A wrap of `string-match-p', it can work when `string' is not a
@@ -78,9 +57,9 @@ string."
   "Get a prefer name of a application, based on its class-name, instance-name
 and title."
   (let ((prefer-name
-         (or (exwmx--search-apps-db exwm-title :class :alias)
-             (exwmx--search-apps-db exwm-instance-name :class :alias)
-             (exwmx--search-apps-db exwm-class-name :class :alias))))
+         (or (exwmx-appconfig--search exwm-title :class :alias)
+             (exwmx-appconfig--search exwm-instance-name :class :alias)
+             (exwmx-appconfig--search exwm-class-name :class :alias))))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)

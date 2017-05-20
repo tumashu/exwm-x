@@ -31,6 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 (require 'exwmx-core)
+(require 'exwmx-appconfig)
 
 (defun exwmx-jump-or-exec (command &optional class-instance-or-title current-window)
   "if matched window can be found, switch to this window,
@@ -39,7 +40,7 @@ otherwise run shell command `command'."
     (exwmx--switch-window))
   (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
                     (exwmx--find-buffer
-                     (exwmx--search-apps-db command :command :class t))
+                     (exwmx-appconfig--search command :command :class t))
                     ;; The below two rules are just guess rules :-)
                     ;; Suggest use variable `exwmx-jump-or-exec'
                     ;; to set you own rules.
