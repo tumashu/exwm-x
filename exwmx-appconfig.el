@@ -102,7 +102,7 @@
         (delete-window)
         (kill-buffer exwmx-appconfig-buffer)
         (append-to-file string nil exwmx-appconfig-file))
-    (message "Exwm-X: current mode is not exwmx-appconfig-mode.")))
+    (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
 
 (defun exwmx-appconfig-ignore ()
   (interactive)
@@ -110,7 +110,7 @@
       (progn
         (delete-window)
         (kill-buffer exwmx-appconfig-buffer))
-    (message "Exwm-X: current mode is not exwmx-appconfig-mode.")))
+    (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
 
 (provide 'exwmx-appconfig)
 
