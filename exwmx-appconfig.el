@@ -73,27 +73,29 @@
 
 (defun exwmx-appconfig ()
   (interactive)
-  (unless (file-readable-p exwmx-appconfig-file)
-    (append-to-file "" nil exwmx-appconfig-file))
-  (let ((buffer (get-buffer-create exwmx-appconfig-buffer))
-        (string (format "%S" (list :alias exwm-instance-name
-                                   :paste-key exwmx-sendstring-default-paste-key
-                                   :class exwm-class-name
-                                   :instance exwm-instance-name
-                                   :title exwm-title))))
-    (with-current-buffer buffer
-      (emacs-lisp-mode)
-      (exwmx-appconfig-mode)
-      (erase-buffer)
-      (insert string)
-      (goto-char (point-min))
-      (setq header-line-format
-            (substitute-command-keys
-             (concat
-              "\\<exwmx-appconfig-mode-map>"
-              "Finish with `\\[exwmx-appconfig-finish]', "
-              "Ignore with `\\[exwmx-appconfig-ignore]'. "))))
-    (pop-to-buffer buffer)))
+  (if (not (derived-mode-p 'exwm-mode))
+      (message "Exwm-X: No app is found.")
+    (unless (file-readable-p exwmx-appconfig-file)
+      (append-to-file "" nil exwmx-appconfig-file))
+    (let ((buffer (get-buffer-create exwmx-appconfig-buffer))
+          (string (format "%S" (list :alias exwm-instance-name
+                                     :paste-key exwmx-sendstring-default-paste-key
+                                     :class exwm-class-name
+                                     :instance exwm-instance-name
+                                     :title exwm-title))))
+      (with-current-buffer buffer
+        (emacs-lisp-mode)
+        (exwmx-appconfig-mode)
+        (erase-buffer)
+        (insert string)
+        (goto-char (point-min))
+        (setq header-line-format
+              (substitute-command-keys
+               (concat
+                "\\<exwmx-appconfig-mode-map>"
+                "Finish with `\\[exwmx-appconfig-finish]', "
+                "Ignore with `\\[exwmx-appconfig-ignore]'. "))))
+      (pop-to-buffer buffer))))
 
 (defun exwmx-appconfig-finish ()
   (interactive)
