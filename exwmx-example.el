@@ -61,9 +61,17 @@
   (exwm-workspace-rename-buffer
    (concat "Exwm:" (exwmx--get-prefer-name))))
 
-(defun exwmx/web-browser ()
+(defun exwmx:web-browser ()
   (interactive)
-  (exwmx-jump-or-exec "Icecat" "icecat"))
+  (exwmx-jump-or-exec "web-browser"))
+
+(defun exwmx:file-browser ()
+  (interactive)
+  (exwmx-jump-or-exec "file-browser"))
+
+(defun exwmx:terminal ()
+  (interactive)
+  (exwmx-jump-or-exec "terminal"))
 
 (defun exwmx-switch-to-1-workspace ()
   (interactive)
