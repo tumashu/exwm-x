@@ -33,12 +33,14 @@
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
 
-(defun exwmx-jump-or-exec (command &optional class-instance-or-title current-window)
+(defun exwmx-jump-or-exec (command &optional current-window)
   "if matched window can be found, switch to this window,
 otherwise run shell command `command'."
   (unless current-window
     (exwmx--switch-window))
-  (let ((buffer (or (exwmx--find-buffer class-instance-or-title)
+  (let ((command (or (exwmx-appconfig--search command :alias :command t) command))
+        (buffer (or (exwmx--find-buffer
+                     (exwmx-appconfig--search command :alias :class t))
                     (exwmx--find-buffer
                      (exwmx-appconfig--search command :command :class t))
                     ;; The below two rules are just guess rules :-)
