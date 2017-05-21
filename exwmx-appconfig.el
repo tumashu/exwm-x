@@ -98,7 +98,7 @@
                             :paste-key
                             (or (plist-get history :paste-key)
                                 exwmx-sendstring-default-paste-key)
-                            :class exwm-class-name
+                            :class
                             (or (plist-get history :class)
                                 exwm-class-name)
                             :instance
