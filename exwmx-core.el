@@ -56,7 +56,7 @@ string."
 (defun exwmx--get-pretty-name ()
   "Get a pretty name of a application, based on its class-name, instance-name
 and title."
-  (let ((prefer-name (exwmx-appconfig--search exwm-title :class :pretty-name t)))
+  (let ((prefer-name (exwmx-appconfig--search exwm-class-name :class :pretty-name t)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
