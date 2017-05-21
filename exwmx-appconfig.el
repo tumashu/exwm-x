@@ -85,19 +85,33 @@
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
-           (string (format "%S" (or (exwmx-appconfig--search exwm-class-name :class t t)
-                                    (list :command exwm-instance-name
-                                          :alias exwm-instance-name
-                                          :pretty-name exwm-instance-name
-                                          :paste-key exwmx-sendstring-default-paste-key
-                                          :class exwm-class-name
-                                          :instance exwm-instance-name
-                                          :title exwm-instance-name)))))
+           (history (exwmx-appconfig--search exwm-class-name :class t t))
+           (appconfig (list :command
+                            (or (plist-get history :command)
+                                exwm-instance-name)
+                            :alias
+                            (or (plist-get history :alias)
+                                exwm-instance-name)
+                            :pretty-name
+                            (or (plist-get history :pretty-name)
+                                exwm-instance-name)
+                            :paste-key
+                            (or (plist-get history :paste-key)
+                                exwmx-sendstring-default-paste-key)
+                            :class exwm-class-name
+                            (or (plist-get history :class)
+                                exwm-class-name)
+                            :instance
+                            (or (plist-get history :instance)
+                                exwm-instance-name)
+                            :title
+                            (or (plist-get history :title)
+                                exwm-title))))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
         (erase-buffer)
-        (insert (concat string "\n"))
+        (insert (format "%S\n" appconfig))
         (goto-char (point-min))
         (setq header-line-format
               (substitute-command-keys
