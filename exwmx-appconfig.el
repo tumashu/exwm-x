@@ -81,25 +81,24 @@
       (message "Exwm-X: No app is found.")
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
-    (let ((buffer (get-buffer-create exwmx-appconfig-buffer))
-          (string (format "%S" (list :alias exwm-instance-name
-                                     :paste-key exwmx-sendstring-default-paste-key
-                                     :class exwm-class-name
-                                     :instance exwm-instance-name
-                                     :title
-                                     (if (yes-or-no-p "Exwm-X: insert title too? ")
-                                         exwm-title
-                                       "")))))
+    (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
+           (string (format "%S" (list :command exwm-instance-name
+                                      :alias exwm-instance-name
+                                      :paste-key exwmx-sendstring-default-paste-key
+                                      :class exwm-class-name
+                                      :instance exwm-instance-name
+                                      :title exwm-instance-name))))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
         (erase-buffer)
-        (insert string)
+        (insert (concat string "\n"))
         (goto-char (point-min))
         (setq header-line-format
               (substitute-command-keys
                (concat
                 "\\<exwmx-appconfig-mode-map>"
+                "Appconfig: "
                 "Finish with `\\[exwmx-appconfig-finish]', "
                 "Ignore with `\\[exwmx-appconfig-ignore]'. "))))
       (pop-to-buffer buffer))))
