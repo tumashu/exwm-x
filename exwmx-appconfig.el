@@ -65,7 +65,9 @@
       (while appconfigs
         (let* ((x (pop appconfigs))
                (search-string (plist-get x search-prop))
-               (value (plist-get x return-prop)))
+               (value (if (eq return-prop t)
+                          x
+                        (plist-get x return-prop))))
           (if equal
               (when (equal search-string string)
                 (setq search-result value)
@@ -83,13 +85,14 @@
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
-           (string (format "%S" (list :command exwm-instance-name
-                                      :alias exwm-instance-name
-                                      :pretty-name exwm-instance-name
-                                      :paste-key exwmx-sendstring-default-paste-key
-                                      :class exwm-class-name
-                                      :instance exwm-instance-name
-                                      :title exwm-instance-name))))
+           (string (format "%S" (or (exwmx-appconfig--search exwm-class-name :class t t)
+                                    (list :command exwm-instance-name
+                                          :alias exwm-instance-name
+                                          :pretty-name exwm-instance-name
+                                          :paste-key exwmx-sendstring-default-paste-key
+                                          :class exwm-class-name
+                                          :instance exwm-instance-name
+                                          :title exwm-instance-name)))))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
