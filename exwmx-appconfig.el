@@ -85,6 +85,7 @@
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
            (string (format "%S" (list :command exwm-instance-name
                                       :alias exwm-instance-name
+                                      :pretty-name exwm-instance-name
                                       :paste-key exwmx-sendstring-default-paste-key
                                       :class exwm-class-name
                                       :instance exwm-instance-name
