@@ -53,10 +53,10 @@ string."
      #'(lambda () (other-window 1))
      nil nil 1)))
 
-(defun exwmx--get-prefer-name ()
-  "Get a prefer name of a application, based on its class-name, instance-name
+(defun exwmx--get-pretty-name ()
+  "Get a pretty name of a application, based on its class-name, instance-name
 and title."
-  (let ((prefer-name (exwmx-appconfig--search exwm-title :class :alias t)))
+  (let ((prefer-name (exwmx-appconfig--search exwm-title :class :pretty-name t)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)

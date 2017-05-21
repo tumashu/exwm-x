@@ -59,7 +59,7 @@
 
 (defun exwmx--rename-exwm-buffer ()
   (exwm-workspace-rename-buffer
-   (concat "Exwm:" (exwmx--get-prefer-name))))
+   (concat "Exwm:" (exwmx--get-pretty-name))))
 
 (defun exwmx:web-browser ()
   (interactive)
