@@ -62,17 +62,18 @@
           (ignore-errors
             (while (not (eobp))
               (push (read (current-buffer)) appconfigs)))))
-      (dolist (x appconfigs)
-        (let ((search-string (plist-get x search-prop))
-              (value (plist-get x return-prop)))
+      (while appconfigs
+        (let* ((x (pop appconfigs))
+               (search-string (plist-get x search-prop))
+               (value (plist-get x return-prop)))
           (if equal
               (when (equal search-string string)
                 (setq search-result value)
-                (setq appconfig nil))
+                (setq appconfigs nil))
             (when (or (exwmx--string-match-p string search-string)
                       (exwmx--string-match-p search-string string))
               (setq search-result value)
-              (setq appconfig nil)))))
+              (setq appconfigs nil)))))
       search-result)))
 
 (defun exwmx-appconfig ()
