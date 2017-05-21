@@ -73,6 +73,7 @@ inserted into the application."
             (substitute-command-keys
              (concat
               "\\<exwmx-sendstring-mode-map>"
+              "Sendstring: "
               "Finish with `\\[exwmx-sendstring-finish]', "
               "Ignore with `\\[exwmx-sendstring-ignore]'. "))))
     (pop-to-buffer buffer)))
