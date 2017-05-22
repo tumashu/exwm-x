@@ -133,15 +133,15 @@ execute. "
               (exwmx--create-button
                'mode-line "[Z+]"
                '(progn (exwm-layout-enlarge-window 30)
-                       (exwm-layout-enlarge-window-horizontally 100))
-               '(progn (exwm-layout-enlarge-window 30)
-                       (exwm-layout-enlarge-window-horizontally 100)))
+                       (exwm-layout-enlarge-window-horizontally 60))
+               '(progn (exwm-layout-enlarge-window 150)
+                       (exwm-layout-enlarge-window-horizontally 300)))
               (exwmx--create-button
                'mode-line "[Z-]"
                '(progn (exwm-layout-enlarge-window -30)
-                       (exwm-layout-enlarge-window-horizontally -100))
-               '(progn (exwm-layout-enlarge-window -30)
-                       (exwm-layout-enlarge-window-horizontally -100)))
+                       (exwm-layout-enlarge-window-horizontally -60))
+               '(progn (exwm-layout-enlarge-window -150)
+                       (exwm-layout-enlarge-window-horizontally -300)))
               " "
               (exwmx--create-line-char-button (exwm--buffer->id (window-buffer)))
               (exwmx--create-button
