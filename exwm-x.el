@@ -120,7 +120,7 @@
 (require 'exwmx-core)
 (require 'exwmx-buttons)
 (require 'exwmx-utils)
-(require 'exwmx-move-border)
+(require 'exwmx-mvborder)
 (require 'exwmx-dmenu)
 (require 'exwmx-sendstring)
 (require 'exwmx-apps)

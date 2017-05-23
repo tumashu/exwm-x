@@ -104,11 +104,11 @@ execute. "
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
               (exwmx--create-button
-               'mode-line "[<]" '(exwmx-move-border-left 10) '(exwmx-move-border-left 10))
+               'mode-line "[<]" '(exwmx-mvborder-left 10) '(exwmx-mvborder-left 10))
               (exwmx--create-button
                'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
               (exwmx--create-button
-               'mode-line "[>]" '(exwmx-move-border-right 10) '(exwmx-move-border-right 10))
+               'mode-line "[>]" '(exwmx-mvborder-right 10) '(exwmx-mvborder-right 10))
               " "
               (exwmx--create-button
                'mode-line "[-]" '(split-window-below) '(split-window-below))
