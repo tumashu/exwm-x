@@ -81,7 +81,7 @@
 (defun exwmx-appconfig ()
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
-      (message "Exwm-X: No app is found.")
+      (message "Exwm-X: No application is found.")
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
