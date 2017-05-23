@@ -36,7 +36,7 @@
   "exwmx default terminal emulator")
 
 (defvar exwm--keyboard-grabbed)
-(declare-function exwmx--update-mode-line "exwmx-button" nil)
+(declare-function exwmx-button--update-mode-line "exwmx-button" nil)
 (declare-function exwmx-appconfig--search "exwmx-appconfig"
                   '(string search-prop return-prop &optional equal))
 
@@ -91,7 +91,7 @@ and title."
              "`\\[exwm-input-send-next-key]' -> send next key to application.")))
           (exwm-reset)))
     (message "Exwm-x: No application is actived."))
-  (exwmx--update-mode-line))
+  (exwmx-button--update-mode-line))
 
 (defun exwmx-jump-or-exec (command &optional current-window)
   "if matched window can be found, switch to this window,
