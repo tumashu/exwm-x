@@ -118,6 +118,7 @@
 
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
+(require 'exwmx-appconfig)
 (require 'exwmx-button)
 (require 'exwmx-mvborder)
 (require 'exwmx-dmenu)
