@@ -1,4 +1,4 @@
-;;; exwmx-buttons.el --- Add some exwm buttons to mode-line
+;;; exwmx-button.el --- Add some exwm buttons to mode-line
 
 ;; * Header
 ;; Copyright 2015-2017 Feng Shu
@@ -32,9 +32,9 @@
 (require 'exwm)
 (require 'exwmx-core)
 
-(defun exwmx--create-button (mode-line string &optional mouse-1-action
-                                       mouse-3-action mouse-2-action
-                                       active-down-mouse)
+(defun exwmx-button--create-button (mode-line string &optional mouse-1-action
+                                              mouse-3-action mouse-2-action
+                                              active-down-mouse)
   "Generate `,mode-line-format' style code of a clickable button, which name
 is `string'.
 
@@ -92,66 +92,66 @@ execute. "
 ;; [Z+]: Zoom+ floating application's window
 ;; [Z-]: Zoom- floating application's window
 
-(defun exwmx--create-tilling-mode-line ()
+(defun exwmx-button--create-tilling-mode-line ()
   (setq mode-line-format
-        (list (exwmx--create-button
+        (list (exwmx-button--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[R]" '(exwm-reset) '(exwm-reset))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[<]" '(exwmx-mvborder-left 10) '(exwmx-mvborder-left 10))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[>]" '(exwmx-mvborder-right 10) '(exwmx-mvborder-right 10))
               " "
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[-]" '(split-window-below) '(split-window-below))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[|]" '(split-window-right) '(split-window-right))
               " "
-              (exwmx--create-line-char-button (exwm--buffer->id (window-buffer)))
+              (exwmx-button--create-line-char-button (exwm--buffer->id (window-buffer)))
               " - "
               exwm-title)))
 
-(defun exwmx--create-floating-mode-line ()
+(defun exwmx-button--create-floating-mode-line ()
   (setq mode-line-format
-        (list (exwmx--create-button
+        (list (exwmx-button--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[R]" '(exwm-reset) '(exwm-reset))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[Z+]"
                '(progn (exwm-layout-enlarge-window 30)
                        (exwm-layout-enlarge-window-horizontally 60))
                '(progn (exwm-layout-enlarge-window 150)
                        (exwm-layout-enlarge-window-horizontally 300)))
-              (exwmx--create-button
+              (exwmx-button--create-button
                'mode-line "[Z-]"
                '(progn (exwm-layout-enlarge-window -30)
                        (exwm-layout-enlarge-window-horizontally -60))
                '(progn (exwm-layout-enlarge-window -150)
                        (exwm-layout-enlarge-window-horizontally -300)))
               " "
-              (exwmx--create-line-char-button (exwm--buffer->id (window-buffer)))
-              (exwmx--create-button
+              (exwmx-button--create-line-char-button (exwm--buffer->id (window-buffer)))
+              (exwmx-button--create-button
                'mode-line
                (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
 
-(defun exwmx--create-line-char-button (id)
-  (or (when id (exwmx--create-line-char-button-1 id)) ""))
+(defun exwmx-button--create-line-char-button (id)
+  (or (when id (exwmx-button--create-line-char-button-1 id)) ""))
 
-(defun exwmx--create-line-char-button-1 (id)
+(defun exwmx-button--create-line-char-button-1 (id)
   "Update the propertized `mode-line-process' for window ID."
   (let (help-echo cmd mode)
     (cl-case exwm--on-KeyPress
@@ -179,12 +179,12 @@ execute. "
                      (keymap (mode-line keymap
                                         (down-mouse-1 . ,cmd))))))))
 
-(defun exwmx--reset-mode-line ()
+(defun exwmx-button--reset-mode-line ()
   "Reset mode-line for tilling window"
   (setq mode-line-format
         (default-value 'mode-line-format)))
 
-(defun exwmx--update-mode-line ()
+(defun exwmx-button--update-mode-line ()
   "Update all buffer's mode-lines."
   (interactive)
   ;; Set all buffer's mode-line.
@@ -192,19 +192,19 @@ execute. "
     (with-current-buffer buffer
       (cond ((and (eq major-mode 'exwm-mode)
                   (not exwm--floating-frame))
-             (exwmx--create-tilling-mode-line))
+             (exwmx-button--create-tilling-mode-line))
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
-             (exwmx--create-floating-mode-line))
-            (t (exwmx--reset-mode-line))))
+             (exwmx-button--create-floating-mode-line))
+            (t (exwmx-button--reset-mode-line))))
     (force-mode-line-update)))
 
-(add-hook 'exwm-update-class-hook #'exwmx--update-mode-line)
-(add-hook 'exwm-update-title-hook #'exwmx--update-mode-line)
-(add-hook 'buffer-list-update-hook #'exwmx--update-mode-line)
+(add-hook 'exwm-update-class-hook #'exwmx-button--update-mode-line)
+(add-hook 'exwm-update-title-hook #'exwmx-button--update-mode-line)
+(add-hook 'buffer-list-update-hook #'exwmx-button--update-mode-line)
 
 ;; * Footer
 
-(provide 'exwmx-buttons)
+(provide 'exwmx-button)
 
 ;;; exwmx-modeline.el ends here
