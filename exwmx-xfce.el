@@ -27,14 +27,12 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'exwm)
 (require 'exwmx-core)
-(require 'exwmx-dmenu)
 
 (defvar exwmx-terminal-emulator nil)
 (setq exwmx-terminal-emulator "xfce4-terminal")
 
-(defun exwmx:startxfce4 ()
+(defun exwmx-xfce--startxfce4 ()
   (interactive)
   (if (executable-find "startxfce4")
       (progn
@@ -42,7 +40,7 @@
         (exwmx-shell-command "startxfce4"))
     (message "Exwm-X: xfce is not installed, abort!")))
 
-(add-hook 'exwm-init-hook #'exwmx:startxfce4)
+(add-hook 'exwm-init-hook #'exwmx-xfce--startxfce4)
 
 ;; * Footer
 (provide 'exwmx-xfce)
