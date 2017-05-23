@@ -32,6 +32,19 @@
 (defvar exwmx-terminal-emulator nil)
 (setq exwmx-terminal-emulator "xfce4-terminal")
 
+(defun exwmx-xfce-thunar ()
+  (interactive)
+  (exwmx-jump-or-exec "thunar"))
+
+(defun exwmx-xfce-terminal ()
+  (interactive)
+  (exwmx-jump-or-exec "xfce4-terminal -T default-terminal"
+                      "default-terminal"))
+
+(defun exwmx-xfce-new-terminal ()
+  (interactive)
+  (exwmx-shell-command "xfce4-terminal"))
+
 (defun exwmx-xfce--startxfce4 ()
   (interactive)
   (if (executable-find "startxfce4")

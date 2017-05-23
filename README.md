@@ -1,28 +1,28 @@
-- [Exwm-X](#orgfe5ddb0)
-  - [What is Exwm-X](#orgb25cba9)
-  - [Feature](#org40a12dc)
-  - [Pictures](#org7959073)
-  - [Install](#org6cf867a)
-  - [Configure](#orga5029c7)
-    - [Add exwm-x directory to emacs's load-path](#org2dd604d)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org8449ee8)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org5b46c76)
-    - [Edit "~/.exwm-x"](#orgd427192)
+- [Exwm-X](#orgedc64bc)
+  - [What is Exwm-X](#org24321e4)
+  - [Feature](#org9eaf3c7)
+  - [Pictures](#org1ea2780)
+  - [Install](#orgfda856c)
+  - [Configure](#org28d67d7)
+    - [Add exwm-x directory to emacs's load-path](#orgab33c89)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org5d7c548)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org62a4fe4)
+    - [Edit "~/.exwm-x"](#org1791e55)
 
 
-<a id="orgfe5ddb0"></a>
+<a id="orgedc64bc"></a>
 
 # Exwm-X
 
 
-<a id="orgb25cba9"></a>
+<a id="org24321e4"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="org40a12dc"></a>
+<a id="org9eaf3c7"></a>
 
 ## Feature
 
@@ -33,7 +33,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 5.  Emacs's kill-ring integration
 
 
-<a id="org7959073"></a>
+<a id="org1ea2780"></a>
 
 ## Pictures
 
@@ -46,7 +46,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org6cf867a"></a>
+<a id="orgfda856c"></a>
 
 ## Install
 
@@ -54,12 +54,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="orga5029c7"></a>
+<a id="org28d67d7"></a>
 
 ## Configure
 
 
-<a id="org2dd604d"></a>
+<a id="orgab33c89"></a>
 
 ### Add exwm-x directory to emacs's load-path
 
@@ -68,7 +68,7 @@ Pasting the below line to "~/.emacs" is a simple way.
     (add-to-list 'load-path "/path/to/exwm-x")
 
 
-<a id="org8449ee8"></a>
+<a id="org5d7c548"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -91,7 +91,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="org5b46c76"></a>
+<a id="org62a4fe4"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -102,7 +102,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="orgd427192"></a>
+<a id="org1791e55"></a>
 
 ### Edit "~/.exwm-x"
 
@@ -112,10 +112,10 @@ Add your exwm config to this file, for example:
     (require 'exwm-x)
     (require 'exwmx-xfce)
     (require 'exwmx-example)
-    (exwm-input-set-key (kbd "C-t v") 'exwmx:thunar)
-    (exwm-input-set-key (kbd "C-t f") 'exwmx:icecat)
-    (exwm-input-set-key (kbd "C-t c") 'exwmx:xfce4-terminal)
-    (exwm-input-set-key (kbd "C-t C-c") 'exwmx:xfce4-new-terminal)
+    (exwm-input-set-key (kbd "C-t v") 'exwmx:file-browser)
+    (exwm-input-set-key (kbd "C-t f") 'exwmx:web-browser)
+    (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
+    (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 
 Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's features. If it doesn't suit for your need, just copy and paste its useful pieces to your own exwm config :-)
 

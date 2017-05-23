@@ -103,10 +103,10 @@
 ;; (require 'exwm-x)
 ;; (require 'exwmx-xfce)
 ;; (require 'exwmx-example)
-;; (exwm-input-set-key (kbd "C-t v") 'exwmx:thunar)
-;; (exwm-input-set-key (kbd "C-t f") 'exwmx:icecat)
-;; (exwm-input-set-key (kbd "C-t c") 'exwmx:xfce4-terminal)
-;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx:xfce4-new-terminal)
+;; (exwm-input-set-key (kbd "C-t v") 'exwmx:file-browser)
+;; (exwm-input-set-key (kbd "C-t f") 'exwmx:web-browser)
+;; (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
+;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 ;; #+END_EXAMPLE
 
 ;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
@@ -122,7 +122,6 @@
 (require 'exwmx-mvborder)
 (require 'exwmx-dmenu)
 (require 'exwmx-sendstring)
-(require 'exwmx-apps)
 
 ;; * Footer
 (provide 'exwm-x)
