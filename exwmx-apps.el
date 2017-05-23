@@ -29,7 +29,6 @@
 ;; * Code                                                                 :code:
 (require 'exwm)
 (require 'exwmx-core)
-(require 'exwmx-utils)
 (require 'exwmx-dmenu)
 
 (defun exwmx:thunar ()

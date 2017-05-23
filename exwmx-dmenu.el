@@ -30,7 +30,6 @@
 (require 'cl-lib)
 (require 'swiper)
 (require 'exwmx-core)
-(require 'exwmx-utils)
 
 (defgroup exwmx-dmenu nil
   "simulate the dmenu command line program."
