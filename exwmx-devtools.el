@@ -34,7 +34,7 @@
 (require 'owp-el2org)
 
 (defvar exwmx-repository-directory
-  "~/project/emacs-packages/exwmx/")
+  "~/project/emacs-packages/exwm-x/")
 
 (owp/add-project-config
  '("exwm-x"
