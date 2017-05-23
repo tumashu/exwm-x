@@ -5,7 +5,7 @@
 ;; Author: DarkSun <lujun9972@gmail.com>
 ;;         Feng Shu <tumashu@163.com>
 ;; Created: 2015-12-01
-;; Version: 0.3
+;; Version: 0.8.1
 ;; Package-Requires: ((cl-lib "0.5"))
 ;; Keywords: convenience, usability
 
