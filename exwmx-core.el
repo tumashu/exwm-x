@@ -38,7 +38,7 @@
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
 (declare-function exwmx-appconfig--search "exwmx-appconfig"
-                  '(string search-prop return-prop &optional equal))
+                  (string search-prop return-prop &optional equal))
 
 (defun exwmx--string-match-p (regexp string)
   "A wrap of `string-match-p', it can work when `string' is not a
