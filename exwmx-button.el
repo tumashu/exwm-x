@@ -28,8 +28,6 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'cl-lib)
-(require 'exwm)
 (require 'exwmx-core)
 
 (defun exwmx-button--create-button (mode-line string &optional mouse-1-action

@@ -27,7 +27,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'cl-lib)
 (require 'swiper)
 (require 'exwmx-core)
 

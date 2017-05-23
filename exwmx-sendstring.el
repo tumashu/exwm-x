@@ -29,9 +29,7 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'exwm)
 (require 'exwmx-core)
-(require 'counsel)
 
 (defvar exwmx-sendstring-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -102,18 +100,20 @@ inserted into the application."
 
 (defun exwmx-sendstring-from-kill-ring ()
   (interactive)
-  (if (not (derived-mode-p 'exwm-mode))
-      (call-interactively 'counsel-yank-pop)
-    (let* ((ivy-format-function #'counsel--yank-pop-format-function)
-           (ivy-height 5)
-           (cands (mapcar #'ivy-cleanup-string
-                          (cl-remove-if
-                           (lambda (s)
-                             (or (< (length s) 3)
-                                 (string-match "\\`[\n[:blank:]]+\\'" s)))
-                           (delete-dups kill-ring))))
-           (string (completing-read "kill-ring: " cands)))
-      (exwmx-sendstring--send string))))
+  (if (featurep 'counsel)
+      (if (not (derived-mode-p 'exwm-mode))
+          (call-interactively 'counsel-yank-pop)
+        (let* ((ivy-format-function #'counsel--yank-pop-format-function)
+               (ivy-height 5)
+               (cands (mapcar #'ivy-cleanup-string
+                              (cl-remove-if
+                               (lambda (s)
+                                 (or (< (length s) 3)
+                                     (string-match "\\`[\n[:blank:]]+\\'" s)))
+                               (delete-dups kill-ring))))
+               (string (completing-read "kill-ring: " cands)))
+          (exwmx-sendstring--send string)))
+    (message "Exwm-X: counsel is required.")))
 
 (provide 'exwmx-sendstring)
 

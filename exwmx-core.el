@@ -29,6 +29,7 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
+(require 'cl-lib)
 (require 'exwm)
 
 (defvar exwmx-terminal-emulator "xterm"
