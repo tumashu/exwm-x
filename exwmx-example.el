@@ -121,7 +121,6 @@
 ;; `exwm-input-prefix-keys' and then add the key sequence to `exwm-mode-map'.
 ;; The example shorten 'C-c q' to 'C-q'.
 (push ?\C-q exwm-input-prefix-keys)
-(push ?\C-' exwm-input-prefix-keys)
 (define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
 
 ;; If you don't use exim, you may need not to set "?\C-\\"
