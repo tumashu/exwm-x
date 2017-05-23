@@ -95,7 +95,7 @@
 ;; chmod a+x ~/.initrc
 ;; #+END_EXAMPLE
 
-;; *** Edit "~/.exwm"
+;; *** Edit "~/.exwm-x"
 ;; Add your exwm config to this file, for example:
 
 ;; #+BEGIN_EXAMPLE

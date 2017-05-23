@@ -28,13 +28,12 @@
 
 ;; * Code                                                                 :code:
 
-(cond ((file-exists-p "~/.exwm")
-       (load-file "~/.exwm"))
-      ((not (featurep 'exwm))
-       (require 'exwm)
-       (require 'exwm-config)
-       (exwm-config-default)
-       (message "exwm configuration not found. Falling back to default configuration...")))
+(cond ((file-exists-p "~/.exwm-x")
+       (load-file "~/.exwm-x"))
+      ((not (featurep 'exwm-x))
+       (require 'exwm-x)
+       (require 'exwmx-example)
+       (message "Exwm-X configuration not found. Falling back to default configuration...")))
 
 ;; * Footer
 (provide 'exwmx-loader)
