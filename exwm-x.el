@@ -66,19 +66,13 @@
 
 ;; #+BEGIN_EXAMPLE
 
-;; # Emacs X input method (exim) setting
-;; # export XMODIFIERS=@im=exim
-;; # export GTK_IM_MODULE=xim
-;; # export QT_IM_MODULE=xim
-;; # export CLUTTER_IM_MODULE=xim
-
-;; xhost +SI:localuser:$USER
-
 ;; # Fallback cursor
 ;; # xsetroot -cursor_name left_ptr
 
 ;; # Keyboard repeat rate
 ;; # xset r rate 200 60
+
+;; xhost +SI:localuser:$USER
 
 ;; exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 ;; #+END_EXAMPLE

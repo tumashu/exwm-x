@@ -1,28 +1,28 @@
-- [Exwm-X](#orgedc64bc)
-  - [What is Exwm-X](#org24321e4)
-  - [Feature](#org9eaf3c7)
-  - [Pictures](#org1ea2780)
-  - [Install](#orgfda856c)
-  - [Configure](#org28d67d7)
-    - [Add exwm-x directory to emacs's load-path](#orgab33c89)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org5d7c548)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org62a4fe4)
-    - [Edit "~/.exwm-x"](#org1791e55)
+- [Exwm-X](#org70669bb)
+  - [What is Exwm-X](#org68a4662)
+  - [Feature](#org77bf67c)
+  - [Pictures](#orgbf34f6c)
+  - [Install](#org509ba18)
+  - [Configure](#org7ba637b)
+    - [Add exwm-x directory to emacs's load-path](#orga43b198)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org5bc63ef)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org0f3403a)
+    - [Edit "~/.exwm-x"](#org927e372)
 
 
-<a id="orgedc64bc"></a>
+<a id="org70669bb"></a>
 
 # Exwm-X
 
 
-<a id="org24321e4"></a>
+<a id="org68a4662"></a>
 
 ## What is Exwm-X
 
 Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
 
 
-<a id="org9eaf3c7"></a>
+<a id="org77bf67c"></a>
 
 ## Feature
 
@@ -33,7 +33,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 5.  Emacs's kill-ring integration
 
 
-<a id="org1ea2780"></a>
+<a id="orgbf34f6c"></a>
 
 ## Pictures
 
@@ -46,7 +46,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="orgfda856c"></a>
+<a id="org509ba18"></a>
 
 ## Install
 
@@ -54,12 +54,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org28d67d7"></a>
+<a id="org7ba637b"></a>
 
 ## Configure
 
 
-<a id="orgab33c89"></a>
+<a id="orga43b198"></a>
 
 ### Add exwm-x directory to emacs's load-path
 
@@ -68,19 +68,11 @@ Pasting the below line to "~/.emacs" is a simple way.
     (add-to-list 'load-path "/path/to/exwm-x")
 
 
-<a id="org5d7c548"></a>
+<a id="org5bc63ef"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
 You should edit "~/.initrc" file or "~/.xsession" file like below example:
-
-    # Emacs X input method (exim) setting
-    # export XMODIFIERS=@im=exim
-    # export GTK_IM_MODULE=xim
-    # export QT_IM_MODULE=xim
-    # export CLUTTER_IM_MODULE=xim
-
-    xhost +SI:localuser:$USER
 
     # Fallback cursor
     # xsetroot -cursor_name left_ptr
@@ -88,10 +80,12 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     # Keyboard repeat rate
     # xset r rate 200 60
 
+    xhost +SI:localuser:$USER
+
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="org62a4fe4"></a>
+<a id="org0f3403a"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -102,7 +96,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org1791e55"></a>
+<a id="org927e372"></a>
 
 ### Edit "~/.exwm-x"
 
