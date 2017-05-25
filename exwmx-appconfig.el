@@ -35,6 +35,14 @@
   "Application's Exwm-X configure file, Which will be used by
  many Exwm-X's commands.")
 
+(defvar exwmx-appconfig-extra-properties nil
+  "Extra properties which will be deal with by `exwmx-appconfig'.
+
+These properties will not be inserted when create a new appconfig record,
+user should add it by hand. but if user want to override an exist appconfig,
+the history value will be inserted to exwmx-appconfig's buffer, then user
+can to stay or edit it.")
+
 (defvar exwmx-appconfig-mode-map
   (let ((keymap (make-sparse-keymap)))
     (define-key keymap "\C-c\C-c" 'exwmx-appconfig-finish)
@@ -107,6 +115,10 @@
                             :title
                             (or (plist-get history :title)
                                 exwm-title))))
+      (dolist (prop exwmx-appconfig-extra-properties)
+        (let ((value (plist-get history prop)))
+          (when value
+            (plist-put appconfig prop value))))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
