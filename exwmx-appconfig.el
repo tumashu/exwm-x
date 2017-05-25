@@ -93,7 +93,8 @@ can to stay or edit it.")
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
-           (history (exwmx-appconfig--search exwm-class-name :class t t))
+           (history (exwmx-appconfig--search
+                     (md5 (concat exwm-title exwm-instance-name)) :key t t))
            (appconfig (list :command
                             (or (plist-get history :command)
                                 exwm-instance-name)
@@ -119,6 +120,7 @@ can to stay or edit it.")
         (let ((value (plist-get history prop)))
           (when value
             (plist-put appconfig prop value))))
+      (plist-put appconfig :key (md5 (concat exwm-title exwm-instance-name)))
       (with-current-buffer buffer
         (emacs-lisp-mode)
         (exwmx-appconfig-mode)
@@ -136,11 +138,33 @@ can to stay or edit it.")
 
 (defun exwmx-appconfig-finish ()
   (interactive)
+  (goto-char (point-min))
   (if exwmx-appconfig-mode
-      (let ((string (buffer-string)))
-        (delete-window)
-        (kill-buffer exwmx-appconfig-buffer)
-        (append-to-file string nil exwmx-appconfig-file))
+      (let* ((file (expand-file-name exwmx-appconfig-file))
+             (record (read (current-buffer)))
+             (key (plist-get record :key))
+             appconfigs search-result)
+        (when (file-readable-p file)
+          (with-temp-buffer
+            (insert-file-contents file)
+            (goto-char (point-min))
+            (ignore-errors
+              (while (not (eobp))
+                (push (read (current-buffer)) appconfigs)))
+            (setq appconfigs
+                  (cons record
+                        (cl-remove-if
+                         #'(lambda (x)
+                             (equal key (plist-get x :key)))
+                         appconfigs)))
+            (erase-buffer)
+            (mapc
+             #'(lambda (x)
+                 (insert (format "%S\n" x)))
+             appconfigs)
+            (write-file file)
+            (delete-window)
+            (kill-buffer exwmx-appconfig-buffer))))
     (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
 
 (defun exwmx-appconfig-ignore ()
