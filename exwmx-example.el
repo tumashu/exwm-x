@@ -63,15 +63,15 @@
 
 (defun exwmx:web-browser ()
   (interactive)
-  (exwmx-jump-or-exec "web-browser"))
+  (exwmx-jump-or-exec "web-browser" nil t))
 
 (defun exwmx:file-browser ()
   (interactive)
-  (exwmx-jump-or-exec "file-browser"))
+  (exwmx-jump-or-exec "file-browser" nil t))
 
 (defun exwmx:terminal ()
   (interactive)
-  (exwmx-jump-or-exec "terminal"))
+  (exwmx-jump-or-exec "terminal" nil t))
 
 (defun exwmx-switch-to-1-workspace ()
   (interactive)

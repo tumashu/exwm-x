@@ -93,16 +93,19 @@ and title."
     (message "Exwm-x: No application is actived."))
   (exwmx-button--update-mode-line))
 
-(defun exwmx-jump-or-exec (command &optional current-window)
+(defun exwmx-jump-or-exec (command &optional current-window search-alias)
   "if matched window can be found, switch to this window,
 otherwise run shell command `command'."
   (unless current-window
     (exwmx--switch-window))
-  (let ((command (or (exwmx-appconfig--search command :alias :command t) command))
-        (buffer (or (exwmx--find-buffer
-                     (exwmx-appconfig--search command :alias :class t))
-                    (exwmx--find-buffer
-                     (exwmx-appconfig--search command :command :class t))
+  (let ((cmd (if search-alias
+                 (exwmx-appconfig--search command :alias :command t)
+               command))
+        (buffer (or (if search-alias
+                        (exwmx--find-buffer
+                         (exwmx-appconfig--search command :alias :class t))
+                      (exwmx--find-buffer
+                       (exwmx-appconfig--search command :command :class t)))
                     ;; The below two rules are just guess rules :-)
                     ;; Suggest use variable `exwmx-jump-or-exec'
                     ;; to set you own rules.
@@ -110,10 +113,13 @@ otherwise run shell command `command'."
                      (capitalize (concat "^" (car (split-string command " ")))))
                     (exwmx--find-buffer
                      (concat "^" (car (split-string command " ")))))))
-    (message "Exwm-X jump-or-exec: %s" command)
+    (if (and search-alias (not cmd))
+        (message "Command-alias %S is not found, run `exwmx-appconfig' to set `:alias' property. " command)
+      (message "Exwm-X jump-or-exec: %s" cmd))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
-      (start-process-shell-command command nil command))))
+      (when cmd
+        (start-process-shell-command cmd nil cmd)))))
 
 (defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name',
