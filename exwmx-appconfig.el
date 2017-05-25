@@ -138,12 +138,12 @@ can to stay or edit it.")
 
 (defun exwmx-appconfig-finish ()
   (interactive)
-  (goto-char (point-min))
   (if exwmx-appconfig-mode
-      (let* ((file (expand-file-name exwmx-appconfig-file))
-             (record (read (current-buffer)))
-             (key (plist-get record :key))
-             appconfigs search-result)
+      (let ((file (expand-file-name exwmx-appconfig-file))
+            key record appconfigs search-result)
+        (goto-char (point-min))
+        (setq record (read (current-buffer)))
+        (setq key (plist-get record :key))
         (when (file-readable-p file)
           (with-temp-buffer
             (insert-file-contents file)
