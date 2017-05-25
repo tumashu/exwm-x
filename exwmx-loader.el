@@ -33,7 +33,7 @@
       ((not (featurep 'exwm-x))
        (require 'exwm-x)
        (require 'exwmx-example)
-       (message "Exwm-X configuration not found. Falling back to default configuration...")))
+       (message "File \"~/.exwm-x\" is not found. Falling back to default Exwm-X configuration...")))
 
 ;; * Footer
 (provide 'exwmx-loader)
