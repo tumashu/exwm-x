@@ -29,6 +29,7 @@
 
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
+(require 'switch-window)
 
 (defun exwmx-button--create-button (mode-line string &optional mouse-1-action
                                               mouse-3-action mouse-2-action
@@ -102,11 +103,11 @@ execute. "
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
               (exwmx-button--create-button
-               'mode-line "[<]" '(exwmx-mvborder-left 10) '(exwmx-mvborder-left 10))
+               'mode-line "[<]" '(switch-window-mvborder-left 10) '(switch-window-mvborder-left 10))
               (exwmx-button--create-button
                'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
               (exwmx-button--create-button
-               'mode-line "[>]" '(exwmx-mvborder-right 10) '(exwmx-mvborder-right 10))
+               'mode-line "[>]" '(switch-window-mvborder-right 10) '(switch-window-mvborder-right 10))
               " "
               (exwmx-button--create-button
                'mode-line "[-]" '(split-window-below) '(split-window-below))
