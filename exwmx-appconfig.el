@@ -78,6 +78,21 @@
               (setq appconfigs nil)))))
       search-result)))
 
+(defun exwmx-appconfig--insert-plist (plist)
+  (let ((first t))
+    (insert "(")
+    (while plist
+      (let ((prop (pop plist))
+            (value (pop plist)))
+        (if first
+            (setq first nil)
+          (insert " "))
+        (insert (format "%-15S" prop))
+        (insert (format "%S" value))
+        (when plist
+          (insert "\n"))))
+    (insert ")")))
+
 (defun exwmx-appconfig ()
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
@@ -100,10 +115,11 @@
           (plist-put appconfig prop value)))
       (plist-put appconfig :key (md5 (concat exwm-class-name exwm-instance-name)))
       (with-current-buffer buffer
-        (emacs-lisp-mode)
+        (text-mode)
         (exwmx-appconfig-mode)
+        (setq truncate-lines t)
         (erase-buffer)
-        (insert (format "%S\n" appconfig))
+        (exwmx-appconfig--insert-plist appconfig)
         (goto-char (point-min))
         (setq header-line-format
               (substitute-command-keys
