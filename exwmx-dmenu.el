@@ -209,7 +209,9 @@ dmenu should keep a record. "
               (dolist (prefix prefix-list)
                 (let ((func (cdr (assoc prefix exwmx-dmenu-prefix-setting))))
                   (when (functionp func)
-                    (exwmx--switch-window)
+                    (unless (member func '(exwmx-dmenu--split-window-left-to-right
+                                           exwmx-dmenu--split-window-top-to-bottom))
+                      (exwmx--switch-window))
                     (funcall func command))))
             (exwmx-jump-or-exec command)))))))
 
