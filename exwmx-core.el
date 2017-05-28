@@ -232,18 +232,6 @@ and `exwmx-mouse-move-floating-window'"
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
 
-;; Override exwm's exwm-floating-toggle-floating
-(defun exwm-floating-toggle-floating ()
-  "Toggle the current window between floating and non-floating states."
-  (interactive)
-  (with-current-buffer (window-buffer)
-    (if exwm--floating-frame
-        (progn
-          (exwm-floating--unset-floating exwm--id)
-          (exwm-layout--refresh))
-      (exwm-floating--set-floating exwm--id)
-      (exwm-layout--refresh))))
-
 ;; * Footer
 (provide 'exwmx-core)
 
