@@ -33,7 +33,7 @@
 (require 'exwm)
 
 (defvar exwmx-terminal-emulator "xterm"
-  "exwmx default terminal emulator")
+  "Exwm-X default terminal emulator")
 
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
@@ -48,6 +48,7 @@ string."
        (string-match-p regexp string)))
 
 (defun exwmx--switch-window ()
+  "A switch-window command's wrapper used by Exwm-X."
   (when (featurep 'switch-window)
     (switch-window--then
      "Run command in window: "
@@ -55,8 +56,8 @@ string."
      nil nil 1)))
 
 (defun exwmx--get-pretty-name ()
-  "Get a pretty name of a application, based on its class-name, instance-name
-and title."
+  "Get a pretty name of an application, based on application's :pretty-name,
+:class, :instance or :title which is stored in `exwmx-appconfig-file'."
   (let ((prefer-name (exwmx-appconfig--search exwm-class-name :class :pretty-name t)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
@@ -94,8 +95,10 @@ and title."
   (exwmx-button--update-mode-line))
 
 (defun exwmx-jump-or-exec (command &optional current-window search-alias)
-  "if matched window can be found, switch to this window,
-otherwise run shell command `command'."
+  "if window which command matched `command' can be found, switch to this window,
+otherwise run shell command `command', user need to select the place of application
+window unless `current-window' set to t, when `search-alias' is t, `command' will
+be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
   (unless current-window
     (exwmx--switch-window))
   (let ((cmd (if search-alias
@@ -163,16 +166,14 @@ otherwise run shell command `command'."
   (start-process-shell-command cmd nil cmd))
 
 (defun exwmx-mouse-move-floating-window (start-event)
-  "This is a mouse drag event function, used by exwm
-mode-line button, when drag mouse from such button,
-move current floating window dynamic."
+  "This is a mouse drag event function used by exwmx-button,
+when drag mouse from such button, move current floating window dynamic."
   (interactive "e")
   (exwmx--mouse-operate-floating-window start-event))
 
 (defun exwmx-mouse-resize-floating-window (start-event)
-  "This is a mouse drag event function, used by exwm
-mode-line button, when drag mouse from such button,
-resize current floating window dynamic."
+  "This is a mouse drag event function used by exwmx-button,
+when drag mouse from such button, resize current floating window dynamic."
   (interactive "e")
   (exwmx--mouse-operate-floating-window start-event t))
 

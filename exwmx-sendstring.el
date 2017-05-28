@@ -62,6 +62,7 @@ inserted into the application."
     (insert string)))
 
 (defun exwmx-sendstring ()
+  "Pop up a buffer and let user input, edit and send string to application."
   (interactive)
   (let ((buffer (get-buffer-create exwmx-sendstring-buffer)))
     (with-current-buffer buffer
@@ -78,6 +79,7 @@ inserted into the application."
     (pop-to-buffer buffer)))
 
 (defun exwmx-sendstring-finish ()
+  "Send the string in buffer and delete window."
   (interactive)
   (if exwmx-sendstring-mode
       (let ((string (buffer-string)))
@@ -87,6 +89,7 @@ inserted into the application."
     (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-ignore ()
+  "Ignore send string to application."
   (interactive)
   (if exwmx-sendstring-mode
       (progn
@@ -95,11 +98,13 @@ inserted into the application."
     (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-from-minibuffer ()
+  "Read a string with minibuffer and send it to application."
   (interactive)
   (exwmx-sendstring--send
    (read-from-minibuffer "Exwm-X: please input: ")))
 
 (defun exwmx-sendstring-from-kill-ring ()
+  "Show `kill-ring' with ivy, and send selectd to application."
   (interactive)
   (if (featurep 'counsel)
       (if (not (derived-mode-p 'exwm-mode))

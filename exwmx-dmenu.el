@@ -31,7 +31,7 @@
 (require 'exwmx-core)
 
 (defgroup exwmx-dmenu nil
-  "simulate the dmenu command line program."
+  "Simulate the dmenu command line program."
   :group 'extensions
   :group 'convenience)
 
@@ -76,15 +76,18 @@ dmenu should keep a record. "
 
 ;;;###autoload
 (defun exwmx-dmenu ()
+  "Exwm-X dynamic menu, which will use ivy to show commands candidates."
   (interactive)
   (exwmx-dmenu--internal))
 
 ;;;###autoload
 (defun exwmx-dmenu-simple ()
+  "A simple version Exwm-X dynamic menu."
   (interactive)
   (exwmx-dmenu--internal t))
 
 (defun exwmx-dmenu--internal (&optional simple-mode)
+  "The internal function of `exwmx-dmenu'."
   (interactive)
   (make-directory (file-name-directory exwmx-dmenu-cache-file) t)
   (unless exwmx-dmenu--initialized-p
@@ -126,6 +129,7 @@ dmenu should keep a record. "
     (exwmx-dmenu--run command)))
 
 (defun exwmx-dmenu--run-with-terminal (command)
+  "Run a `command' in a terminal emulator."
   (let ((cmd (format "%s -e 'bash -c %S'"
                      exwmx-terminal-emulator
                      (concat command "; exec bash"))))
@@ -133,6 +137,7 @@ dmenu should keep a record. "
     (exwmx-shell-command cmd)))
 
 (defun exwmx-dmenu--run-emacs-command (command)
+  "If the function exwmx:command is found, call-interactively it."
   (let ((emacs-command
          (intern (concat "exwmx:" command))))
     (if (not (functionp emacs-command))
@@ -187,6 +192,7 @@ dmenu should keep a record. "
             command))))
 
 (defun exwmx-dmenu--run (command)
+  "Run Exwm-X command, depend `command''s prefix and body."
   (let* ((list (exwmx-dmenu--parse-command command))
          (prefix-list (car list))
          (command (cadr list)))
@@ -208,6 +214,7 @@ dmenu should keep a record. "
             (exwmx-jump-or-exec command)))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
+  "Get all emacs commands with name is match exwmx:command."
   (let (output)
     (mapatoms
      #'(lambda (symbol)
@@ -244,7 +251,7 @@ to `exwmx-dmenu-cache-file'"
     (prin1 exwmx-dmenu--history (current-buffer))))
 
 (defun exwmx-dmenu--get-commands()
-  "cache executable files"
+  "cache executable files for Exwmx-dmenu."
   (let* ((valid-exec-path (cl-remove-if-not
                            #'file-exists-p
                            (cl-remove-if-not #'stringp exec-path)))

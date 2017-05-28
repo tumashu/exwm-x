@@ -32,8 +32,10 @@
 (require 'exwmx-core)
 
 (defvar exwmx-appconfig-file (locate-user-emacs-file "exwm-x/exwmx-appconfig")
-  "Application's Exwm-X configure file, Which will be used by
- many Exwm-X's commands.")
+  "File which is used to record Exwm-X appconfig.
+
+An appconfig is a property list, which record an application's class, instance,
+title and other useful property used by Exwm-X commands.")
 
 (defvar exwmx-appconfig-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -52,6 +54,10 @@
 (defvar exwmx-sendstring-default-paste-key)
 
 (defun exwmx-appconfig--search (string search-prop return-prop &optional equal)
+  "Search record-plist from `exwmx-appconfig-file', if a record-plist
+which property `search-prop' is match or equal (if `equal set to t) `string',
+the value of property `return-prop' will be returned, if `return-prop' is t,
+the record-plist will be returned. "
   (when (and string (stringp string))
     (let ((file (expand-file-name exwmx-appconfig-file))
           appconfigs search-result)
@@ -79,6 +85,7 @@
       search-result)))
 
 (defun exwmx-appconfig--insert-plist (plist)
+  "Format a `plist' and insert to current buffer."
   (let ((first t))
     (insert "(")
     (while plist
@@ -94,6 +101,10 @@
     (insert ")")))
 
 (defun exwmx-appconfig ()
+  "Exwm-X's application configure tool, which will pop to a buffer.
+and insert a record-plist template to let user edit. then user can
+use `exwmx-appconfig-file' to save the record to `exwmx-appconfig-file'
+or use `exwmx-appconfig-ignore' ignore."
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
       (message "Exwm-X: No application is found.")
@@ -131,6 +142,7 @@
       (pop-to-buffer buffer))))
 
 (defun exwmx-appconfig-finish ()
+  "Save edited appconfig to `exwmx-appconfig-file' then delete window."
   (interactive)
   (if exwmx-appconfig-mode
       (let ((file (expand-file-name exwmx-appconfig-file))
@@ -162,6 +174,7 @@
     (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
 
 (defun exwmx-appconfig-ignore ()
+  "Ignore edited appconfig then delete window."
   (interactive)
   (if exwmx-appconfig-mode
       (progn

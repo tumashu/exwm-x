@@ -92,6 +92,7 @@ execute. "
 ;; [Z-]: Zoom- floating application's window
 
 (defun exwmx-button--create-tilling-mode-line ()
+  "Create tilling window operate buttons."
   (setq mode-line-format
         (list (exwmx-button--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
@@ -119,6 +120,7 @@ execute. "
               exwm-title)))
 
 (defun exwmx-button--create-floating-mode-line ()
+  "Create floating window operate buttons."
   (setq mode-line-format
         (list (exwmx-button--create-button
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
@@ -151,7 +153,7 @@ execute. "
   (or (when id (exwmx-button--create-line-char-button-1 id)) ""))
 
 (defun exwmx-button--create-line-char-button-1 (id)
-  "Update the propertized `mode-line-process' for window ID."
+  "Create Char-mode/Line-mode toggle button."
   (let (help-echo cmd mode)
     (cl-case exwm--on-KeyPress
       ((exwm-input--on-KeyPress-line-mode)
@@ -179,7 +181,7 @@ execute. "
                                         (down-mouse-1 . ,cmd))))))))
 
 (defun exwmx-button--reset-mode-line ()
-  "Reset mode-line for tilling window"
+  "Reset `mode-line-format' to default value."
   (setq mode-line-format
         (default-value 'mode-line-format)))
 
