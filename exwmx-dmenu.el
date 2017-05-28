@@ -57,8 +57,8 @@ dmenu should keep a record. "
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
     (";" . exwmx-dmenu--run-emacs-command)
-    ("-" . exwmx-dmenu--split-window-horizontal)
-    ("|" . exwmx-dmenu--split-window-vertical))
+    ("-" . exwmx-dmenu--split-window-left-to-right)
+    ("|" . exwmx-dmenu--split-window-top-to-bottom))
   "Exwmx-dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
@@ -145,11 +145,11 @@ dmenu should keep a record. "
       (message "Exwm-X run emacs command: `%s'" emacs-command)
       (call-interactively emacs-command))))
 
-(defun exwmx-dmenu--split-window-horizontal (command)
-  (exwmx-dmenu--split-window command 'horizontal))
+(defun exwmx-dmenu--split-window-left-to-right (command)
+  (exwmx-dmenu--split-window command 'left-to-right))
 
-(defun exwmx-dmenu--split-window-vertical (command)
-  (exwmx-dmenu--split-window command 'vertical))
+(defun exwmx-dmenu--split-window-top-to-bottom (command)
+  (exwmx-dmenu--split-window command 'top-to-bottom))
 
 (defun exwmx-dmenu--split-window (command type)
   (let* ((list (remove "" (split-string command "")))
@@ -157,16 +157,16 @@ dmenu should keep a record. "
          (num2 (string-to-number (nth 1 list))))
     (when (and (> num1 0) (> num2 0))
       (delete-other-windows)
-      (if (eq type 'vertical)
+      (if (eq type 'top-to-bottom)
           (split-window-horizontally)
         (split-window-vertically))
       (dotimes (_ (- num1 1))
-        (if (eq type 'vertical)
+        (if (eq type 'top-to-bottom)
             (split-window-below)
           (split-window-right)))
       (other-window num1)
       (dotimes (_ (- num2 1))
-        (if (eq type 'vertical)
+        (if (eq type 'top-to-bottom)
             (split-window-below)
           (split-window-right)))
       (other-window num2)
