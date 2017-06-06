@@ -53,21 +53,27 @@ title and other useful property used by Exwm-X commands.")
 ;; Fix compile warn
 (defvar exwmx-sendstring-default-paste-key)
 
+(defun exwmx-appconfig--get-all-appconfigs ()
+  "Get all appconfigs stored in `exwmx-appconfig-file'."
+  (let ((file (expand-file-name exwmx-appconfig-file))
+        appconfigs search-result)
+    (when (file-readable-p file)
+      (with-temp-buffer
+        (insert-file-contents file)
+        (goto-char (point-min))
+        (ignore-errors
+          (while (not (eobp))
+            (push (read (current-buffer)) appconfigs)))))
+    appconfigs))
+
 (defun exwmx-appconfig--search (string search-prop return-prop &optional equal)
   "Search record-plist from `exwmx-appconfig-file', if a record-plist
 which property `search-prop' is match or equal (if `equal set to t) `string',
 the value of property `return-prop' will be returned, if `return-prop' is t,
 the record-plist will be returned. "
   (when (and string (stringp string))
-    (let ((file (expand-file-name exwmx-appconfig-file))
-          appconfigs search-result)
-      (when (file-readable-p file)
-        (with-temp-buffer
-          (insert-file-contents file)
-          (goto-char (point-min))
-          (ignore-errors
-            (while (not (eobp))
-              (push (read (current-buffer)) appconfigs)))))
+    (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+          search-result)
       (while appconfigs
         (let* ((x (pop appconfigs))
                (search-string (plist-get x search-prop))
@@ -169,17 +175,11 @@ or use `exwmx-appconfig-ignore' ignore."
 (defun exwmx-appconfig--add-record (record)
   "Add `record' to appconfig file `exwmx-appconfig-file' and remove
 all other records which :key is equal the :key of `record'."
-  (let ((file (expand-file-name exwmx-appconfig-file))
-        (key (plist-get record :key))
-        appconfigs)
+  (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+        (key (plist-get record :key)))
     (when (and (exwmx-appconfig--plist-p record)
-               (file-readable-p file))
+               (file-readable-p exwmx-appconfig-file))
       (with-temp-buffer
-        (insert-file-contents file)
-        (goto-char (point-min))
-        (ignore-errors
-          (while (not (eobp))
-            (push (read (current-buffer)) appconfigs)))
         (setq appconfigs
               (cons record
                     (cl-remove-if
@@ -191,7 +191,7 @@ all other records which :key is equal the :key of `record'."
          #'(lambda (x)
              (insert (format "%S\n" x)))
          appconfigs)
-        (write-file file)))))
+        (write-file exwmx-appconfig-file)))))
 
 (defun exwmx-appconfig-ignore ()
   "Ignore edited appconfig then delete window."
