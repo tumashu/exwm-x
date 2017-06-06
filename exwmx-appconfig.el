@@ -90,6 +90,23 @@ the appconfig will be returned. "
               (setq appconfigs nil)))))
       search-result)))
 
+(defun exwmx-appconfig--select-appconfig ()
+  "Select and return an appconfig."
+  (let* ((appconfigs (exwmx-appconfig--get-all-records))
+         (selected (completing-read
+                    "Exwm-X: please select an appconfig: "
+                    (mapcar #'(lambda (x)
+                                (format "(%-20S %-20S %S)"
+                                        (plist-get x :class)
+                                        (plist-get x :instance)
+                                        (plist-get x :key )))
+                            appconfigs))))
+    (cl-find-if
+     #'(lambda (x)
+         (equal (plist-get x :key)
+                (nth 2 (read selected))))
+     appconfigs)))
+
 (defun exwmx-appconfig--insert-plist (plist)
   "Format a `plist' and insert to current buffer."
   (let ((first t))
