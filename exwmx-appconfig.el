@@ -155,37 +155,43 @@ or use `exwmx-appconfig-ignore' ignore."
   "Save edited appconfig to `exwmx-appconfig-file' then delete window."
   (interactive)
   (if exwmx-appconfig-mode
-      (let ((file (expand-file-name exwmx-appconfig-file))
-            key record appconfigs search-result)
+      (let (record)
         (goto-char (point-min))
         (setq record (read (current-buffer)))
-        (unless (exwmx-appconfig--plist-p record)
-          (setq record nil)
-          (message "Exwm-X: the current appconfig has a syntax error, re-edit it again."))
         (goto-char (point-min))
-        (setq key (plist-get record :key))
-        (when (and record (file-readable-p file))
-          (with-temp-buffer
-            (insert-file-contents file)
-            (goto-char (point-min))
-            (ignore-errors
-              (while (not (eobp))
-                (push (read (current-buffer)) appconfigs)))
-            (setq appconfigs
-                  (cons record
-                        (cl-remove-if
-                         #'(lambda (x)
-                             (equal key (plist-get x :key)))
-                         appconfigs)))
-            (erase-buffer)
-            (mapc
-             #'(lambda (x)
-                 (insert (format "%S\n" x)))
-             appconfigs)
-            (write-file file)
-            (delete-window)
-            (kill-buffer exwmx-appconfig-buffer))))
+        (if (not (exwmx-appconfig--plist-p record))
+            (message "Exwm-X: the current appconfig has a syntax error, re-edit it again.")
+          (exwmx-appconfig--add-record record)
+          (delete-window)
+          (kill-buffer exwmx-appconfig-buffer)))
     (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
+
+(defun exwmx-appconfig--add-record (record)
+  "Add `record' to appconfig file `exwmx-appconfig-file' and remove
+all other records which :key is equal the :key of `record'."
+  (let ((file (expand-file-name exwmx-appconfig-file))
+        (key (plist-get record :key))
+        appconfigs)
+    (when (and (exwmx-appconfig--plist-p record)
+               (file-readable-p file))
+      (with-temp-buffer
+        (insert-file-contents file)
+        (goto-char (point-min))
+        (ignore-errors
+          (while (not (eobp))
+            (push (read (current-buffer)) appconfigs)))
+        (setq appconfigs
+              (cons record
+                    (cl-remove-if
+                     #'(lambda (x)
+                         (equal key (plist-get x :key)))
+                     appconfigs)))
+        (erase-buffer)
+        (mapc
+         #'(lambda (x)
+             (insert (format "%S\n" x)))
+         appconfigs)
+        (write-file file)))))
 
 (defun exwmx-appconfig-ignore ()
   "Ignore edited appconfig then delete window."
