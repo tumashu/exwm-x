@@ -67,10 +67,10 @@ title and other useful property used by Exwm-X commands.")
     appconfigs))
 
 (defun exwmx-appconfig--search (string search-prop return-prop &optional equal)
-  "Search record-plist from `exwmx-appconfig-file', if a record-plist
+  "Search appconfig from `exwmx-appconfig-file', if an appconfig
 which property `search-prop' is match or equal (if `equal set to t) `string',
 the value of property `return-prop' will be returned, if `return-prop' is t,
-the record-plist will be returned. "
+the appconfig will be returned. "
   (when (and string (stringp string))
     (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
           search-result)
@@ -108,8 +108,8 @@ the record-plist will be returned. "
 
 (defun exwmx-appconfig ()
   "Exwm-X's application configure tool, which will pop to a buffer.
-and insert a record-plist template to let user edit. then user can
-use `exwmx-appconfig-file' to save the record to `exwmx-appconfig-file'
+and insert an appconfig template to let user edit. then user can
+use `exwmx-appconfig-file' to save the appconfig to `exwmx-appconfig-file'
 or use `exwmx-appconfig-ignore' ignore."
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
@@ -161,27 +161,27 @@ or use `exwmx-appconfig-ignore' ignore."
   "Save edited appconfig to `exwmx-appconfig-file' then delete window."
   (interactive)
   (if exwmx-appconfig-mode
-      (let (record)
+      (let (appconfig)
         (goto-char (point-min))
-        (setq record (read (current-buffer)))
+        (setq appconfig (read (current-buffer)))
         (goto-char (point-min))
-        (if (not (exwmx-appconfig--plist-p record))
+        (if (not (exwmx-appconfig--plist-p appconfig))
             (message "Exwm-X: the current appconfig has a syntax error, re-edit it again.")
-          (exwmx-appconfig--add-record record)
+          (exwmx-appconfig--add-appconfig appconfig)
           (delete-window)
           (kill-buffer exwmx-appconfig-buffer)))
     (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
 
-(defun exwmx-appconfig--add-record (record)
-  "Add `record' to appconfig file `exwmx-appconfig-file' and remove
-all other records which :key is equal the :key of `record'."
+(defun exwmx-appconfig--add-appconfig (appconfig)
+  "Add `appconfig' to appconfig file `exwmx-appconfig-file' and remove
+all other appconfigs which :key is equal the :key of `appconfig'."
   (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
-        (key (plist-get record :key)))
-    (when (and (exwmx-appconfig--plist-p record)
+        (key (plist-get appconfig :key)))
+    (when (and (exwmx-appconfig--plist-p appconfig)
                (file-readable-p exwmx-appconfig-file))
       (with-temp-buffer
         (setq appconfigs
-              (cons record
+              (cons appconfig
                     (cl-remove-if
                      #'(lambda (x)
                          (equal key (plist-get x :key)))
