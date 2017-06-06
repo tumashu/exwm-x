@@ -37,6 +37,9 @@
 
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
+(declare-function exwmx-appconfig--select-appconfig "exwmx-appconfig" ())
+(declare-function exwmx-appconfig--get-all-records "exwmx-appconfig" ())
+(declare-function exwmx-appconfig--add-appconfig "exwmx-appconfig" (appconfig))
 (declare-function exwmx-appconfig--search "exwmx-appconfig"
                   (string search-prop return-prop &optional equal))
 
@@ -101,23 +104,29 @@ window unless `current-window' set to t, when `search-alias' is t, `command' wil
 be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
   (unless current-window
     (exwmx--switch-window))
-  (let ((cmd (if search-alias
-                 (exwmx-appconfig--search command :alias :command t)
-               command))
-        (buffer (or (if search-alias
-                        (exwmx--find-buffer
-                         (exwmx-appconfig--search command :alias :class t))
-                      (exwmx--find-buffer
-                       (exwmx-appconfig--search command :command :class t)))
-                    ;; The below two rules are just guess rules :-)
-                    ;; Suggest use variable `exwmx-jump-or-exec'
-                    ;; to set you own rules.
-                    (exwmx--find-buffer
-                     (capitalize (concat "^" (car (split-string command " ")))))
-                    (exwmx--find-buffer
-                     (concat "^" (car (split-string command " ")))))))
+  (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+         (cmd (if search-alias
+                  (or (exwmx-appconfig--search command :alias :command t)
+                      (when appconfigs
+                        (let ((appconfig (exwmx-appconfig--select-appconfig)))
+                          (plist-put appconfig :alias command)
+                          (exwmx-appconfig--add-appconfig appconfig)
+                          (plist-get appconfig :command))))
+                command))
+         (buffer (or (if search-alias
+                         (exwmx--find-buffer
+                          (exwmx-appconfig--search command :alias :class t))
+                       (exwmx--find-buffer
+                        (exwmx-appconfig--search command :command :class t)))
+                     ;; The below two rules are just guess rules :-)
+                     ;; Suggest use variable `exwmx-jump-or-exec'
+                     ;; to set you own rules.
+                     (exwmx--find-buffer
+                      (capitalize (concat "^" (car (split-string command " ")))))
+                     (exwmx--find-buffer
+                      (concat "^" (car (split-string command " ")))))))
     (if (and search-alias (not cmd))
-        (message "Command-alias %S is not found, run `exwmx-appconfig' to set `:alias' property. " command)
+        (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
       (message "Exwm-X jump-or-exec: %s" cmd))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
