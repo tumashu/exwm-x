@@ -38,7 +38,7 @@
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
 (declare-function exwmx-appconfig--select-appconfig "exwmx-appconfig" ())
-(declare-function exwmx-appconfig--get-all-records "exwmx-appconfig" ())
+(declare-function exwmx-appconfig--get-all-appconfigs "exwmx-appconfig" ())
 (declare-function exwmx-appconfig--add-appconfig "exwmx-appconfig" (appconfig))
 (declare-function exwmx-appconfig--search "exwmx-appconfig"
                   (string search-prop return-prop &optional equal))

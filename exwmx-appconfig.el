@@ -92,7 +92,7 @@ the appconfig will be returned. "
 
 (defun exwmx-appconfig--select-appconfig ()
   "Select and return an appconfig."
-  (let* ((appconfigs (exwmx-appconfig--get-all-records))
+  (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
          (selected (completing-read
                     "Exwm-X: please select an appconfig: "
                     (mapcar #'(lambda (x)
@@ -104,8 +104,8 @@ the appconfig will be returned. "
     (cl-find-if
      #'(lambda (x)
          (equal (plist-get x :key)
-                (nth 2 (read selected))))
-     appconfigs)))
+                appconfigs)))
+    (nth 2 (read selected))))
 
 (defun exwmx-appconfig--insert-plist (plist)
   "Format a `plist' and insert to current buffer."
