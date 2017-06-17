@@ -1,28 +1,28 @@
-- [Exwm-X](#org70669bb)
-  - [What is Exwm-X](#org68a4662)
-  - [Feature](#org77bf67c)
-  - [Pictures](#orgbf34f6c)
-  - [Install](#org509ba18)
-  - [Configure](#org7ba637b)
-    - [Add exwm-x directory to emacs's load-path](#orga43b198)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org5bc63ef)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org0f3403a)
-    - [Edit "~/.exwm-x"](#org927e372)
+- [Exwm-X](#org168b3a9)
+  - [What is Exwm-X](#org8e51b9d)
+  - [Feature](#orgd62efbe)
+  - [Pictures](#org9e7c644)
+  - [Install](#orgb26eaf1)
+  - [Configure](#org00f5951)
+    - [Add exwm-x directory to emacs's load-path](#org07ed664)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#orgdda9b35)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org96b4b76)
+    - [Edit "~/.exwm-x"](#orgb412659)
 
 
-<a id="org70669bb"></a>
+<a id="org168b3a9"></a>
 
 # Exwm-X
 
 
-<a id="org68a4662"></a>
+<a id="org8e51b9d"></a>
 
 ## What is Exwm-X
 
-Exwm-X is an extension of exwm (emacs x window manager), which can make exwm easier for Mouse-Control-People to use.
+Exwm-X is a derivative window manager based on EXWM (emacs x window manager), which focus on Mouse-Control-People.
 
 
-<a id="org77bf67c"></a>
+<a id="orgd62efbe"></a>
 
 ## Feature
 
@@ -31,9 +31,10 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 3.  Jump-or-exec, which will switch to an exist app instead of launch it again.
 4.  Dmenu, just dynamic menu
 5.  Emacs's kill-ring integration
+6.  Appconfig
 
 
-<a id="orgbf34f6c"></a>
+<a id="org9e7c644"></a>
 
 ## Pictures
 
@@ -46,7 +47,7 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org509ba18"></a>
+<a id="orgb26eaf1"></a>
 
 ## Install
 
@@ -54,12 +55,12 @@ Exwm-X is an extension of exwm (emacs x window manager), which can make exwm eas
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org7ba637b"></a>
+<a id="org00f5951"></a>
 
 ## Configure
 
 
-<a id="orga43b198"></a>
+<a id="org07ed664"></a>
 
 ### Add exwm-x directory to emacs's load-path
 
@@ -68,7 +69,7 @@ Pasting the below line to "~/.emacs" is a simple way.
     (add-to-list 'load-path "/path/to/exwm-x")
 
 
-<a id="org5bc63ef"></a>
+<a id="orgdda9b35"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -85,7 +86,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="org0f3403a"></a>
+<a id="org96b4b76"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -96,7 +97,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org927e372"></a>
+<a id="orgb412659"></a>
 
 ### Edit "~/.exwm-x"
 

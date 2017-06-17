@@ -1,4 +1,4 @@
-;;; exwm-x.el --- Addition tools for exwm (emacs x window manager)
+;;; exwm-x.el --- A derivative wm based on EXWM (emacs x window manager)
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu
@@ -29,8 +29,8 @@
 
 ;; ** What is Exwm-X
 
-;; Exwm-X is an extension of exwm (emacs x window manager), which can
-;; make exwm easier for Mouse-Control-People to use.
+;; Exwm-X is a derivative window manager based on EXWM (emacs x window manager),
+;; which focus on Mouse-Control-People.
 
 ;; ** Feature
 ;; 1. Window operate buttons in mode-line.
@@ -38,6 +38,7 @@
 ;; 3. Jump-or-exec, which will switch to an exist app instead of launch it again.
 ;; 4. Dmenu, just dynamic menu
 ;; 5. Emacs's kill-ring integration
+;; 6. Appconfig
 
 ;; ** Pictures
 ;; 1. Tilling windows
