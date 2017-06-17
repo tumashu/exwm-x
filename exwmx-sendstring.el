@@ -31,6 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
+(require 'counsel)
 
 (defvar exwmx-sendstring-mode-map
   (let ((keymap (make-sparse-keymap)))
