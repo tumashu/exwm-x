@@ -44,51 +44,46 @@
 ;; ** Feature
 ;; *** Appconfig
 ;; `exwmx-appconfig' is a database manager, which is used to record and manage
-;; appconfigs (plist of application's information), when run `exwmx-appconfig',
-;; a buffer will be poped up, this buffer's content is current appconfig's template,
-;; user can edit the template and run `exwmx-appconfig-finish' to save your change
-;; or run `exwmx-appconfig-ignore' to ignore your change.
+;; appconfigs (an appconfig is a plist of application's information), when run
+;; command `exwmx-appconfig', a buffer with appconfig-template will be poped up,
+;; user can edit the template and run `exwmx-appconfig-finish' to save the change
+;; or run `exwmx-appconfig-ignore' to ignore the change.
 
-;; All appconfig will be saved into file `exwmx-appconfig-file'.
+;; All appconfigs will be saved into file: `exwmx-appconfig-file'.
 
-;; By default, the following keys of appconfig will be recorded:
+;; By default, every appconfig have the following keys:
 
 ;; **** :command
-;; Application's shell command string.
+;; Record the shell command of application.
 
 ;; **** :alias
-;; This key can define an application's alias, which is used by
-;; `exwmx-jump-or-exec'.
+;; Define alias of an application, this key is used by `exwmx-jump-or-exec'.
 
 ;; **** :pretty-name
-;; In EXWM, every application will bind an emacs buffer, if you
-;; set :pretty-name for a application, the buffer will rename to
-;; :pretty-name's value.
+;; In EXWM and Exwm-X, an application is assocated with an emacs buffer,
+;; user can set the buffer's name with :pretty-name.
 
 ;; **** :paste-key
-;; This key record the paste keybinding of application,
-;; which is used by `exwmx-sendstring'.
+;; Record the paste keybinding of an application, this key is used
+;; by `exwmx-sendstring'.
 
 ;; **** :class
-;; Record the application's class, which is used by
-;; `exwmx-jump-or-exec'.
+;; Record the application's class, this key is used by `exwmx-jump-or-exec'.
 
 ;; **** :instance
-;; Record the application's instance, which is used by
-;; `exwmx-jump-or-exec'.
+;; Record the application's instance, this key is used by `exwmx-jump-or-exec'.
 
 ;; **** :title
-;; Record the application's title, which is used by
-;; `exwmx-jump-or-exec'.
+;; Record the application's title, this key is used by `exwmx-jump-or-exec'.
 
 
-;; *** Window operate buttons.
+;; *** Buttons
 ;; Exwm-X add the following *buttons* to mode-line, user can
-;; left or right click them to operate app's window:
+;; click them to operate application's window:
 
 ;; 1. [X]: Delete the current application.
 ;; 2. [D]: Delete the current emacs window.
-;; 3. [R]: Run exwm-reset.
+;; 3. [R]: Run `exwm-reset'.
 ;; 4. [F]: Toggle floating/tilling window.
 ;; 5. [<]: Move window border to left.
 ;; 6. [+]: Maximize the current window.
@@ -101,63 +96,66 @@
 ;; 13. [Line 'XXXX']: toggle EXWM char-mode/line-mode
 
 ;; *** Move or resize a floating-window without press WIN key.
-;; By default, EXWM use 's-<down-mouse-1>' to move a floating-window
-;; and 's-<down-mouse-3>' to resize a floating-window.
+;; By default, EXWM use "s-'down-mouse-1'" to move a floating-window
+;; and "s-'down-mouse-3'" to resize a floating-window.
 
-;; When Exwm-X is enabled, user can drag *the apps title* showed
-;; in mode-line to move a floating-window. and left or right click
-;; '[Z+]' and '[Z-]' in mode-line to resize a floating-window.
+;; When Exwm-X is enabled, user can drag *title showed in mode-line*
+;; to move a floating-window. and click '[Z+]' and '[Z-]' in mode-line
+;; to resize a floating-window.
 
 ;; *** Jump-or-exec
-;; Only run application once. when an application's window is found,
-;; jump to this window instead of launch the application again,
-;; this feature need the appconfig information in `exwmx-appconfig-file'.
+;; If the application's window is found, jump to this window, otherwise,
+;; launch the application with command, this feature need appconfigs stored
+;; in `exwmx-appconfig-file'.
 
-;; **** The simplest usage:
+;; **** The simplest usage
 
 ;; #+BEGIN_EXAMPLE
 ;; (exwmx-jump-or-exec "firefox")
 ;; #+END_EXAMPLE
 
 ;; **** Define an alias
-;; In the following example: `exwmx-jump-or-exec' will search an appconfig
-;; which :alias is "web-browser", and then run this appconfig's :command.
+;; Search an appconfig which :alias is "web-browser", and run this
+;; appconfig's :command.
 
 ;; #+BEGIN_EXAMPLE
 ;; (exwmx-jump-or-exec "web-browser" nil t)
 ;; #+END_EXAMPLE
 
-;; *** Dmenu
-;; `exwmx-dmenu' is just dynamic menu, user can input the command in minibuffer,
-;; then execute it. ivy is used to complete.
+;; *** Dynamic menu
+;; `exwmx-dmenu' let user input a dmenu command in minibuffer,
+;; and execute it, ivy is used to complete.
 
-;; `exwmx-dmenu' support the following command prefix:
-;; 1. ",": run command in terminal emulator, which is set by variable
-;;    `exwmx-terminal-emulator', for example: command ",top" will execute
-;;    a terminal emulator, then run "top" command.
-;; 2. ";": run an emacs command which name is exwm:<input>,
-;;    command ";firefox" will run emacs command exwm:firefox.
-;; 3. "-"  split window top-to-bottom, for example:
-;;    the result of command "-32" is that 3 windows on top and 2 windows in buttom.
-;; 4. "|"  split window left-to-right, for example:
-;;    the result of command "|32" is that 3 windows at left and 2 window at right
+;; `exwmx-dmenu' support some command prefixes:
+;; 1. "," -> run a dmenu-command in terminal emulator, for example,
+;;    dmenu-command ",top" will execute a terminal emulator, then run shell command: "top" .
 
-;; User can customize `exwmx-dmenu' by `exwmx-dmenu-prefix-setting'.
+;;    Note: user can change terminal emulator with the help of
+;;    variable `exwmx-terminal-emulator'.
+;; 2. ";" -> run an emacs command which name is exwm:<input>, for example,
+;;    dmenu-command ";firefox" will run emacs command exwm:firefox.
+;; 3. "-" -> split window top-to-bottom, for example,
+;;    the result of dmenu-command "-32" is that 3 windows on top and 2 windows in buttom.
+;; 4. "|" -> split window left-to-right, for example,
+;;    the result of dmenu-command "|32" is that 3 windows at left and 2 window at right
+
+;; User can customize the prefixes of `exwmx-dmenu' with the help of
+;; `exwmx-dmenu-prefix-setting'.
 
 ;; *** Send a string to application
 
-;; When run `exwmx-sendstring', a buffer will be poped up and user can edit it.
+;; When run `exwmx-sendstring', a buffer will be poped up to let user edit.
 ;; after run command `exwmx-sendstring-finish', the content of the buffer will
-;; be sent to the current application's input field.
+;; be sent to the input field of current application.
 
 ;; `exwmx-sendstring-from-minibuffer' is a simple version of `exwmx-sendstring',
-;; it use minibuffer to get user input.
+;; it use minibuffer to get input.
 
-;; `exwmx-sendstring-from-kill-ring' can select a string in kill-ring then send,
-;; to application.
+;; `exwmx-sendstring-from-kill-ring' can select a string in kill-ring then send
+;; this string to application.
 
-;; NOTE: if `exwmx-sendstring' can not work well with an application, you should
-;; set :paste-key of this application with the help of `exwmx-appconfig'.
+;; NOTE: if `exwmx-sendstring' can not work well with an application, user
+;; should set :paste-key of this application with the help of `exwmx-appconfig'.
 
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started
@@ -215,7 +213,21 @@
 ;; #+END_EXAMPLE
 
 ;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
-;; features. If it doesn't suit for your need, just copy and paste its useful pieces
+;; features:
+
+;; | Key       | command                         |
+;; |-----------+---------------------------------|
+;; | "C-t ;"   | exwmx-dmenu                     |
+;; | "C-t C-e" | exwmx-sendstring                |
+;; | "C-t C-r" | exwmx-appconfig                 |
+;; | "C-t 1"   | exwmx-switch-to-1-workspace     |
+;; | "C-t 2"   | exwmx-switch-to-2-workspace     |
+;; | "C-t 3"   | exwmx-switch-to-3-workspace     |
+;; | "C-t 4"   | exwmx-switch-to-4-workspace     |
+;; | "C-x o"   | switch-window                   |
+;; | "C-c y"   | exwmx-sendstring-from-kill-ring |
+
+;; If it doesn't suit for your need, just copy and paste its useful pieces
 ;; to your own exwm config :-)
 
 
