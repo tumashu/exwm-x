@@ -36,10 +36,6 @@
 (defvar exwmx-terminal-emulator "xterm"
   "Exwm-X default terminal emulator")
 
-;; Hack:  switch-window 'default input style do not work well
-;; with exwm. use 'minibuffer input style instead.
-(setq switch-window-input-style 'minibuffer)
-
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
 (declare-function exwmx-appconfig--select-appconfig "exwmx-appconfig" ())
@@ -56,7 +52,18 @@ string."
        (string-match-p regexp string)))
 
 (defun exwmx--switch-window ()
-  "A switch-window command's wrapper used by Exwm-X."
+  "A switch-window command's wrapper used by Exwm-X.
+
+Note: switch-window default input style do not work well
+with Exwm-x, user should use 'minibuffer input style instead,
+for example, add the following line:
+
+  (setq switch-window-input-style 'minibuffer)
+
+to your ~/.emacs file."
+  (unless (eq switch-window-input-style 'minibuffer)
+    (warn (concat "Exwm-X: please setq the value of "
+                  "`switch-window-input-style' to 'minibuffer.")))
   (switch-window--then
    "Run command in window: "
    #'(lambda () (other-window 1))
