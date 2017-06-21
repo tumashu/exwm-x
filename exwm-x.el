@@ -212,8 +212,30 @@
 ;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 ;; #+END_EXAMPLE
 
-;; Note: Package "exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's
-;; features:
+;; ** Usage
+;; *** Build appconfig database
+;; When user *first* login in Exwm-X desktop environment,
+;; appconfigs of frequently used applications should be added
+;; to appconfig database file: `exwmx-appconfig-file',
+;; it is simple but *very very* important, for many useful commands
+;; of Exwm-X need this database file, for example:
+;; `exwmx-jump-or-exec', `exwmx-sendstring' and so on.
+
+;; user should do like the below:
+
+;; 1. Launch an application with `exwmx-dmenu'.
+;; 2. Run command `exwmx-appconfig'.
+;; 3. Edit appconfig template
+;; 4. Save
+;; 5. Launch another application with `exwmx-dmenu'.
+;; 6. .......
+
+
+;; *** The usage of "exwmx-example"
+;; "exwmx-example" is Exwm-X buildin example, user can use it to
+;; test Exwm-X's features, the following is its keybindings.
+;; by the way, Exwm-X is a Exwm derivative, most Exwm commands
+;; can be used too :-)
 
 ;; | Key       | command                         |
 ;; |-----------+---------------------------------|
@@ -227,8 +249,8 @@
 ;; | "C-x o"   | switch-window                   |
 ;; | "C-c y"   | exwmx-sendstring-from-kill-ring |
 
-;; If it doesn't suit for your need, just copy and paste its useful pieces
-;; to your own exwm config :-)
+;; If exwmx-example doesn't suit for your need, just copy and paste
+;; its useful pieces to your "~/.exwm-x" file.
 
 
 ;;; Code:
