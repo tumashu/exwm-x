@@ -30,6 +30,7 @@
 
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
+(require 'md5)
 
 (defvar exwmx-appconfig-file (locate-user-emacs-file "exwm-x/exwmx-appconfig")
   "File which is used to record Exwm-X appconfig.
