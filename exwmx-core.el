@@ -130,8 +130,7 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
                        (exwmx--find-buffer
                         (exwmx-appconfig--search command :command :class t)))
                      ;; The below two rules are just guess rules :-)
-                     ;; Suggest use variable `exwmx-jump-or-exec'
-                     ;; to set you own rules.
+                     ;; Suggest use `exwmx-appconfig' to manage app's information.
                      (exwmx--find-buffer
                       (capitalize (concat "^" (car (split-string command " ")))))
                      (exwmx--find-buffer
