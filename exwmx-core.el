@@ -31,9 +31,14 @@
 ;; * Code                                                                 :code:
 (require 'cl-lib)
 (require 'exwm)
+(require 'switch-window)
 
 (defvar exwmx-terminal-emulator "xterm"
   "Exwm-X default terminal emulator")
+
+;; Hack:  switch-window 'default input style do not work well
+;; with exwm. use 'minibuffer input style instead.
+(setq switch-window-input-style 'minibuffer)
 
 (defvar exwm--keyboard-grabbed)
 (declare-function exwmx-button--update-mode-line "exwmx-button" nil)
@@ -52,11 +57,10 @@ string."
 
 (defun exwmx--switch-window ()
   "A switch-window command's wrapper used by Exwm-X."
-  (when (featurep 'switch-window)
-    (switch-window--then
-     "Run command in window: "
-     #'(lambda () (other-window 1))
-     nil nil 1)))
+  (switch-window--then
+   "Run command in window: "
+   #'(lambda () (other-window 1))
+   nil nil 1))
 
 (defun exwmx--get-pretty-name ()
   "Get a pretty name of an application, based on application's :pretty-name,
