@@ -1,37 +1,38 @@
-- [Exwm-X](#orgd037ff5)
-  - [What is Exwm-X](#orgf19aa98)
-  - [Showcase](#org65fdc52)
-  - [Feature](#org9cb0738)
-    - [Appconfig](#org2063f30)
-    - [Buttons](#orgd2f2d51)
-    - [Move or resize a floating-window without press WIN key.](#org19598fb)
-    - [Jump-or-exec](#orgc3a50b9)
-    - [Dynamic menu](#org2c8deed)
-    - [Send a string to application](#org72e4250)
-  - [Install](#org7190f3c)
-  - [Configure](#org8a0ccf5)
-    - [Add exwm-x directory to emacs's load-path](#org809ebb4)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org8161ec3)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#org99be776)
-    - [Edit "~/.exwm-x"](#org53edf37)
-  - [Usage](#org1209b1c)
-    - [Build appconfig database](#org4670b34)
-    - [The usage of "exwmx-example"](#org81c5c2a)
+- [Exwm-X](#org44be9b6)
+  - [What is Exwm-X](#orgcc692e4)
+  - [Showcase](#org2630138)
+  - [Feature](#org7351a93)
+    - [Appconfig](#orgda69bf5)
+    - [Buttons](#orgdb7a05f)
+    - [Easy move/resize](#orgd0dcd72)
+    - [Jump-or-exec](#org01b64ea)
+    - [Dmenu](#org80ffaf2)
+    - [Sendstring](#org86260df)
+    - [Others](#org783ee3b)
+  - [Install](#orgc63fe13)
+  - [Configure](#orgdf8862d)
+    - [Add exwm-x directory to emacs's load-path](#org62f707f)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#org10bca69)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#orgcebc8e1)
+    - [Edit "~/.exwm-x"](#orgf5b28bd)
+  - [Usage](#orgfc58d6a)
+    - [Build appconfig database](#org4c034ca)
+    - [The usage of "exwmx-example"](#orgf18af8e)
 
 
-<a id="orgd037ff5"></a>
+<a id="org44be9b6"></a>
 
 # Exwm-X
 
 
-<a id="orgf19aa98"></a>
+<a id="orgcc692e4"></a>
 
 ## What is Exwm-X
 
 Exwm-X is a derivative window manager based on EXWM (emacs x window manager), which focus on Mouse-Control-People.
 
 
-<a id="org65fdc52"></a>
+<a id="org2630138"></a>
 
 ## Showcase
 
@@ -44,12 +45,12 @@ Exwm-X is a derivative window manager based on EXWM (emacs x window manager), wh
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org9cb0738"></a>
+<a id="org7351a93"></a>
 
 ## Feature
 
 
-<a id="org2063f30"></a>
+<a id="orgda69bf5"></a>
 
 ### Appconfig
 
@@ -88,7 +89,7 @@ By default, every appconfig have the following keys:
     Record the application's title, this key is used by \`exwmx-jump-or-exec'.
 
 
-<a id="orgd2f2d51"></a>
+<a id="orgdb7a05f"></a>
 
 ### Buttons
 
@@ -109,24 +110,26 @@ Exwm-X add the following **buttons** to mode-line, user can click them to operat
 13. [Line 'XXXX']: toggle EXWM char-mode/line-mode
 
 
-<a id="org19598fb"></a>
+<a id="orgd0dcd72"></a>
 
-### Move or resize a floating-window without press WIN key.
+### Easy move/resize
 
 By default, EXWM use "s-'down-mouse-1'" to move a floating-window and "s-'down-mouse-3'" to resize a floating-window.
 
-When Exwm-X is enabled, user can drag **title showed in mode-line** to move a floating-window. and click '[Z+]' and '[Z-]' in mode-line to resize a floating-window.
+When Exwm-X is enabled, user can drag **title showed in mode-line** to move a floating-window. and click '[Z+]' and '[Z-]' in mode-line to resize a floating-window, **without press WIN key**.
 
 
-<a id="orgc3a50b9"></a>
+<a id="org01b64ea"></a>
 
 ### Jump-or-exec
 
-If the application's window is found, jump to this window, otherwise, launch the application with command, this feature need appconfigs stored in \`exwmx-appconfig-file'.
+If the application's window is found, jump to this window, otherwise, launch the application with command.
 
-1.  The simplest usage
+1.  Common usage
 
         (exwmx-jump-or-exec "firefox")
+
+    Note: \`exwmx-jump-or-exec' **need** appconfigs stored in \`exwmx-appconfig-file', user should store appconfigs of frequently used applications by yourself with the help of \`exwmx-appconfig'.
 
 2.  Define an alias
 
@@ -135,38 +138,49 @@ If the application's window is found, jump to this window, otherwise, launch the
         (exwmx-jump-or-exec "web-browser" nil t)
 
 
-<a id="org2c8deed"></a>
+<a id="org80ffaf2"></a>
 
-### Dynamic menu
+### Dmenu
 
-\`exwmx-dmenu' let user input a dmenu command in minibuffer, and execute it, ivy is used to complete.
+\`exwmx-dmenu' let user input or select (with the help of ivy) a command in minibuffer, and execute it.
 
 \`exwmx-dmenu' support some command prefixes:
 
-1.  "," -> run a dmenu-command in terminal emulator, for example, dmenu-command ",top" will execute a terminal emulator, then run shell command: "top" .
+1.  ",command": run "command" in terminal emulator, for example, ",top" will execute a terminal emulator, then run shell command: "top" .
 
-    Note: user can change terminal emulator with the help of variable \`exwmx-terminal-emulator'.
-2.  ";" -> run an emacs command which name is exwm:<input>, for example, dmenu-command ";firefox" will run emacs command exwm:firefox.
-3.  "-" -> split window top-to-bottom, for example, the result of dmenu-command "-32" is that 3 windows on top and 2 windows in buttom.
-4.  "|" -> split window left-to-right, for example, the result of dmenu-command "|32" is that 3 windows at left and 2 window at right
+    Note: user can change terminal emulator by variable \`exwmx-terminal-emulator'.
+
+2.  ";command": run an emacs command which name is exwmx:"command".
+3.  "-Num1Num2": split window top-to-bottom, for example, the result of command "-32" is: 3 windows on top and 2 windows in buttom.
+4.  "|Num1Num2": split window left-to-right, for example, the result of command "|32" is: 3 windows at left and 2 window at right.
 
 User can customize the prefixes of \`exwmx-dmenu' with the help of \`exwmx-dmenu-prefix-setting'.
 
 
-<a id="org72e4250"></a>
+<a id="org86260df"></a>
 
-### Send a string to application
+### Sendstring
 
-When run \`exwmx-sendstring', a buffer will be poped up to let user edit. after run command \`exwmx-sendstring-finish', the content of the buffer will be sent to the input field of current application.
+\`exwmx-sendstring' let user send a string to application, when run \`exwmx-sendstring', a buffer will be poped up to let user edit. after run command \`exwmx-sendstring-finish', the content of the buffer will be sent to the input field of current application.
 
 \`exwmx-sendstring-from-minibuffer' is a simple version of \`exwmx-sendstring', it use minibuffer to get input.
 
 \`exwmx-sendstring-from-kill-ring' can select a string in kill-ring then send this string to application.
 
+\`exwmx-sendstring&#x2013;send' can send a string to application, it is used by elisp.
+
 NOTE: if \`exwmx-sendstring' can not work well with an application, user should set :paste-key of this application with the help of \`exwmx-appconfig'.
 
 
-<a id="org7190f3c"></a>
+<a id="org783ee3b"></a>
+
+### Others
+
+1.  \`exwmx-shell-command': run a shell command.
+2.  \`exwmx-shell-command-interactively': run a shell command interactively.
+
+
+<a id="orgc63fe13"></a>
 
 ## Install
 
@@ -174,12 +188,12 @@ NOTE: if \`exwmx-sendstring' can not work well with an application, user should 
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="org8a0ccf5"></a>
+<a id="orgdf8862d"></a>
 
 ## Configure
 
 
-<a id="org809ebb4"></a>
+<a id="org62f707f"></a>
 
 ### Add exwm-x directory to emacs's load-path
 
@@ -188,12 +202,11 @@ Pasting the below line to "~/.emacs" is a simple way.
     (add-to-list 'load-path "/path/to/exwm-x")
 
 
-<a id="org8161ec3"></a>
+<a id="org10bca69"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
 You should edit "~/.initrc" file or "~/.xsession" file like below example:
-
 
     # Fallback cursor
     # xsetroot -cursor_name left_ptr
@@ -206,7 +219,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="org99be776"></a>
+<a id="orgcebc8e1"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -217,7 +230,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org53edf37"></a>
+<a id="orgf5b28bd"></a>
 
 ### Edit "~/.exwm-x"
 
@@ -233,12 +246,12 @@ Add your exwm config to this file, for example:
     (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 
 
-<a id="org1209b1c"></a>
+<a id="orgfc58d6a"></a>
 
 ## Usage
 
 
-<a id="org4670b34"></a>
+<a id="org4c034ca"></a>
 
 ### Build appconfig database
 
@@ -254,7 +267,7 @@ user should do like the below:
 6.  &#x2026;&#x2026;.
 
 
-<a id="org81c5c2a"></a>
+<a id="orgf18af8e"></a>
 
 ### The usage of "exwmx-example"
 
