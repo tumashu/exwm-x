@@ -251,6 +251,20 @@ and `exwmx-mouse-move-floating-window'"
                       (* char-width (- x orig-x))
                       (* char-width (- y orig-y)))))))))))
 
+(defun exwmx-floating-toggle-floating ()
+  "Toggle the current window between floating and non-floating states."
+  (interactive)
+  (with-current-buffer (window-buffer)
+    (if exwm--floating-frame
+        (progn
+          (setq header-line-format nil)
+          (exwm-layout--refresh)
+          (exwm-floating--unset-floating exwm--id))
+      (exwm-floating--set-floating exwm--id))))
+
+;; Fix the wrong blank space when use header-line as button-line
+(advice-add 'exwm-floating-toggle-floating :override #'exwmx-floating-toggle-floating)
+
 ;; * Footer
 (provide 'exwmx-core)
 
