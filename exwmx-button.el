@@ -34,7 +34,7 @@
 (defun exwmx-button--create-button (mode-line string &optional mouse-1-action
                                               mouse-3-action mouse-2-action
                                               active-down-mouse)
-  "Generate `,mode-line-format' style code of a clickable button, which name
+  "Generate `mode-line-format' style code of a clickable button, which name
 is `string'.
 
 `mouse-1-action', `mouse-2-action' and `mouse-2-action' are often quoted lists.
