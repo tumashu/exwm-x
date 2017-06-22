@@ -95,6 +95,12 @@
 ;; 12. [Z-]: Zoom- floating application's window
 ;; 13. [Line 'XXXX']: toggle EXWM char-mode/line-mode
 
+;; Note: user can use 'header-line as the button-line of floating window:
+
+;; #+BEGIN_EXAMPLE
+;; (setq exwmx-button-floating-button-line 'header-line)
+;; #+END_EXAMPLE
+
 ;; *** Easy move/resize
 ;; By default, EXWM use "s-'down-mouse-1'" to move a floating-window
 ;; and "s-'down-mouse-3'" to resize a floating-window.
