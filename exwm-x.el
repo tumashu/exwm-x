@@ -147,7 +147,17 @@
 
 ;; *** Sendstring
 
-;; `exwmx-sendstring' let user send a string to application,
+;; `exwmx-sendstring' let user send a string to application, it is a simple
+;; tool but very useful, for example:
+
+;; 1. Find a Unicode character then search it to with google.
+;; 2. Input Chinese without install ibus, fcitx or other external input method,
+;;    just use emacs's buildin input method, for example: chinese-pyim, chinese-py,
+;;    a good emergency tools :-)
+;; 3. Write three line emacs-lisp example and send it to github.
+;; 4. Draw an ascii table with table.el and send it to BBC.
+;; 5. ......
+
 ;; when run `exwmx-sendstring', a buffer will be poped up to let user edit.
 ;; after run command `exwmx-sendstring-finish', the content of the buffer will
 ;; be sent to the input field of current application.
