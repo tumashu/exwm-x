@@ -31,7 +31,7 @@
 (require 'exwmx-core)
 (require 'switch-window)
 
-(defvar exwmx-button-floating-button-line 'mode-line
+(defvar exwmx-button-floating-button-line 'header-line
   "Use 'header-line or 'mode-line as the button-line of floating window.")
 
 (defun exwmx-button--create-button (button-line button-name &optional mouse-1-action
