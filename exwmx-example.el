@@ -73,6 +73,10 @@
   (interactive)
   (exwmx-jump-or-exec "terminal" nil t))
 
+(defun exwmx:emacs ()
+  (interactive)
+  (exwmx-jump-or-exec "emacs" nil t))
+
 (defun exwmx-switch-to-1-workspace ()
   (interactive)
   (exwm-workspace-switch 0))

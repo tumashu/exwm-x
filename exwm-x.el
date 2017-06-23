@@ -235,6 +235,7 @@
 ;; (require 'exwmx-example)
 ;; (exwm-input-set-key (kbd "C-t v") 'exwmx:file-browser)
 ;; (exwm-input-set-key (kbd "C-t f") 'exwmx:web-browser)
+;; (exwm-input-set-key (kbd "C-t e") 'exwmx:emacs)
 ;; (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
 ;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 ;; #+END_EXAMPLE
