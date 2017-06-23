@@ -138,6 +138,10 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
     (if (and search-alias (not cmd))
         (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
       (message "Exwm-X jump-or-exec: %s" cmd))
+    ;; If current application window is a floating-window, minumize it.
+    (when (and (eq major-mode 'exwm-mode)
+               exwm--floating-frame)
+      (exwm-floating-hide))
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (when cmd
