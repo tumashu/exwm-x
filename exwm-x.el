@@ -93,7 +93,8 @@
 ;; 10. [_]: minumize floating application
 ;; 11. [Z+]: Zoom+ floating application's window
 ;; 12. [Z-]: Zoom- floating application's window
-;; 13. [Line 'XXXX']: toggle EXWM char-mode/line-mode
+;; 13. [Line 'XXXX'] or [L]: line-mode
+;; 14. [Char 'XXXX'] or [C]: Char-mode
 
 ;; Note: user can use 'header-line as the button-line of floating window:
 

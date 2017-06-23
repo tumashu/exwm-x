@@ -124,7 +124,10 @@ _:  Minumize floating application
 F:  Toggle floating window.
 
 Z+: Zoom+ floating application's window
-Z-: Zoom- floating application's window"
+Z-: Zoom- floating application's window
+
+L:  Line-mode
+C:  Char-mode"
   (let* ((button-line exwmx-button-floating-button-line)
          (value (list (exwmx-button--create-button
                        button-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
@@ -146,7 +149,7 @@ Z-: Zoom- floating application's window"
                        '(progn (exwm-layout-enlarge-window -150)
                                (exwm-layout-enlarge-window-horizontally -300)))
                       " "
-                      (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)))
+                      (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)) t)
                       (exwmx-button--create-button
                        button-line
                        (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
@@ -156,24 +159,30 @@ Z-: Zoom- floating application's window"
       (setq header-line-format value)
       (setq mode-line-format nil))))
 
-(defun exwmx-button--create-line2char-button (id)
+(defun exwmx-button--create-line2char-button (id &optional short)
   "Create Char-mode/Line-mode toggle button."
-  (or (when id (exwmx-button--create-line2char-button-1 id)) ""))
+  (or (when id (exwmx-button--create-line2char-button-1 id short)) ""))
 
-(defun exwmx-button--create-line2char-button-1 (id)
+(defun exwmx-button--create-line2char-button-1 (id short)
   "Internal function of `exwmx-button--create-line2char-button'."
   (let (help-echo cmd mode)
     (cl-case exwm--on-KeyPress
       ((exwm-input--on-KeyPress-line-mode)
-       (setq mode (substitute-command-keys
-                   "[Line `\\[exwmx-toggle-keyboard]']")
+       (setq mode
+             (if short
+                 "[L]"
+               (substitute-command-keys
+                "[Line `\\[exwmx-toggle-keyboard]']"))
              help-echo "mouse-1: Switch to char-mode"
              cmd `(lambda ()
                     (interactive)
                     (exwm-input-release-keyboard ,id))))
       ((exwm-input--on-KeyPress-char-mode)
-       (setq mode (substitute-command-keys
-                   "[Char `\\[exwmx-toggle-keyboard]']")
+       (setq mode
+             (if short
+                 "[C]"
+               (substitute-command-keys
+                "[Char `\\[exwmx-toggle-keyboard]']"))
              help-echo "mouse-1: Switch to line-mode"
              cmd `(lambda ()
                     (interactive)
