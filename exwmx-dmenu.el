@@ -48,7 +48,7 @@ Variables stored are: `exwmx-dmenu--commands',
   :type 'string
   :group 'exwmx-dmenu)
 
-(defcustom exwmx-dmenu-history-size 7
+(defcustom exwmx-dmenu-history-size 15
   "Determines on how many recently executed commands
 dmenu should keep a record. "
   :type 'integer
