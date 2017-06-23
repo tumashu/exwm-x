@@ -83,7 +83,6 @@ execute. "
 
 X: Delete current application.
 D: Delete current window.
-R: Run exwm-reset.
 F: Toggle floating window.
 
 <: Move border to left.
@@ -98,8 +97,6 @@ F: Toggle floating window.
                'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
               (exwmx-button--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
-              (exwmx-button--create-button
-               'mode-line "[R]" '(exwm-reset) '(exwm-reset))
               (exwmx-button--create-button
                'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
               " "
@@ -124,7 +121,6 @@ F: Toggle floating window.
 
 X:  Delete current application.
 _:  Minumize floating application
-R:  Run exwm-reset.
 F:  Toggle floating window.
 
 Z+: Zoom+ floating application's window
@@ -134,8 +130,6 @@ Z-: Zoom- floating application's window"
                        button-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
                       (exwmx-button--create-button
                        button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-                      (exwmx-button--create-button
-                       button-line "[R]" '(exwm-reset) '(exwm-reset))
                       (exwmx-button--create-button
                        button-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
                       " "
