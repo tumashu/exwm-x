@@ -240,6 +240,19 @@
 ;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 ;; #+END_EXAMPLE
 
+;; Note, the below is `exwm-manage-finish-hook' setting example
+;; of emacs.
+
+;; #+BEGIN_EXAMPLE
+;; (add-hook 'exwm-manage-finish-hook
+;;           #'(lambda ()
+;;               (when (and exwm-class-name
+;;                          (string= exwm-class-name "Emacs"))
+;;                 (exwm-input-set-local-simulation-keys nil)
+;;                 (setq-local exwm-input-prefix-keys nil)
+;;                 (exwm-floating--set-floating exwm--id))))
+;; #+END_EXAMPLE
+
 ;; ** Usage
 ;; *** Build appconfig database
 ;; When user *first* login in Exwm-X desktop environment,
