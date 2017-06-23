@@ -113,21 +113,21 @@ dmenu should keep a record. "
               (substring-no-properties
                (if simple-mode
                    (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
-                 (setq ivy--index 0) ;deal with bug: https://github.com/abo-abo/swiper/issues/1080
-                 (ivy-read
-                  (concat exwmx-dmenu-prompt
-                          (substitute-command-keys
-                           "\\<exwmx-dmenu-ivy-minibuffer-map> (Edit with `\\[ivy-insert-current]'): "))
-                  #'(lambda (input)
-                      (cons (if (< (length input) 1)
-                                "**NULL**"
-                              input)
-                            (cl-remove-if-not
-                             #'(lambda (cmd)
-                                 (string-match-p (funcall ivy--regex-function input) cmd))
-                             commands)))
-                  :dynamic-collection t
-                  :keymap exwmx-dmenu-ivy-minibuffer-map))))))
+                 (let ((ivy--index 0)) ;deal with bug: https://github.com/abo-abo/swiper/issues/1080
+                   (ivy-read
+                    (concat exwmx-dmenu-prompt
+                            (substitute-command-keys
+                             "\\<exwmx-dmenu-ivy-minibuffer-map> (Edit with `\\[ivy-insert-current]'): "))
+                    #'(lambda (input)
+                        (cons (if (< (length input) 1)
+                                  "**NULL**"
+                                input)
+                              (cl-remove-if-not
+                               #'(lambda (cmd)
+                                   (string-match-p (funcall ivy--regex-function input) cmd))
+                               commands)))
+                    :dynamic-collection t
+                    :keymap exwmx-dmenu-ivy-minibuffer-map)))))))
     (when (equal command "**NULL**")
       (setq command ""))
     (setq exwmx-dmenu--history
