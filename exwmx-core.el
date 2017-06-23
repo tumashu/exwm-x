@@ -262,7 +262,7 @@ and `exwmx-mouse-move-floating-window'"
           (exwm-floating--unset-floating exwm--id))
       (exwm-floating--set-floating exwm--id))))
 
-;; Fix the wrong blank space when use header-line as button-line
+;; Hack the bug: https://github.com/ch11ng/exwm/issues/248
 (advice-add 'exwm-floating-toggle-floating :override #'exwmx-floating-toggle-floating)
 
 ;; * Footer
