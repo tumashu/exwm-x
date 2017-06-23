@@ -113,6 +113,7 @@ dmenu should keep a record. "
               (substring-no-properties
                (if simple-mode
                    (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
+                 (setq ivy--index 0) ;deal with bug: https://github.com/abo-abo/swiper/issues/1080
                  (ivy-read
                   (concat exwmx-dmenu-prompt
                           (substitute-command-keys
