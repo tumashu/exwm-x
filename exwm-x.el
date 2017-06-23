@@ -96,10 +96,10 @@
 ;; 13. [Line 'XXXX'] or [L]: line-mode
 ;; 14. [Char 'XXXX'] or [C]: Char-mode
 
-;; Note: user can use 'header-line as the button-line of floating window:
+;; Note: user can use mode-line as the button-line of floating window:
 
 ;; #+BEGIN_EXAMPLE
-;; (setq exwmx-button-floating-button-line 'header-line)
+;; (setq exwmx-button-floating-button-line 'mode-line)
 ;; #+END_EXAMPLE
 
 ;; *** Easy move/resize
