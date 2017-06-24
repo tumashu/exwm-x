@@ -91,10 +91,9 @@
 ;; 8. [-]: Split window horizontal.
 ;; 9. [|]: Split window vertical.
 ;; 10. [_]: minumize floating application
-;; 11. [Z+]: Zoom+ floating application's window
-;; 12. [Z-]: Zoom- floating application's window
-;; 13. [Line 'XXXX'] or [L]: line-mode
-;; 14. [Char 'XXXX'] or [C]: Char-mode
+;; 11. [Line 'XXXX'] or [L]: line-mode
+;; 12. [Char 'XXXX'] or [C]: Char-mode
+;; 13. [←][↓][↑][→]: Resize the floating window of application.
 
 ;; Note: user can use mode-line as the button-line of floating window:
 
