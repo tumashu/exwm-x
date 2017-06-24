@@ -103,7 +103,7 @@ to your ~/.emacs file."
            (substitute-command-keys
             (concat
              "\\<exwm-mode-map>Reset to `line-mode', "
-             "`\\[exwm-input-send-next-key]' -> send next key to application.")))
+             "`\\[exwm-input-send-next-key]' -> send key to application.")))
           (exwm-reset)))
     (message "Exwm-x: No application is actived."))
   (exwmx-button--update-button-line))
