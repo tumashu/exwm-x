@@ -83,17 +83,16 @@
 
 ;; 1. [X]: Delete the current application.
 ;; 2. [D]: Delete the current emacs window.
-;; 3. [R]: Run `exwm-reset'.
-;; 4. [F]: Toggle floating/tilling window.
-;; 5. [<]: Move window border to left.
-;; 6. [+]: Maximize the current window.
-;; 7. [>]: Move window border to right.
-;; 8. [-]: Split window horizontal.
-;; 9. [|]: Split window vertical.
-;; 10. [_]: minumize floating application
-;; 11. [Line 'XXXX'] or [L]: line-mode
-;; 12. [Char 'XXXX'] or [C]: Char-mode
-;; 13. [←][↓][↑][→]: Resize the floating window of application.
+;; 3. [F]: Toggle floating/tilling window.
+;; 4. [<]: Move window border to left.
+;; 5. [+]: Maximize the current window.
+;; 6. [>]: Move window border to right.
+;; 7. [-]: Split window horizontal.
+;; 8. [|]: Split window vertical.
+;; 9. [_]: minumize floating application
+;; 10. [Line 'XXXX'] or [L]: line-mode
+;; 11. [Char 'XXXX'] or [C]: Char-mode
+;; 12. [←][↓][↑][→]: Resize the floating window of application.
 
 ;; Note: user can use mode-line as the button-line of floating window:
 

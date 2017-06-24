@@ -1,38 +1,38 @@
-- [Exwm-X](#org97f8aa3)
-  - [What is Exwm-X](#org4b8722f)
-  - [Showcase](#org327a166)
-  - [Feature](#org20eb133)
-    - [Appconfig](#orgc26614a)
-    - [Buttons](#org399fd57)
-    - [Easy move/resize](#org05187e0)
-    - [Jump-or-exec](#org88e28dd)
-    - [Dmenu](#org60dfc43)
-    - [Sendstring](#org5e7e0ab)
-    - [Others](#org9432149)
-  - [Install](#org006038d)
-  - [Configure](#orgdffee44)
-    - [Add exwm-x directory to emacs's load-path](#org9eb1f11)
-    - [Edit "~/.initrc" file or "~/.xsession" file](#org2efe5cf)
-    - [Make "~/.initrc" or "~/.xsession" excutable](#orgb223b59)
-    - [Edit "~/.exwm-x"](#org63bfaf9)
-  - [Usage](#org5906769)
-    - [Build appconfig database](#org0ceb665)
-    - [The usage of "exwmx-example"](#orgcd26b8f)
+- [Exwm-X](#org6c69a54)
+  - [What is Exwm-X](#org8087f6f)
+  - [Showcase](#org143a5a9)
+  - [Feature](#org57bab4d)
+    - [Appconfig](#org34cc51a)
+    - [Buttons](#orga4b047f)
+    - [Easy move/resize](#org63897b9)
+    - [Jump-or-exec](#orge49ccb3)
+    - [Dmenu](#org69c3a82)
+    - [Sendstring](#org6208e5e)
+    - [Others](#org12897aa)
+  - [Install](#org5bab7a1)
+  - [Configure](#org8a0e1db)
+    - [Add exwm-x directory to emacs's load-path](#org80d8295)
+    - [Edit "~/.initrc" file or "~/.xsession" file](#orgfc2f00a)
+    - [Make "~/.initrc" or "~/.xsession" excutable](#org9f5e1bb)
+    - [Edit "~/.exwm-x"](#orgfe60078)
+  - [Usage](#org67adf18)
+    - [Build appconfig database](#org78f3261)
+    - [The usage of "exwmx-example"](#org7d79d4e)
 
 
-<a id="org97f8aa3"></a>
+<a id="org6c69a54"></a>
 
 # Exwm-X
 
 
-<a id="org4b8722f"></a>
+<a id="org8087f6f"></a>
 
 ## What is Exwm-X
 
 Exwm-X is a derivative window manager based on EXWM (emacs x window manager), which focus on Mouse-Control-People.
 
 
-<a id="org327a166"></a>
+<a id="org143a5a9"></a>
 
 ## Showcase
 
@@ -45,12 +45,12 @@ Exwm-X is a derivative window manager based on EXWM (emacs x window manager), wh
     ![img](./snapshots/floating-window.png)
 
 
-<a id="org20eb133"></a>
+<a id="org57bab4d"></a>
 
 ## Feature
 
 
-<a id="orgc26614a"></a>
+<a id="org34cc51a"></a>
 
 ### Appconfig
 
@@ -89,7 +89,7 @@ By default, every appconfig have the following keys:
     Record the application's title, this key is used by \`exwmx-jump-or-exec'.
 
 
-<a id="org399fd57"></a>
+<a id="orga4b047f"></a>
 
 ### Buttons
 
@@ -97,24 +97,23 @@ Exwm-X add the following **buttons** to mode-line, user can click them to operat
 
 1.  [X]: Delete the current application.
 2.  [D]: Delete the current emacs window.
-3.  [R]: Run \`exwm-reset'.
-4.  [F]: Toggle floating/tilling window.
-5.  [<]: Move window border to left.
-6.  [+]: Maximize the current window.
-7.  [>]: Move window border to right.
-8.  [-]: Split window horizontal.
-9.  [|]: Split window vertical.
-10. [\_]: minumize floating application
-11. [Line 'XXXX'] or [L]: line-mode
-12. [Char 'XXXX'] or [C]: Char-mode
-13. [←][↓][↑][→]: Resize the floating window of application.
+3.  [F]: Toggle floating/tilling window.
+4.  [<]: Move window border to left.
+5.  [+]: Maximize the current window.
+6.  [>]: Move window border to right.
+7.  [-]: Split window horizontal.
+8.  [|]: Split window vertical.
+9.  [\_]: minumize floating application
+10. [Line 'XXXX'] or [L]: line-mode
+11. [Char 'XXXX'] or [C]: Char-mode
+12. [←][↓][↑][→]: Resize the floating window of application.
 
 Note: user can use mode-line as the button-line of floating window:
 
     (setq exwmx-button-floating-button-line 'mode-line)
 
 
-<a id="org05187e0"></a>
+<a id="org63897b9"></a>
 
 ### Easy move/resize
 
@@ -125,7 +124,7 @@ When Exwm-X is enabled, user can drag **title showed in button-line** to move a 
 Note: button-line is mode-line or header-line of emacs.
 
 
-<a id="org88e28dd"></a>
+<a id="orge49ccb3"></a>
 
 ### Jump-or-exec
 
@@ -144,7 +143,7 @@ If the application's window is found, jump to this window, otherwise, launch the
         (exwmx-jump-or-exec "web-browser" nil t)
 
 
-<a id="org60dfc43"></a>
+<a id="org69c3a82"></a>
 
 ### Dmenu
 
@@ -163,7 +162,7 @@ If the application's window is found, jump to this window, otherwise, launch the
 User can customize the prefixes of \`exwmx-dmenu' with the help of \`exwmx-dmenu-prefix-setting'.
 
 
-<a id="org5e7e0ab"></a>
+<a id="org6208e5e"></a>
 
 ### Sendstring
 
@@ -186,7 +185,7 @@ when run \`exwmx-sendstring', a buffer will be poped up to let user edit. after 
 NOTE: if \`exwmx-sendstring' can not work well with an application, user should set :paste-key of this application with the help of \`exwmx-appconfig'.
 
 
-<a id="org9432149"></a>
+<a id="org12897aa"></a>
 
 ### Others
 
@@ -194,7 +193,7 @@ NOTE: if \`exwmx-sendstring' can not work well with an application, user should 
 2.  \`exwmx-shell-command-interactively': run a shell command interactively.
 
 
-<a id="org006038d"></a>
+<a id="org5bab7a1"></a>
 
 ## Install
 
@@ -202,12 +201,12 @@ NOTE: if \`exwmx-sendstring' can not work well with an application, user should 
 2.  M-x package-install RET exwm-x RET
 
 
-<a id="orgdffee44"></a>
+<a id="org8a0e1db"></a>
 
 ## Configure
 
 
-<a id="org9eb1f11"></a>
+<a id="org80d8295"></a>
 
 ### Add exwm-x directory to emacs's load-path
 
@@ -216,7 +215,7 @@ Pasting the below line to "~/.emacs" is a simple way.
     (add-to-list 'load-path "/path/to/exwm-x")
 
 
-<a id="org2efe5cf"></a>
+<a id="orgfc2f00a"></a>
 
 ### Edit "~/.initrc" file or "~/.xsession" file
 
@@ -233,7 +232,7 @@ You should edit "~/.initrc" file or "~/.xsession" file like below example:
     exec dbus-launch --exit-with-session emacs --eval '(require (quote exwmx-loader))'
 
 
-<a id="orgb223b59"></a>
+<a id="org9f5e1bb"></a>
 
 ### Make "~/.initrc" or "~/.xsession" excutable
 
@@ -244,7 +243,7 @@ or
     chmod a+x ~/.initrc
 
 
-<a id="org63bfaf9"></a>
+<a id="orgfe60078"></a>
 
 ### Edit "~/.exwm-x"
 
@@ -271,12 +270,12 @@ Note, the below is \`exwm-manage-finish-hook' setting example of emacs.
                     (exwm-floating--set-floating exwm--id))))
 
 
-<a id="org5906769"></a>
+<a id="org67adf18"></a>
 
 ## Usage
 
 
-<a id="org0ceb665"></a>
+<a id="org78f3261"></a>
 
 ### Build appconfig database
 
@@ -292,7 +291,7 @@ user should do like the below:
 6.  &#x2026;&#x2026;.
 
 
-<a id="orgcd26b8f"></a>
+<a id="org7d79d4e"></a>
 
 ### The usage of "exwmx-example"
 
