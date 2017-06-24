@@ -131,7 +131,7 @@ use `exwmx-appconfig-file' to save the appconfig to `exwmx-appconfig-file'
 or use `exwmx-appconfig-ignore' ignore."
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
-      (message "Exwm-X: No application is found.")
+      (message "Exwm-X: Current window is not a window of application.")
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
