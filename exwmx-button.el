@@ -126,7 +126,7 @@ F:  Toggle floating window.
 L:  Line-mode
 C:  Char-mode
 
-←↓↑→: Zoom floating application's window."
+←↑↓→: Zoom floating application's window."
   (let* ((button-line exwmx-button-floating-button-line)
          (value (list (exwmx-button--create-button
                        button-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
@@ -140,13 +140,13 @@ C:  Char-mode
                        '(exwm-layout-enlarge-window-horizontally -60)
                        '(exwm-layout-enlarge-window-horizontally -300))
                       (exwmx-button--create-button
-                       button-line "[↓]"
-                       '(exwm-layout-enlarge-window 30)
-                       '(exwm-layout-enlarge-window 150))
-                      (exwmx-button--create-button
                        button-line "[↑]"
                        '(exwm-layout-enlarge-window -30)
                        '(exwm-layout-enlarge-window -150))
+                      (exwmx-button--create-button
+                       button-line "[↓]"
+                       '(exwm-layout-enlarge-window 30)
+                       '(exwm-layout-enlarge-window 150))
                       (exwmx-button--create-button
                        button-line "[→]"
                        '(exwm-layout-enlarge-window-horizontally 60)

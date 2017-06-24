@@ -92,7 +92,7 @@
 ;; 9. [_]: minumize floating application
 ;; 10. [Line 'XXXX'] or [L]: line-mode
 ;; 11. [Char 'XXXX'] or [C]: Char-mode
-;; 12. [←][↓][↑][→]: Resize the floating window of application.
+;; 12. [←][↑][↓][→]: Resize the floating window of application.
 
 ;; Note: user can use mode-line as the button-line of floating window:
 
@@ -105,7 +105,7 @@
 ;; and "s-'down-mouse-3'" to resize a floating-window.
 
 ;; When Exwm-X is enabled, user can drag *title showed in button-line*
-;; to move a floating-window. and click [←][↓][↑][→] in button-line
+;; to move a floating-window. and click [←][↑][↓][→] in button-line
 ;; to resize a floating-window, *without press WIN key*.
 
 ;; Note: button-line is mode-line or header-line of emacs.
