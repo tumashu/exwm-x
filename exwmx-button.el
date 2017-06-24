@@ -134,7 +134,8 @@ C:  Char-mode
                        button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
                       (exwmx-button--create-button
                        button-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
-                      " "
+                      (exwmx-button--create-button
+                       button-line " - " nil nil nil t)
                       (exwmx-button--create-button
                        button-line "[←]"
                        '(exwm-layout-enlarge-window-horizontally -60)
