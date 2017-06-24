@@ -238,6 +238,9 @@
 ;; (exwm-input-set-key (kbd "C-t e") 'exwmx:emacs)
 ;; (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
 ;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
+
+;; (exwm-input-set-key (kbd "C-t C-f") 'exwm-floating-toggle-floating)
+;; (exwm-input-set-key (kbd "C-t C-z") 'exwm-floating-hide)
 ;; #+END_EXAMPLE
 
 ;; Note, the below is `exwm-manage-finish-hook' setting example
