@@ -105,9 +105,11 @@
 ;; By default, EXWM use "s-'down-mouse-1'" to move a floating-window
 ;; and "s-'down-mouse-3'" to resize a floating-window.
 
-;; When Exwm-X is enabled, user can drag *title showed in mode-line*
-;; to move a floating-window. and click '[Z+]' and '[Z-]' in mode-line
+;; When Exwm-X is enabled, user can drag *title showed in button-line*
+;; to move a floating-window. and click [←][↓][↑][→] in button-line
 ;; to resize a floating-window, *without press WIN key*.
+
+;; Note: button-line is mode-line or header-line of emacs.
 
 ;; *** Jump-or-exec
 ;; If the application's window is found, jump to this window, otherwise,
