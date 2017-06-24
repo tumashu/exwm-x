@@ -147,6 +147,15 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
       (when cmd
         (start-process-shell-command cmd nil cmd)))))
 
+(defun exwmx-floating-hide-all ()
+  "Hide all floating window."
+  (interactive)
+  (dolist (buffer (buffer-list))
+    (with-current-buffer buffer
+      (when (and (eq major-mode 'exwm-mode)
+                 exwm--floating-frame)
+        (exwm-floating-hide)))))
+
 (defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name',
 `exwm-instance-name' or `exwm-title' is matched `regexp'."
