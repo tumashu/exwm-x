@@ -147,7 +147,8 @@ or use `exwmx-appconfig-ignore' ignore."
                             :floating nil
                             :add-prefix-keys nil
                             :remove-prefix-keys nil
-                            :ignore-simulation-keys nil)))
+                            :ignore-simulation-keys nil
+                            :eval nil)))
       (while history
         (let ((prop (pop history))
               (value (pop history)))
