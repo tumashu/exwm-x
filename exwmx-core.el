@@ -69,6 +69,36 @@ to your ~/.emacs file."
    #'(lambda () (other-window 1))
    nil nil 1))
 
+(defun exwmx-manage-finish-function ()
+  "Exwm-X hook function, used by `exwm-manage-finish-hook'."
+  (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
+         (floating (plist-get appconfig :floating))
+         (prefix-keys-added (plist-get appconfig :add-prefix-keys))
+         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
+         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
+         (expression (plist-get appconfig :eval)))
+    ;; Deal with prefix-keys of application
+    (when (and prefix-keys-removed
+               (listp prefix-keys-removed))
+      (dolist (key prefix-keys-removed)
+        (setq-local exwm-input-prefix-keys
+                    (remove key exwm-input-prefix-keys))))
+    (when (eq prefix-keys-removed t)
+      (setq-local exwm-input-prefix-keys nil))
+    (when (and prefix-keys-added
+               (listp prefix-keys-added))
+      (setq-local exwm-input-prefix-keys
+                  (append prefix-keys-added exwm-input-prefix-keys)))
+    ;; Deal with simulation-keys of application
+    (when ignore-simulation-keys
+      (exwm-input-set-local-simulation-keys nil))
+    ;; Deal with window floating
+    (when floating
+      (exwm-floating--set-floating exwm--id))
+    ;; Eval the expression from :eval
+    (when expression
+      (eval expression))))
+
 (defun exwmx--get-pretty-name ()
   "Get a pretty name of an application, based on application's :pretty-name,
 :class, :instance or :title which is stored in `exwmx-appconfig-file'."
