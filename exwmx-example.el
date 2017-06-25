@@ -61,6 +61,29 @@
   (exwm-workspace-rename-buffer
    (concat "Exwm:" (exwmx--get-pretty-name))))
 
+;; Manage `exwm-manage-finish-hook' with the help of
+;; `exwmx-appconfig'.
+(add-hook 'exwm-manage-finish-hook #'exwmx--manage-finish-hook)
+
+(defun exwmx--manage-finish-hook ()
+  (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
+         (floating (plist-get appconfig :floating))
+         (prefix-keys-added (plist-get appconfig :add-prefix-keys))
+         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys)))
+    (when (and prefix-keys-added
+               (listp prefix-keys-added))
+      (setq-local exwm-input-prefix-keys
+                  (append prefix-keys-added exwm-input-prefix-keys)))
+    (when (and prefix-keys-removed
+               (listp prefix-keys-removed))
+      (dolist (key prefix-keys-removed)
+        (setq-local exwm-input-prefix-keys
+                    (remove key exwm-input-prefix-keys))))
+    (when (eq prefix-keys-removed t)
+      (setq-local exwm-input-prefix-keys nil))
+    (when floating
+      (exwm-floating--set-floating exwm--id))))
+
 (defun exwmx:web-browser ()
   (interactive)
   (exwmx-jump-or-exec "web-browser" nil t))

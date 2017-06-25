@@ -118,7 +118,7 @@ the appconfig will be returned. "
         (if first
             (setq first nil)
           (insert " "))
-        (insert (format "%-15S" prop))
+        (insert (format "%-25S" prop))
         (insert (format "%S" value))
         (when plist
           (insert "\n"))))
