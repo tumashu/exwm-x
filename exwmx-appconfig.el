@@ -143,7 +143,10 @@ or use `exwmx-appconfig-ignore' ignore."
                             :paste-key exwmx-sendstring-default-paste-key
                             :class exwm-class-name
                             :instance exwm-instance-name
-                            :title exwm-title)))
+                            :title exwm-title
+                            :floating nil
+                            :add-prefix-keys nil
+                            :remove-prefix-keys nil)))
       (while history
         (let ((prop (pop history))
               (value (pop history)))
