@@ -76,6 +76,21 @@
 ;; **** :title
 ;; Record the application's title, this key is used by `exwmx-jump-or-exec'.
 
+;; **** :floating
+;; If set it to `t', application will floating when launched.
+
+;; **** :add-prefix-keys
+;; Add a key to `exwm-input-prefix-keys' of application.
+
+;; **** :remove-prefix-keys
+;; Remove a key from `exwm-input-prefix-keys' of application,
+;; if set it to `t', all keys in `exwm-input-prefix-keys' will be removed.
+
+;; **** :ignore-simulation-keys
+;; Ingore simulation keys of application.
+
+;; **** :eval
+;; Evaluation a expression when launch an application.
 
 ;; *** Buttons
 ;; Exwm-X add the following *buttons* to mode-line, user can
@@ -241,19 +256,6 @@
 ;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
 
 ;; (exwm-input-set-key (kbd "C-t C-f") 'exwm-floating-toggle-floating)
-;; #+END_EXAMPLE
-
-;; Note, the below is `exwm-manage-finish-hook' setting example
-;; of emacs.
-
-;; #+BEGIN_EXAMPLE
-;; (add-hook 'exwm-manage-finish-hook
-;;           #'(lambda ()
-;;               (when (and exwm-class-name
-;;                          (string= exwm-class-name "Emacs"))
-;;                 (exwm-input-set-local-simulation-keys nil)
-;;                 (setq-local exwm-input-prefix-keys nil)
-;;                 (exwm-floating--set-floating exwm--id))))
 ;; #+END_EXAMPLE
 
 ;; ** Usage
