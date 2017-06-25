@@ -70,7 +70,8 @@
          (floating (plist-get appconfig :floating))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
          (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
-         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys)))
+         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
+         (expression (plist-get appconfig :eval)))
 
     ;; Deal with prefix-keys
     (when (and prefix-keys-removed
@@ -91,7 +92,11 @@
 
     ;; Deal with window floating
     (when floating
-      (exwm-floating--set-floating exwm--id))))
+      (exwm-floating--set-floating exwm--id))
+
+    ;; Eval the expression from :eval
+    (when expression
+      (eval expression))))
 
 (defun exwmx:web-browser ()
   (interactive)
