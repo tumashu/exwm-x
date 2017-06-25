@@ -69,11 +69,10 @@
   (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
          (floating (plist-get appconfig :floating))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
-         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys)))
-    (when (and prefix-keys-added
-               (listp prefix-keys-added))
-      (setq-local exwm-input-prefix-keys
-                  (append prefix-keys-added exwm-input-prefix-keys)))
+         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
+         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys)))
+
+    ;; Deal with prefix-keys
     (when (and prefix-keys-removed
                (listp prefix-keys-removed))
       (dolist (key prefix-keys-removed)
@@ -81,6 +80,16 @@
                     (remove key exwm-input-prefix-keys))))
     (when (eq prefix-keys-removed t)
       (setq-local exwm-input-prefix-keys nil))
+    (when (and prefix-keys-added
+               (listp prefix-keys-added))
+      (setq-local exwm-input-prefix-keys
+                  (append prefix-keys-added exwm-input-prefix-keys)))
+
+    ;; Deal with simulation-keys
+    (when ignore-simulation-keys
+      (exwm-input-set-local-simulation-keys nil))
+
+    ;; Deal with window floating
     (when floating
       (exwm-floating--set-floating exwm--id))))
 
