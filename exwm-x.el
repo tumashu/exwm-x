@@ -298,6 +298,10 @@
 ;; If exwmx-example doesn't suit for your need, just copy and paste
 ;; its useful pieces to your "~/.exwm-x" file.
 
+;; ** Issues
+
+;; 1. When exwmx-xfce is enabled, header-line of floating window will
+;;    dispear when move it to another workspace.
 
 ;;; Code:
 
