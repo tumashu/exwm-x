@@ -27,7 +27,6 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'swiper)
 (require 'exwmx-core)
 
 (defgroup exwmx-dmenu nil

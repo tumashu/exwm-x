@@ -32,6 +32,7 @@
 (require 'cl-lib)
 (require 'exwm)
 (require 'switch-window)
+(require 'ivy)
 
 (defvar exwmx-terminal-emulator "xterm"
   "Exwm-X default terminal emulator")
