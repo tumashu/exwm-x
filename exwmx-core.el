@@ -218,6 +218,17 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
                  (exwmx--next-exwm-buffer))
         (message "This buffer is not a exwm buffer!")))))
 
+(defun exwmx-switch-application ()
+  "Select an application and switch to it."
+  (interactive)
+  (let ((buffer-name
+         (ivy-read "Exwm-X switch application: "
+                   (mapcar
+                    #'(lambda (x)
+                        (buffer-name (cdr x)))
+                    exwm--id-buffer-alist))))
+    (exwm-workspace-switch-to-buffer buffer-name)))
+
 (defun exwmx-shell-command (cmd)
   "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))
