@@ -74,6 +74,7 @@ to your ~/.emacs file."
   "Exwm-X hook function, used by `exwm-manage-finish-hook'."
   (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
          (floating (plist-get appconfig :floating))
+         (workspace (plist-get appconfig :workspace))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
          (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
          (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
@@ -98,7 +99,11 @@ to your ~/.emacs file."
       (exwm-floating--set-floating exwm--id))
     ;; Eval the expression from :eval
     (when expression
-      (eval expression))))
+      (eval expression))
+    ;; Switch application's window to workspace
+    (when (numberp workspace)
+      (exwm-workspace-move-window workspace)
+      (exwm-workspace-switch-create workspace))))
 
 (defun exwmx--get-pretty-name ()
   "Get a pretty name of an application, based on application's :pretty-name,
