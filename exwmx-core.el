@@ -218,7 +218,7 @@ good approach, but I can not find other way at the moment."
   "Internal function of `exwmx-floating-smart-hide'."
   (let ((buffer (current-buffer)))
     ;; When buffer is not change, do nothing.
-    (when buffer
+    (when (and buffer (buffer-live-p buffer))
       (unless (eq exwmx--last-buffer buffer)
         (unless exwm--floating-frame
           (exwmx-floating-hide-all))))
