@@ -187,9 +187,12 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
   "Hide all floating window."
   (interactive)
   (dolist (alist exwm--id-buffer-alist)
-    (with-current-buffer (cdr alist)
-      (when exwm--floating-frame
-        (exwm-floating-hide)))))
+    (let ((buffer (cdr alist)))
+      (when (and buffer
+                 (buffer-live-p buffer))
+        (with-current-buffer (cdr alist)
+          (when exwm--floating-frame
+            (exwm-floating-hide)))))))
 
 (defvar exwmx--floating-smart-hide-timer nil
   "The timer used by `exwmx-floating-smart-hide'.")
@@ -216,9 +219,10 @@ good approach, but I can not find other way at the moment."
   "Internal function of `exwmx-floating-smart-hide'."
   (let ((buffer (current-buffer)))
     ;; When buffer is not change, do nothing.
-    (unless (eq exwmx--last-buffer buffer)
-      (unless exwm--floating-frame
-        (exwmx-floating-hide-all)))
+    (when buffer
+      (unless (eq exwmx--last-buffer buffer)
+        (unless exwm--floating-frame
+          (exwmx-floating-hide-all))))
     (setq exwmx--last-buffer buffer)))
 
 (defun exwmx--find-buffer (regexp)
