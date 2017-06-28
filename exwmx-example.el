@@ -64,6 +64,9 @@
 ;; Manage `exwm-manage-finish-hook'
 (add-hook 'exwm-manage-finish-hook #'exwmx-manage-finish-function)
 
+;; Smart hide floating window
+(exwmx-floating-smart-hide)
+
 (defun exwmx:web-browser ()
   (interactive)
   (exwmx-jump-or-exec "web-browser" nil t))

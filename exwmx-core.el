@@ -191,6 +191,36 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
       (when exwm--floating-frame
         (exwm-floating-hide)))))
 
+(defvar exwmx--floating-smart-hide-timer nil
+  "The timer used by `exwmx-floating-smart-hide'.")
+
+(defvar exwmx--last-buffer nil
+  "Record the last buffer which is used by `exwmx-floating-smart-hide'.")
+
+(defun exwmx-floating-smart-hide ()
+  "Hide floating window if the current buffer is a tilling buffer
+or normal buffer.
+
+FIXME: This function use `run-with-timer', which may be not a
+good approach, but I can not find other way at the moment."
+  (interactive)
+  (let ((repeat 0.2))
+    (when exwmx--floating-smart-hide-timer
+      (cancel-timer exwmx--floating-smart-hide-timer))
+    (setq exwmx--floating-smart-hide-timer
+          (run-with-timer
+           nil repeat
+           #'exwmx-floating-smart-hide-1))))
+
+(defun exwmx-floating-smart-hide-1 ()
+  "Internal function of `exwmx-floating-smart-hide'."
+  (let ((buffer (current-buffer)))
+    ;; When buffer is not change, do nothing.
+    (unless (eq exwmx--last-buffer buffer)
+      (unless exwm--floating-frame
+        (exwmx-floating-hide-all)))
+    (setq exwmx--last-buffer buffer)))
+
 (defun exwmx--find-buffer (regexp)
   "Find such a exwm buffer: its local variables: `exwm-class-name',
 `exwm-instance-name' or `exwm-title' is matched `regexp'."
