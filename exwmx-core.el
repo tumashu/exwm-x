@@ -188,9 +188,8 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
   (interactive)
   (dolist (alist exwm--id-buffer-alist)
     (let ((buffer (cdr alist)))
-      (when (and buffer
-                 (buffer-live-p buffer))
-        (with-current-buffer (cdr alist)
+      (when (and buffer (buffer-live-p buffer))
+        (with-current-buffer buffer
           (when exwm--floating-frame
             (exwm-floating-hide)))))))
 
