@@ -73,9 +73,9 @@ execute. "
                         exwm--floating-frame
                         (not (eq (quote ,active-down-mouse) nil)))
                (define-key map [,button-line down-mouse-1]
-                 #'exwmx-mouse-move-floating-window)
+                 #'exwmx-floating-mouse-move)
                (define-key map [,button-line down-mouse-3]
-                 #'exwmx-mouse-move-floating-window))
+                 #'exwmx-floating-mouse-move))
              map))))
 
 (defun exwmx-button--create-tilling-button-line ()
