@@ -183,9 +183,45 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
       (when cmd
         (start-process-shell-command cmd nil cmd)))))
 
+(defun exwmx--find-buffer (regexp)
+  "Find such a exwm buffer: its local variables: `exwm-class-name',
+`exwm-instance-name' or `exwm-title' is matched `regexp'."
+  (when (and regexp (stringp regexp))
+    (let* ((buffers (buffer-list))
+           (buffers-list (list nil nil nil)))
+
+      (dolist (buffer buffers)
+        (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
+                         (1 . ,(buffer-local-value 'exwm-instance-name buffer))
+                         (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
+          (dolist (x wininfo)
+            (when (exwmx--string-match-p regexp (cdr x))
+              (setf (nth (car x) buffers-list)
+                    (append (list buffer) (nth (car x) buffers-list)))))))
+
+      (caar (delq nil
+                  (sort buffers-list
+                        #'(lambda (a b)
+                            (< (length a) (length b)))))))))
+
+(defun exwmx-kill-exwm-buffer (&optional buffer-or-name)
+  "Kill buffer, if current buffer is a exwm buffer."
+  (let ((buffer (or buffer-or-name
+                    (current-buffer))))
+    (with-current-buffer buffer
+      (if (eq major-mode 'exwm-mode)
+          (progn (kill-buffer buffer)
+                 (exwmx--next-exwm-buffer))
+        (message "This buffer is not a exwm buffer!")))))
+
 (defun exwmx-floating-hide-all ()
   "Hide all floating window."
   (interactive)
+  (exwmx-floating-hide-all-1)
+  (select-frame-set-input-focus exwm-workspace--current))
+
+(defun exwmx-floating-hide-all-1 ()
+  "Internal function of `exwmx-floating-hide-all'."
   (dolist (alist exwm--id-buffer-alist)
     (let ((buffer (cdr alist)))
       (when (and buffer (buffer-live-p buffer))
@@ -228,39 +264,8 @@ good approach, but I can not find other way at the moment."
     (when (and buffer (buffer-live-p buffer))
       (unless (eq exwmx--last-buffer buffer)
         (unless exwm--floating-frame
-          (exwmx-floating-hide-all))))
+          (exwmx-floating-hide-all-1))))
     (setq exwmx--last-buffer buffer)))
-
-(defun exwmx--find-buffer (regexp)
-  "Find such a exwm buffer: its local variables: `exwm-class-name',
-`exwm-instance-name' or `exwm-title' is matched `regexp'."
-  (when (and regexp (stringp regexp))
-    (let* ((buffers (buffer-list))
-           (buffers-list (list nil nil nil)))
-
-      (dolist (buffer buffers)
-        (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
-                         (1 . ,(buffer-local-value 'exwm-instance-name buffer))
-                         (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
-          (dolist (x wininfo)
-            (when (exwmx--string-match-p regexp (cdr x))
-              (setf (nth (car x) buffers-list)
-                    (append (list buffer) (nth (car x) buffers-list)))))))
-
-      (caar (delq nil
-                  (sort buffers-list
-                        #'(lambda (a b)
-                            (< (length a) (length b)))))))))
-
-(defun exwmx-kill-exwm-buffer (&optional buffer-or-name)
-  "Kill buffer, if current buffer is a exwm buffer."
-  (let ((buffer (or buffer-or-name
-                    (current-buffer))))
-    (with-current-buffer buffer
-      (if (eq major-mode 'exwm-mode)
-          (progn (kill-buffer buffer)
-                 (exwmx--next-exwm-buffer))
-        (message "This buffer is not a exwm buffer!")))))
 
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
