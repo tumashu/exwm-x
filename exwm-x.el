@@ -84,10 +84,16 @@
 
 ;; **** :remove-prefix-keys
 ;; Remove a key from `exwm-input-prefix-keys' of application,
-;; if set it to `t', all keys in `exwm-input-prefix-keys' will be removed.
+
+;; Note: if set it to `t', all keys in `exwm-input-prefix-keys'
+;; will be removed, this is very useful when you want to launch
+;; a new emacs session, this make new emacs session use *nearly*
+;; all the keybindings except the keybindings defined by
+;; `exwm-input-set-key'.
 
 ;; **** :ignore-simulation-keys
-;; Ingore simulation keys of application.
+;; Ingore simulation keys of application, if you set :remove-prefix-keys
+;; to 't, maybe you should set this option to 't too.
 
 ;; **** :eval
 ;; Evaluation a expression when launch an application.
