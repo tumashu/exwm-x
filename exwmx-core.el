@@ -190,8 +190,15 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
     (let ((buffer (cdr alist)))
       (when (and buffer (buffer-live-p buffer))
         (with-current-buffer buffer
-          (when exwm--floating-frame
-            (exwm-floating-hide)))))))
+          (when (and (eq major-mode 'exwm-mode)
+                     exwm--floating-frame)
+            (xcb:+request exwm--connection
+                (make-instance 'xcb:ConfigureWindow
+                               :window exwm--container
+                               :value-mask xcb:ConfigWindow:StackMode
+                               :stack-mode xcb:StackMode:Below))
+            (exwm-layout--set-state exwm--id xcb:icccm:WM_STATE:IconicState)
+            (xcb:flush exwm--connection)))))))
 
 (defvar exwmx--floating-smart-hide-timer nil
   "The timer used by `exwmx-floating-smart-hide'.")
