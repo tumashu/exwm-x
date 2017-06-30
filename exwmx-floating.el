@@ -31,58 +31,30 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defvar exwmx-floating--smart-hide-timer nil
-  "The timer used by `exwmx-floating-smart-hide'.")
-
-(defvar exwmx-floating--last-buffer nil
-  "Record the last buffer which is used by `exwmx-floating-smart-hide'.")
-
 (defun exwmx-floating-hide-all ()
   "Hide all floating window."
   (interactive)
-  (exwmx-floating--hide-all)
-  (select-frame-set-input-focus exwm-workspace--current))
-
-(defun exwmx-floating--hide-all ()
-  "Internal function of `exwmx-floating-hide-all'."
   (dolist (alist exwm--id-buffer-alist)
     (let ((buffer (cdr alist)))
       (when (and buffer (buffer-live-p buffer))
         (with-current-buffer buffer
-          (when (and (eq major-mode 'exwm-mode)
-                     exwm--floating-frame)
-            (xcb:+request exwm--connection
-                (make-instance 'xcb:ConfigureWindow
-                               :window exwm--container
-                               :value-mask xcb:ConfigWindow:StackMode
-                               :stack-mode xcb:StackMode:Below))
-            (exwm-layout--set-state exwm--id xcb:icccm:WM_STATE:IconicState)
-            (xcb:flush exwm--connection)))))))
+          (exwm-floating-hide))))))
+
+(defun exwmx-floating--smart-hide (window)
+  "Advice function of `exwm-input--update-focus', hide floating
+window if the current buffer is a tilling buffer or normal buffer."
+  (when (window-live-p window)
+    (with-current-buffer (window-buffer window)
+      (unless exwm--floating-frame
+        (exwmx-floating-hide-all)))))
 
 (defun exwmx-floating-smart-hide ()
   "Hide floating window if the current buffer is a tilling buffer
 or normal buffer.
 
-FIXME: This function use `run-with-timer', which may be not a
-good approach, but I can not find other way at the moment."
-  (interactive)
-  (let ((repeat 0.2))
-    (when exwmx-floating--smart-hide-timer
-      (cancel-timer exwmx-floating--smart-hide-timer))
-    (setq exwmx-floating--smart-hide-timer
-          (run-with-timer
-           nil repeat
-           #'exwmx-floating--smart-hide))))
-
-(defun exwmx-floating--smart-hide ()
-  "Internal function of `exwmx-floating-smart-hide'."
-  (let ((buffer (current-buffer)))
-    ;; When buffer is not change, do nothing.
-    (when (and buffer (buffer-live-p buffer))
-      (unless (eq exwmx-floating--last-buffer buffer)
-        (unless exwm--floating-frame
-          (exwmx-floating--hide-all))))
-    (setq exwmx-floating--last-buffer buffer)))
+FIXME: This is a hack, it should be improved in the future."
+  (advice-add 'exwm-input--update-focus
+              :before #'exwmx-floating--smart-hide))
 
 (defun exwmx-floating-mouse-move (start-event)
   "This is a mouse drag event function used by exwmx-button,
