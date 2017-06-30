@@ -139,11 +139,7 @@ dmenu should keep a record. "
 
 (defun exwmx-dmenu--run-with-terminal (command)
   "Run a `command' in a terminal emulator."
-  (let ((cmd (format "%s -e 'bash -c %S'"
-                     exwmx-terminal-emulator
-                     (concat command "; exec bash"))))
-    (message "Exwm-X run shell command: %s" cmd)
-    (exwmx-shell-command cmd)))
+  (exwmx-terminal-emulator command))
 
 (defun exwmx-dmenu--run-emacs-command (command)
   "If the function exwmx:command is found, call-interactively it."

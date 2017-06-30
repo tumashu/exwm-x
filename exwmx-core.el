@@ -77,6 +77,14 @@ to your ~/.emacs file."
   "Run shell command `cmd'."
   (start-process-shell-command cmd nil cmd))
 
+(defun exwmx-terminal-emulator (command)
+  "Run a `command' in a terminal emulator."
+  (let ((cmd (format "%s -e 'bash -c %S'"
+                     exwmx-terminal-emulator
+                     (concat command "; exec bash"))))
+    (message "Exwm-X run shell command: %s" cmd)
+    (exwmx-shell-command cmd)))
+
 (defun exwmx-shell-command-interactively (cmd)
   "Run shell command `cmd' interactively."
   (interactive
