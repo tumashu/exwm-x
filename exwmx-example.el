@@ -124,7 +124,7 @@
 (exwm-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
 
 ;; We always need a way to switch between line-mode and char-mode
-(exwm-input-set-key (kbd "C-t C-t") 'exwmx-toggle-keyboard)
+(exwm-input-set-key (kbd "C-t C-t") 'exwmx-button-toggle-keyboard)
 
 ;; The following example demonstrates how to set a key binding only available
 ;; in line mode. It's simply done by first push the prefix key to

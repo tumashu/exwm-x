@@ -94,7 +94,7 @@ F: Toggle floating window.
   (setq header-line-format nil)
   (setq mode-line-format
         (list (exwmx-button--create-button
-               'mode-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
+               'mode-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
               (exwmx-button--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
               (exwmx-button--create-button
@@ -129,7 +129,7 @@ C:  Char-mode
 ←↑↓→: Zoom floating application's window."
   (let* ((button-line exwmx-button-floating-button-line)
          (value (list (exwmx-button--create-button
-                       button-line "[X]" '(exwmx-kill-exwm-buffer) '(exwmx-kill-exwm-buffer))
+                       button-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
                       (exwmx-button--create-button
                        button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
                       (exwmx-button--create-button
@@ -176,7 +176,7 @@ C:  Char-mode
              (if short
                  "[L]"
                (substitute-command-keys
-                "[Line `\\[exwmx-toggle-keyboard]']"))
+                "[Line `\\[exwmx-button-toggle-keyboard]']"))
              help-echo "mouse-1: Switch to char-mode"
              cmd `(lambda ()
                     (interactive)
@@ -186,7 +186,7 @@ C:  Char-mode
              (if short
                  "[C]"
                (substitute-command-keys
-                "[Char `\\[exwmx-toggle-keyboard]']"))
+                "[Char `\\[exwmx-button-toggle-keyboard]']"))
              help-echo "mouse-1: Switch to line-mode"
              cmd `(lambda ()
                     (interactive)
@@ -216,6 +216,45 @@ C:  Char-mode
             (t (setq mode-line-format
                      (default-value 'mode-line-format)))))
     (force-mode-line-update)))
+
+(defun exwmx-button-kill-buffer (&optional buffer-or-name)
+  "Kill buffer, if current buffer is a exwm buffer."
+  (let ((buffer (or buffer-or-name
+                    (current-buffer))))
+    (with-current-buffer buffer
+      (if (eq major-mode 'exwm-mode)
+          (progn (kill-buffer buffer)
+                 (exwmx-button--next-buffer))
+        (message "This buffer is not a exwm buffer!")))))
+
+(defun exwmx-button--next-buffer ()
+  "Switch to next exwm buffer."
+  (let ((buffer
+         (car (cl-remove-if-not
+               #'(lambda (buf)
+                   (with-current-buffer buf
+                     (eq major-mode 'exwm-mode)))
+               (buffer-list)))))
+    (when buffer
+      (exwm-workspace-switch-to-buffer buffer))))
+
+(defun exwmx-button-toggle-keyboard (&optional id)
+  "Toggle between 'line-mode' and 'char-mode'."
+  (interactive (list (exwm--buffer->id (window-buffer))))
+  (if id
+      (with-current-buffer (exwm--id->buffer id)
+        (if exwm--keyboard-grabbed
+            (progn
+              (message "Switch to `char-mode', application will take up your keyboard.")
+              (exwm-input-release-keyboard id))
+          (message
+           (substitute-command-keys
+            (concat
+             "\\<exwm-mode-map>Reset to `line-mode', "
+             "`\\[exwm-input-send-next-key]' -> send key to application.")))
+          (exwm-reset)))
+    (message "Exwm-x: No application is actived."))
+  (exwmx-button--update-button-line))
 
 (add-hook 'exwm-update-class-hook #'exwmx-button--update-button-line)
 (add-hook 'exwm-update-title-hook #'exwmx-button--update-button-line)

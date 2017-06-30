@@ -115,35 +115,6 @@ to your ~/.emacs file."
           (exwm-instance-name exwm-instance-name)
           (exwm-class-name exwm-class-name))))
 
-(defun exwmx--next-exwm-buffer ()
-  "Switch to next exwm buffer."
-  (let ((buffer
-         (car (cl-remove-if-not
-               #'(lambda (buf)
-                   (with-current-buffer buf
-                     (eq major-mode 'exwm-mode)))
-               (buffer-list)))))
-    (when buffer
-      (exwm-workspace-switch-to-buffer buffer))))
-
-(defun exwmx-toggle-keyboard (&optional id)
-  "Toggle between 'line-mode' and 'char-mode'."
-  (interactive (list (exwm--buffer->id (window-buffer))))
-  (if id
-      (with-current-buffer (exwm--id->buffer id)
-        (if exwm--keyboard-grabbed
-            (progn
-              (message "Switch to `char-mode', application will take up your keyboard.")
-              (exwm-input-release-keyboard id))
-          (message
-           (substitute-command-keys
-            (concat
-             "\\<exwm-mode-map>Reset to `line-mode', "
-             "`\\[exwm-input-send-next-key]' -> send key to application.")))
-          (exwm-reset)))
-    (message "Exwm-x: No application is actived."))
-  (exwmx-button--update-button-line))
-
 (defun exwmx-jump-or-exec (command &optional current-window search-alias)
   "if window which command matched `command' can be found, switch to this window,
 otherwise run shell command `command', user need to select the place of application
@@ -203,16 +174,6 @@ be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
                   (sort buffers-list
                         #'(lambda (a b)
                             (< (length a) (length b)))))))))
-
-(defun exwmx-kill-exwm-buffer (&optional buffer-or-name)
-  "Kill buffer, if current buffer is a exwm buffer."
-  (let ((buffer (or buffer-or-name
-                    (current-buffer))))
-    (with-current-buffer buffer
-      (if (eq major-mode 'exwm-mode)
-          (progn (kill-buffer buffer)
-                 (exwmx--next-exwm-buffer))
-        (message "This buffer is not a exwm buffer!")))))
 
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
