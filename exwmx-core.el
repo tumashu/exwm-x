@@ -37,14 +37,6 @@
 (defvar exwmx-terminal-emulator "xterm"
   "Exwm-X default terminal emulator")
 
-(defvar exwm--keyboard-grabbed)
-(declare-function exwmx-button--update-button-line "exwmx-button" nil)
-(declare-function exwmx-appconfig--select-appconfig "exwmx-appconfig" ())
-(declare-function exwmx-appconfig--get-all-appconfigs "exwmx-appconfig" ())
-(declare-function exwmx-appconfig--add-appconfig "exwmx-appconfig" (appconfig))
-(declare-function exwmx-appconfig--search "exwmx-appconfig"
-                  (string search-prop return-prop &optional equal))
-
 (defun exwmx--string-match-p (regexp string)
   "A wrap of `string-match-p', it can work when `string' is not a
 string."
@@ -70,51 +62,6 @@ to your ~/.emacs file."
    #'(lambda () (other-window 1))
    nil nil 1))
 
-(defun exwmx-manage-finish-function ()
-  "Exwm-X hook function, used by `exwm-manage-finish-hook'."
-  (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
-         (floating (plist-get appconfig :floating))
-         (workspace (plist-get appconfig :workspace))
-         (prefix-keys-added (plist-get appconfig :add-prefix-keys))
-         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
-         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
-         (expression (plist-get appconfig :eval)))
-    ;; Deal with prefix-keys of application
-    (when (and prefix-keys-removed
-               (listp prefix-keys-removed))
-      (dolist (key prefix-keys-removed)
-        (setq-local exwm-input-prefix-keys
-                    (remove key exwm-input-prefix-keys))))
-    (when (eq prefix-keys-removed t)
-      (setq-local exwm-input-prefix-keys nil))
-    (when (and prefix-keys-added
-               (listp prefix-keys-added))
-      (setq-local exwm-input-prefix-keys
-                  (append prefix-keys-added exwm-input-prefix-keys)))
-    ;; Deal with simulation-keys of application
-    (when ignore-simulation-keys
-      (exwm-input-set-local-simulation-keys nil))
-    ;; Deal with window floating
-    (when floating
-      (exwm-floating--set-floating exwm--id))
-    ;; Eval the expression from :eval
-    (when expression
-      (eval expression))
-    ;; Switch application's window to workspace
-    (when (numberp workspace)
-      (exwm-workspace-move-window workspace)
-      (exwm-workspace-switch-create workspace))))
-
-(defun exwmx--get-pretty-name ()
-  "Get a pretty name of an application, based on application's :pretty-name,
-:class, :instance or :title which is stored in `exwmx-appconfig-file'."
-  (let ((prefer-name (exwmx-appconfig--search exwm-class-name :class :pretty-name t)))
-    (cond ((and (> (length exwm-title) 0)
-                (< (length exwm-title) 10)) exwm-title)
-          (prefer-name prefer-name)
-          (exwm-instance-name exwm-instance-name)
-          (exwm-class-name exwm-class-name))))
-
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
   (interactive)
@@ -135,7 +82,6 @@ to your ~/.emacs file."
   (interactive
    (list (read-shell-command "Run shell command: ")))
   (start-process-shell-command cmd nil cmd))
-
 
 ;; * Footer
 (provide 'exwmx-core)

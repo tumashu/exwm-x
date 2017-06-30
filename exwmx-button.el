@@ -31,6 +31,9 @@
 (require 'exwmx-core)
 (require 'switch-window)
 
+;; Fix compile warn
+(defvar exwm--keyboard-grabbed)
+
 (defvar exwmx-button-floating-button-line 'header-line
   "Use 'header-line or 'mode-line as the button-line of floating window.")
 
