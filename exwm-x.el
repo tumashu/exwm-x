@@ -203,7 +203,6 @@
 
 ;; *** Others
 ;; 1. `exwmx-shell-command': run a shell command.
-;; 2. `exwmx-shell-command-interactively': run a shell command interactively.
 
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started

@@ -85,12 +85,6 @@ to your ~/.emacs file."
     (message "Exwm-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
 
-(defun exwmx-shell-command-interactively (cmd)
-  "Run shell command `cmd' interactively."
-  (interactive
-   (list (read-shell-command "Run shell command: ")))
-  (exwmx-shell-command cmd))
-
 ;; * Footer
 (provide 'exwmx-core)
 
