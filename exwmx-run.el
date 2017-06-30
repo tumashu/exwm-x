@@ -71,7 +71,7 @@ will be called, it let user select application's position."
     (if buffer
         (exwm-workspace-switch-to-buffer buffer)
       (when cmd
-        (start-process-shell-command cmd nil cmd)))))
+        (exwmx-shell-command cmd)))))
 
 (defun exwmx-run--find-buffer (regexp)
   "Find such a exwm buffer which local variables: `exwm-class-name',
