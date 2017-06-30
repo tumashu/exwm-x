@@ -1,4 +1,4 @@
-;;; exwmx-run.el --- Exwm-X's application launcher
+;;; exwmx-quickrun.el --- Exwm-X's application launcher
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu
@@ -24,16 +24,16 @@
 
 ;;; Commentary:
 
-;; * exwmx-run manual                                                   :doc:
+;; * exwmx-quickrun manual                                                   :doc:
 
 ;;; Code:
 
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defalias 'exwmx-jump-or-exec 'exwmx-run)
+(defalias 'exwmx-jump-or-exec 'exwmx-quickrun)
 
-(defun exwmx-run (command &optional current-window search-alias)
+(defun exwmx-quickrun (command &optional current-window search-alias)
   "Run `command' to launch an application, if application's window is found,
 switch to this window instead of launching new one, when `search-alias' is t,
 `command' will be regard as an appconfig alias and search it from
@@ -51,15 +51,15 @@ will be called, it let user select application's position."
                           (plist-get appconfig :command))))
                 command))
          (buffer (or (if search-alias
-                         (exwmx-run--find-buffer
+                         (exwmx-quickrun--find-buffer
                           (exwmx-appconfig--search command :alias :class t))
-                       (exwmx-run--find-buffer
+                       (exwmx-quickrun--find-buffer
                         (exwmx-appconfig--search command :command :class t)))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use `exwmx-appconfig' to manage app's information.
-                     (exwmx-run--find-buffer
+                     (exwmx-quickrun--find-buffer
                       (capitalize (concat "^" (car (split-string command " ")))))
-                     (exwmx-run--find-buffer
+                     (exwmx-quickrun--find-buffer
                       (concat "^" (car (split-string command " ")))))))
     (if (and search-alias (not cmd))
         (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
@@ -73,7 +73,7 @@ will be called, it let user select application's position."
       (when cmd
         (exwmx-shell-command cmd)))))
 
-(defun exwmx-run--find-buffer (regexp)
+(defun exwmx-quickrun--find-buffer (regexp)
   "Find such a exwm buffer which local variables: `exwm-class-name',
 `exwm-instance-name' or `exwm-title' is matched `regexp'."
   (when (and regexp (stringp regexp))
@@ -95,6 +95,6 @@ will be called, it let user select application's position."
                             (< (length a) (length b)))))))))
 
 
-(provide 'exwmx-run)
+(provide 'exwmx-quickrun)
 
-;;; exwmx-run.el ends here
+;;; exwmx-quickrun.el ends here

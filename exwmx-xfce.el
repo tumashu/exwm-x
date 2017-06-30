@@ -35,13 +35,13 @@
 (defun exwmx-xfce-thunar ()
   "A command used to jump or execute thunar."
   (interactive)
-  (exwmx-run "thunar"))
+  (exwmx-quickrun "thunar"))
 
 (defun exwmx-xfce-terminal ()
   "A command used to jump or execute xfce4-terminal."
   (interactive)
-  (exwmx-run "xfce4-terminal -T default-terminal"
-             "default-terminal"))
+  (exwmx-quickrun "xfce4-terminal -T default-terminal"
+                  "default-terminal"))
 
 (defun exwmx-xfce-new-terminal ()
   "A command used to launch xfce4-terminal."
