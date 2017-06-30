@@ -203,6 +203,7 @@
 
 ;; *** Others
 ;; 1. `exwmx-shell-command': run a shell command.
+;; 2. `exwmx-terminal-emulator': run a shell command in a terminal emulator.
 
 ;; ** Install
 ;; 1. Config melpa repository, please see：http://melpa.org/#/getting-started
