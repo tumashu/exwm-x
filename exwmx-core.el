@@ -81,7 +81,7 @@ to your ~/.emacs file."
   "Run shell command `cmd' interactively."
   (interactive
    (list (read-shell-command "Run shell command: ")))
-  (start-process-shell-command cmd nil cmd))
+  (exwmx-shell-command cmd))
 
 ;; * Footer
 (provide 'exwmx-core)
