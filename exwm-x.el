@@ -57,7 +57,7 @@
 ;; Record the shell command of application.
 
 ;; **** :alias
-;; Define alias of an application, this key is used by `exwmx-jump-or-exec'.
+;; Define alias of an application, this key is used by `exwmx-run'.
 
 ;; **** :pretty-name
 ;; In EXWM and Exwm-X, an application is assocated with an emacs buffer,
@@ -68,13 +68,13 @@
 ;; by `exwmx-sendstring'.
 
 ;; **** :class
-;; Record the application's class, this key is used by `exwmx-jump-or-exec'.
+;; Record the application's class, this key is used by `exwmx-run'.
 
 ;; **** :instance
-;; Record the application's instance, this key is used by `exwmx-jump-or-exec'.
+;; Record the application's instance, this key is used by `exwmx-run'.
 
 ;; **** :title
-;; Record the application's title, this key is used by `exwmx-jump-or-exec'.
+;; Record the application's title, this key is used by `exwmx-run'.
 
 ;; **** :floating
 ;; If set it to `t', application will floating when launched.
@@ -131,17 +131,17 @@
 
 ;; Note: button-line is mode-line or header-line of emacs.
 
-;; *** Jump-or-exec
+;; *** exwmx-run
 ;; If the application's window is found, jump to this window, otherwise,
 ;; launch the application with command.
 
 ;; **** Common usage
 
 ;; #+BEGIN_EXAMPLE
-;; (exwmx-jump-or-exec "firefox")
+;; (exwmx-run "firefox")
 ;; #+END_EXAMPLE
 
-;; Note: `exwmx-jump-or-exec' *need* appconfigs stored in
+;; Note: `exwmx-run' *need* appconfigs stored in
 ;; `exwmx-appconfig-file', user should store appconfigs of
 ;; frequently used applications by yourself with the help
 ;; of `exwmx-appconfig'.
@@ -151,7 +151,7 @@
 ;; appconfig's :command.
 
 ;; #+BEGIN_EXAMPLE
-;; (exwmx-jump-or-exec "web-browser" nil t)
+;; (exwmx-run "web-browser" nil t)
 ;; #+END_EXAMPLE
 
 ;; *** Dmenu
@@ -272,7 +272,7 @@
 ;; to appconfig database file: `exwmx-appconfig-file',
 ;; it is simple but *very very* important, for many useful commands
 ;; of Exwm-X need this database file, for example:
-;; `exwmx-jump-or-exec', `exwmx-sendstring' and so on.
+;; `exwmx-run', `exwmx-sendstring' and so on.
 
 ;; user should do like the below:
 
@@ -315,6 +315,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
+(require 'exwmx-run)
 (require 'exwmx-floating)
 (require 'exwmx-button)
 (require 'exwmx-dmenu)

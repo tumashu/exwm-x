@@ -115,66 +115,6 @@ to your ~/.emacs file."
           (exwm-instance-name exwm-instance-name)
           (exwm-class-name exwm-class-name))))
 
-(defun exwmx-jump-or-exec (command &optional current-window search-alias)
-  "if window which command matched `command' can be found, switch to this window,
-otherwise run shell command `command', user need to select the place of application
-window unless `current-window' set to t, when `search-alias' is t, `command' will
-be regard as a alias of appconfig and search it from `exwmx-appconfig-file'."
-  (unless current-window
-    (exwmx--switch-window))
-  (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
-         (cmd (if search-alias
-                  (or (exwmx-appconfig--search command :alias :command t)
-                      (when appconfigs
-                        (let ((appconfig (exwmx-appconfig--select-appconfig)))
-                          (plist-put appconfig :alias command)
-                          (exwmx-appconfig--add-appconfig appconfig)
-                          (plist-get appconfig :command))))
-                command))
-         (buffer (or (if search-alias
-                         (exwmx--find-buffer
-                          (exwmx-appconfig--search command :alias :class t))
-                       (exwmx--find-buffer
-                        (exwmx-appconfig--search command :command :class t)))
-                     ;; The below two rules are just guess rules :-)
-                     ;; Suggest use `exwmx-appconfig' to manage app's information.
-                     (exwmx--find-buffer
-                      (capitalize (concat "^" (car (split-string command " ")))))
-                     (exwmx--find-buffer
-                      (concat "^" (car (split-string command " ")))))))
-    (if (and search-alias (not cmd))
-        (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
-      (message "Exwm-X jump-or-exec: %s" cmd))
-    ;; If current application window is a floating-window, minumize it.
-    (when (and (eq major-mode 'exwm-mode)
-               exwm--floating-frame)
-      (exwm-floating-hide))
-    (if buffer
-        (exwm-workspace-switch-to-buffer buffer)
-      (when cmd
-        (start-process-shell-command cmd nil cmd)))))
-
-(defun exwmx--find-buffer (regexp)
-  "Find such a exwm buffer: its local variables: `exwm-class-name',
-`exwm-instance-name' or `exwm-title' is matched `regexp'."
-  (when (and regexp (stringp regexp))
-    (let* ((buffers (buffer-list))
-           (buffers-list (list nil nil nil)))
-
-      (dolist (buffer buffers)
-        (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
-                         (1 . ,(buffer-local-value 'exwm-instance-name buffer))
-                         (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
-          (dolist (x wininfo)
-            (when (exwmx--string-match-p regexp (cdr x))
-              (setf (nth (car x) buffers-list)
-                    (append (list buffer) (nth (car x) buffers-list)))))))
-
-      (caar (delq nil
-                  (sort buffers-list
-                        #'(lambda (a b)
-                            (< (length a) (length b)))))))))
-
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
   (interactive)

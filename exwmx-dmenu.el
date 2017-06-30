@@ -222,7 +222,7 @@ dmenu should keep a record. "
                                            exwmx-dmenu--split-window-top-to-bottom))
                       (exwmx--switch-window))
                     (funcall func command))))
-            (exwmx-jump-or-exec command)))))))
+            (exwmx-run command)))))))
 
 (defun exwmx-dmenu--get-emacs-commands ()
   "Get all emacs commands with name is match exwmx:command."
