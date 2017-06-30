@@ -63,7 +63,7 @@ will be called, it let user select application's position."
                       (concat "^" (car (split-string command " ")))))))
     (if (and search-alias (not cmd))
         (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
-      (message "Exwm-X jump-or-exec: %s" cmd))
+      (message "Exwm-X Quick Run: %s" cmd))
     ;; If current application window is a floating-window, minumize it.
     (when (and (eq major-mode 'exwm-mode)
                exwm--floating-frame)
