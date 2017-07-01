@@ -155,8 +155,8 @@
 (global-unset-key (kbd "C-t"))
 (dolist (x (split-string "abcdefghijklmnopqrstuvwxyz" ""))
   (let ((key (concat "\C-t" x)))
-    (unbind-key key dired-mode-map)
-    (unbind-key key ibuffer-mode-map)))
+    (define-key dired-mode-map key nil)
+    (define-key ibuffer-mode-map key nil)))
 
 (push ?\C-t exwm-input-prefix-keys)
 
