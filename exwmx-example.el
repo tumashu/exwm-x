@@ -31,6 +31,10 @@
 
 ;; * Code                                                            :code:
 
+;; Require
+(require 'dired)
+(require 'ibuffer)
+
 ;; Disable menu-bar, tool-bar and scroll-bar to
 ;; increase the usable space
 (menu-bar-mode -1)
