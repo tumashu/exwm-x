@@ -90,8 +90,9 @@ to switch, user can override by `keys', it support :class, :instance, and
 (defun exwmx-quickrun--find-buffer (ruler)
   "Find a exwm buffer which match `ruler', ruler is
 a plist with three keys: :class, :instance and :title."
-  (let ((buffers (buffer-list))
-        result)
+  (let ((current (current-buffer))
+        (buffers (buffer-list))
+        (result '()))
     (while buffers
       (let ((buffer (pop buffers))
             (class (plist-get ruler :class))
@@ -102,9 +103,13 @@ a plist with three keys: :class, :instance and :title."
                      (exwmx--string-match-p class exwm-class-name)
                      (exwmx--string-match-p (or instance ".*") exwm-instance-name)
                      (exwmx--string-match-p (or title ".*") exwm-title))
-            (setq result buffer)
-            (setq buffers nil)))))
-    result))
+            (push buffer result)))))
+    (setq result (reverse result))
+    ;; If two more buffers are found, switch between these buffer.
+    (if (and (cadr result)
+             (eq (car result) current))
+        (cadr result)
+      (car result))))
 
 (provide 'exwmx-quickrun)
 
