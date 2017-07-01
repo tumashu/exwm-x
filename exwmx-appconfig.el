@@ -71,9 +71,9 @@ title and other useful property used by Exwm-X commands.")
 ;;  '((:class "Xfce4-terminal" equal)
 ;;    (:instance "xfce4-terminal" equal)
 ;;    (:title "default-term" string-match-p))
-;;  :command)
+;;  '(:command))
 
-(defun exwmx-appconfig--search (search-ruler-alist &rest returned-keys)
+(defun exwmx-appconfig--search (search-ruler-alist &optional returned-keys)
   "Search appconfig matched `search-ruler-alist' from `exwmx-appconfig-file',
 
 A `search-ruler-alist' is a alist, which every element have three elements:
@@ -84,7 +84,11 @@ A `search-ruler-alist' is a alist, which every element have three elements:
 
 When user set `returned-keys', a sub-appconfig with all `returned-keys'
 will be built and return."
-  (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+  (let ((returned-keys
+         (cl-remove-duplicates
+          (cl-remove-if-not #'keywordp returned-keys)
+          :from-end t))
+        (appconfigs (exwmx-appconfig--get-all-appconfigs))
         appconfig-matched)
     (while appconfigs
       (let ((appconfig (pop appconfigs))

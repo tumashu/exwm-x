@@ -151,7 +151,13 @@
 ;; appconfig's :command.
 
 ;; #+BEGIN_EXAMPLE
-;; (exwmx-quickrun "web-browser" nil t)
+;; (exwmx-quickrun "web-browser" t)
+;; #+END_EXAMPLE
+
+;; *** find appconfig by class, instance and title.
+
+;; #+BEGIN_EXAMPLE
+;; (exwmx-quickrun "firefox" nil '(:class :instance :title))
 ;; #+END_EXAMPLE
 
 ;; *** Dmenu

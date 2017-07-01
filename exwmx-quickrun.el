@@ -31,20 +31,28 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defalias 'exwmx-jump-or-exec 'exwmx-quickrun)
+(defun exwmx-jump-or-exec (command &optional _current-window search-alias extra-keys)
+  "A wrap command of `exwmx-quickrun' for compatible, suggest to
+use `exwmx-quickrun' instead."
+  (exwmx-quickrun command search-alias extra-keys))
 
-(defun exwmx-quickrun (command &optional current-window search-alias)
+(defun exwmx-quickrun (command &optional search-alias keys)
   "Run `command' to launch an application, if application's window is found,
 switch to this window instead of launching new one, when `search-alias' is t,
 `command' will be regard as an appconfig alias and search it from
-`exwmx-appconfig-file'. if `current-window' is nil, `exwmx--switch-window'
-will be called, it let user select application's position."
-  (unless current-window
-    (exwmx--switch-window))
-  (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+`exwmx-appconfig-file', by default, application's class and instance is used
+to switch, user can override by `keys', it support :class, :instance, and
+:title at the moment."
+  (exwmx--switch-window)
+  (let* ((returned-keys
+          (if (and keys (listp keys))
+              keys
+            '(:class :instance)))
+         (appconfigs (exwmx-appconfig--get-all-appconfigs))
          (cmd (if search-alias
                   (or (plist-get (exwmx-appconfig--search
-                                  `((:alias ,command)) :command)
+                                  `((:alias ,command))
+                                  '(:command))
                                  :command)
                       (when appconfigs
                         (let ((appconfig (exwmx-appconfig--select-appconfig)))
@@ -54,19 +62,19 @@ will be called, it let user select application's position."
                 command))
          (buffer (or (if search-alias
                          (exwmx-quickrun--find-buffer
-                          (plist-get (exwmx-appconfig--search
-                                      `((:alias ,command)) :class)
-                                     :class))
+                          (exwmx-appconfig--search
+                           `((:alias ,command))
+                           returned-keys))
                        (exwmx-quickrun--find-buffer
-                        (plist-get (exwmx-appconfig--search
-                                    `((:command ,command)) :class)
-                                   :class)))
+                        (exwmx-appconfig--search
+                         `((:command ,command))
+                         returned-keys)))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use `exwmx-appconfig' to manage app's information.
                      (exwmx-quickrun--find-buffer
-                      (capitalize (concat "^" (car (split-string command " ")))))
+                      `(:class ,(capitalize (concat "^" (car (split-string command " "))))))
                      (exwmx-quickrun--find-buffer
-                      (concat "^" (car (split-string command " ")))))))
+                      `(:class ,(concat "^" (car (split-string command " "))))))))
     (if (and search-alias (not cmd))
         (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
       (message "Exwm-X Quick Run: %s" cmd))
@@ -79,27 +87,24 @@ will be called, it let user select application's position."
       (when cmd
         (exwmx-shell-command cmd)))))
 
-(defun exwmx-quickrun--find-buffer (regexp)
-  "Find such a exwm buffer which local variables: `exwm-class-name',
-`exwm-instance-name' or `exwm-title' is matched `regexp'."
-  (when (and regexp (stringp regexp))
-    (let* ((buffers (buffer-list))
-           (buffers-list (list nil nil nil)))
-
-      (dolist (buffer buffers)
-        (let ((wininfo `((0 . ,(buffer-local-value 'exwm-title buffer))
-                         (1 . ,(buffer-local-value 'exwm-instance-name buffer))
-                         (2 . ,(buffer-local-value 'exwm-class-name buffer)))))
-          (dolist (x wininfo)
-            (when (exwmx--string-match-p regexp (cdr x))
-              (setf (nth (car x) buffers-list)
-                    (append (list buffer) (nth (car x) buffers-list)))))))
-
-      (caar (delq nil
-                  (sort buffers-list
-                        #'(lambda (a b)
-                            (< (length a) (length b)))))))))
-
+(defun exwmx-quickrun--find-buffer (ruler)
+  "Find a exwm buffer which match `ruler', ruler is
+a plist with three keys: :class, :instance and :title."
+  (let ((buffers (buffer-list))
+        result)
+    (while buffers
+      (let ((buffer (pop buffers))
+            (class (plist-get ruler :class))
+            (instance (plist-get ruler :instance))
+            (title (plist-get ruler :title)))
+        (with-current-buffer buffer
+          (when (and class
+                     (exwmx--string-match-p class exwm-class-name)
+                     (exwmx--string-match-p (or instance ".*") exwm-instance-name)
+                     (exwmx--string-match-p (or title ".*") exwm-title))
+            (setq result buffer)
+            (setq buffers nil)))))
+    result))
 
 (provide 'exwmx-quickrun)
 

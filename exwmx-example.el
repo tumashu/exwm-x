@@ -69,7 +69,7 @@
          (plist-get (exwmx-appconfig--search
                      `((:class ,exwm-class-name)
                        (:instance ,exwm-instance-name))
-                     :pretty-name)
+                     '(:pretty-name))
                     :pretty-name)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
@@ -122,19 +122,19 @@
 
 (defun exwmx:web-browser ()
   (interactive)
-  (exwmx-quickrun "web-browser" nil t))
+  (exwmx-quickrun "web-browser" t))
 
 (defun exwmx:file-browser ()
   (interactive)
-  (exwmx-quickrun "file-browser" nil t))
+  (exwmx-quickrun "file-browser" t))
 
 (defun exwmx:terminal ()
   (interactive)
-  (exwmx-quickrun "terminal" nil t))
+  (exwmx-quickrun "terminal" t))
 
 (defun exwmx:emacs ()
   (interactive)
-  (exwmx-quickrun "emacs" nil t))
+  (exwmx-quickrun "emacs" t))
 
 (defun exwmx-switch-to-1-workspace ()
   (interactive)
