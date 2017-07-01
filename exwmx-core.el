@@ -62,6 +62,15 @@ to your ~/.emacs file."
    #'(lambda () (other-window 1))
    nil nil 1))
 
+(defun exwmx--plist-p (list)
+  "Non-null if and only if LIST is a plist with keyword keys."
+  (while (consp list)
+    (setq list (if (and (keywordp (car list))
+                        (consp (cdr list)))
+                   (cddr list)
+                 'not-plist)))
+  (null list))
+
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
   (interactive)

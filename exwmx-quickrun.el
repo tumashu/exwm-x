@@ -36,17 +36,19 @@
 use `exwmx-quickrun' instead."
   (exwmx-quickrun command search-alias extra-keys))
 
-(defun exwmx-quickrun (command &optional search-alias keys)
+(defun exwmx-quickrun (command &optional search-alias ruler)
   "Run `command' to launch an application, if application's window is found,
-switch to this window instead of launching new one, when `search-alias' is t,
-`command' will be regard as an appconfig alias and search it from
-`exwmx-appconfig-file', by default, application's class and instance is used
-to switch, user can override by `keys', it support :class, :instance, and
-:title at the moment."
+just switch to this window, when `search-alias' is t, `command' will be regard
+as an appconfig alias and search it from `exwmx-appconfig-file', by default,
+:class and :instance is used to search application, user can override
+it by argument `ruler', ruler can be a plist with keys: :class, :instance,
+and :title or just a key list."
   (exwmx--switch-window)
-  (let* ((returned-keys
-          (if (and keys (listp keys))
-              keys
+  (let* ((ruler-plist-p (and ruler (exwmx--plist-p ruler)))
+         (returned-keys
+          ;; Deal with key list which is like (:class :instance :title)
+          (if (and ruler (listp ruler) (not ruler-plist-p))
+              (cl-remove-if-not #'keywordp ruler)
             '(:class :instance)))
          (appconfigs (exwmx-appconfig--get-all-appconfigs))
          (cmd (if search-alias
@@ -62,13 +64,17 @@ to switch, user can override by `keys', it support :class, :instance, and
                 command))
          (buffer (or (if search-alias
                          (exwmx-quickrun--find-buffer
-                          (exwmx-appconfig--search
-                           `((:alias ,command))
-                           returned-keys))
+                          (if ruler-plist-p
+                              ruler
+                            (exwmx-appconfig--search
+                             `((:alias ,command))
+                             returned-keys)))
                        (exwmx-quickrun--find-buffer
-                        (exwmx-appconfig--search
-                         `((:command ,command))
-                         returned-keys)))
+                        (if ruler-plist-p
+                            ruler
+                          (exwmx-appconfig--search
+                           `((:command ,command))
+                           returned-keys))))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use `exwmx-appconfig' to manage app's information.
                      (exwmx-quickrun--find-buffer

@@ -194,15 +194,6 @@ or use `exwmx-appconfig-ignore' ignore."
                 "Ignore with `\\[exwmx-appconfig-ignore]'. "))))
       (pop-to-buffer buffer))))
 
-(defun exwmx-appconfig--plist-p (list)
-  "Non-null if and only if LIST is a plist with keyword keys."
-  (while (consp list)
-    (setq list (if (and (keywordp (car list))
-                        (consp (cdr list)))
-                   (cddr list)
-                 'not-plist)))
-  (null list))
-
 (defun exwmx-appconfig-finish ()
   "Save edited appconfig to `exwmx-appconfig-file' then delete window."
   (interactive)
@@ -211,7 +202,7 @@ or use `exwmx-appconfig-ignore' ignore."
         (goto-char (point-min))
         (setq appconfig (read (current-buffer)))
         (goto-char (point-min))
-        (if (not (exwmx-appconfig--plist-p appconfig))
+        (if (not (exwmx--plist-p appconfig))
             (message "Exwm-X: the current appconfig has a syntax error, re-edit it again.")
           (exwmx-appconfig--add-appconfig appconfig)
           (delete-window)
@@ -223,7 +214,7 @@ or use `exwmx-appconfig-ignore' ignore."
 all other appconfigs which :key is equal the :key of `appconfig'."
   (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
         (key (plist-get appconfig :key)))
-    (when (and (exwmx-appconfig--plist-p appconfig)
+    (when (and (exwmx--plist-p appconfig)
                (file-readable-p exwmx-appconfig-file))
       (with-temp-buffer
         (setq appconfigs

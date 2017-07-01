@@ -160,6 +160,12 @@
 ;; (exwmx-quickrun "firefox" nil '(:class :instance :title))
 ;; #+END_EXAMPLE
 
+;; or
+
+;; #+BEGIN_EXAMPLE
+;; (exwmx-quickrun "firefox" nil '(:class "XXX" :instance "XXX" :title "XXX"))
+;; #+END_EXAMPLE
+
 ;; *** Dmenu
 ;; `exwmx-dmenu' let user input or select (with the help of ivy) a command
 ;; in minibuffer, and execute it.
