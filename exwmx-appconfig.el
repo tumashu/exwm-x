@@ -67,29 +67,47 @@ title and other useful property used by Exwm-X commands.")
             (push (read (current-buffer)) appconfigs)))))
     appconfigs))
 
-(defun exwmx-appconfig--search (string search-prop return-prop &optional equal)
-  "Search appconfig from `exwmx-appconfig-file', if an appconfig
-which property `search-prop' is match or equal (if `equal set to t) `string',
-the value of property `return-prop' will be returned, if `return-prop' is t,
-the appconfig will be returned. "
-  (when (and string (stringp string))
-    (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
-          search-result)
-      (while appconfigs
-        (let* ((x (pop appconfigs))
-               (search-string (plist-get x search-prop))
-               (value (if (eq return-prop t)
-                          x
-                        (plist-get x return-prop))))
-          (if equal
-              (when (equal search-string string)
-                (setq search-result value)
-                (setq appconfigs nil))
-            (when (or (exwmx--string-match-p string search-string)
-                      (exwmx--string-match-p search-string string))
-              (setq search-result value)
-              (setq appconfigs nil)))))
-      search-result)))
+;; (exwmx-appconfig--search
+;;  '((:class "Xfce4-terminal" equal)
+;;    (:instance "xfce4-terminal" equal)
+;;    (:title "default-term" string-match-p))
+;;  :command)
+
+(defun exwmx-appconfig--search (search-ruler-alist &rest returned-keys)
+  "Search appconfig matched `search-ruler-alist' from `exwmx-appconfig-file',
+
+A `search-ruler-alist' is a alist, which every element have three elements:
+
+1. search-key: an appconfig key, for example: :class, :instance, or :title.
+2. search-string: a normal string or a regexp string.
+3. test: a test function, for example: `eq', `equal' or `string-match-p'.
+
+When user set `returned-keys', a sub-appconfig with all `returned-keys'
+will be built and return."
+  (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
+        appconfig-matched)
+    (while appconfigs
+      (let ((appconfig (pop appconfigs))
+            (not-match nil))
+        (dolist (rule search-ruler-alist)
+          (let* ((key (nth 0 rule))
+                 (search-string (nth 1 rule))
+                 (test-function (or (nth 2 rule) #'equal))
+                 (prop-value (plist-get appconfig key)))
+            (unless (and (functionp test-function)
+                         (funcall test-function search-string prop-value))
+              (setq not-match t))))
+        (unless not-match
+          (setq appconfig-matched appconfig)
+          (setq appconfigs nil))))
+    (if (and returned-keys
+             (listp returned-keys))
+        (let (result)
+          (dolist (key (reverse returned-keys))
+            (push (plist-get appconfig-matched key) result)
+            (push key result))
+          result)
+      appconfig-matched)))
 
 (defun exwmx-appconfig--select-appconfig ()
   "Select and return an appconfig."
@@ -136,7 +154,7 @@ or use `exwmx-appconfig-ignore' ignore."
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
            (history (exwmx-appconfig--search
-                     (md5 (concat exwm-class-name exwm-instance-name)) :key t t))
+                     `((:key ,(md5 (concat exwm-class-name exwm-instance-name))))))
            (appconfig (list :command exwm-instance-name
                             :alias exwm-instance-name
                             :pretty-name exwm-instance-name

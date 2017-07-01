@@ -65,9 +65,12 @@
   "Get a pretty name of an application, based on application's
 :pretty-name, :class, :instance or :title which is stored in
 `exwmx-appconfig-file'."
-  (let ((prefer-name (exwmx-appconfig--search
-                      exwm-class-name
-                      :class :pretty-name t)))
+  (let ((prefer-name
+         (plist-get (exwmx-appconfig--search
+                     `((:class ,exwm-class-name)
+                       (:instance ,exwm-instance-name))
+                     :pretty-name)
+                    :pretty-name)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)
           (prefer-name prefer-name)
@@ -79,7 +82,9 @@
 
 (defun exwmx-example--manage-finish-function ()
   "Hook function, used by `exwm-manage-finish-hook'."
-  (let* ((appconfig (exwmx-appconfig--search exwm-class-name :class t t))
+  (let* ((appconfig (exwmx-appconfig--search
+                     `((:class ,exwm-class-name)
+                       (:instance ,exwm-instance-name))))
          (floating (plist-get appconfig :floating))
          (workspace (plist-get appconfig :workspace))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))

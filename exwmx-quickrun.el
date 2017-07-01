@@ -43,7 +43,9 @@ will be called, it let user select application's position."
     (exwmx--switch-window))
   (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
          (cmd (if search-alias
-                  (or (exwmx-appconfig--search command :alias :command t)
+                  (or (plist-get (exwmx-appconfig--search
+                                  `((:alias ,command)) :command)
+                                 :command)
                       (when appconfigs
                         (let ((appconfig (exwmx-appconfig--select-appconfig)))
                           (plist-put appconfig :alias command)
@@ -52,9 +54,13 @@ will be called, it let user select application's position."
                 command))
          (buffer (or (if search-alias
                          (exwmx-quickrun--find-buffer
-                          (exwmx-appconfig--search command :alias :class t))
+                          (plist-get (exwmx-appconfig--search
+                                      `((:alias ,command)) :class)
+                                     :class))
                        (exwmx-quickrun--find-buffer
-                        (exwmx-appconfig--search command :command :class t)))
+                        (plist-get (exwmx-appconfig--search
+                                    `((:command ,command)) :class)
+                                   :class)))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use `exwmx-appconfig' to manage app's information.
                      (exwmx-quickrun--find-buffer
