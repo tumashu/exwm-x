@@ -317,6 +317,14 @@
 ;; If exwmx-example doesn't suit for your need, just copy and paste
 ;; its useful pieces to your "~/.exwm-x" file.
 
+;; If user want to full override exwmx-example, a simple way is setting
+;; like the below line *before load exwmx-loader*.
+
+;; #+BEGIN_EXAMPLE
+;; (defvar exwmx-default-example)
+;; (setq exwmx-default-example 'your-own-example)
+;; #+END_EXAMPLE
+
 ;; ** Issues
 
 ;; 1. When exwmx-xfce is enabled, header-line of floating window will
