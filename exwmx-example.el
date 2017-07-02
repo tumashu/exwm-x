@@ -58,68 +58,11 @@
 ;; You may want to change when a new window class name
 ;; or title is available. it in `exwm-update-class-hook'
 ;; and `exwm-update-title-hook', which are run
-(add-hook 'exwm-update-class-hook #'exwmx-example--rename-exwm-buffer)
-(add-hook 'exwm-update-title-hook #'exwmx-example--rename-exwm-buffer)
-
-(defun exwmx-example--rename-exwm-buffer ()
-  (exwm-workspace-rename-buffer
-   (concat "Exwm:" (exwmx-example--get-pretty-name))))
-
-(defun exwmx-example--get-pretty-name ()
-  "Get a pretty name of an application, based on application's
-:pretty-name, :class, :instance or :title which is stored in
-`exwmx-appconfig-file'."
-  (let ((prefer-name
-         (plist-get (exwmx-appconfig--search
-                     `((:class ,exwm-class-name)
-                       (:instance ,exwm-instance-name))
-                     '(:pretty-name))
-                    :pretty-name)))
-    (cond ((and (> (length exwm-title) 0)
-                (< (length exwm-title) 10)) exwm-title)
-          (prefer-name prefer-name)
-          (exwm-instance-name exwm-instance-name)
-          (exwm-class-name exwm-class-name))))
+(add-hook 'exwm-update-class-hook #'exwmx-grocery--rename-exwm-buffer)
+(add-hook 'exwm-update-title-hook #'exwmx-grocery--rename-exwm-buffer)
 
 ;; Manage `exwm-manage-finish-hook'
-(add-hook 'exwm-manage-finish-hook #'exwmx-example--manage-finish-function)
-
-(defun exwmx-example--manage-finish-function ()
-  "Hook function, used by `exwm-manage-finish-hook'."
-  (let* ((appconfig (exwmx-appconfig--search
-                     `((:class ,exwm-class-name)
-                       (:instance ,exwm-instance-name))))
-         (floating (plist-get appconfig :floating))
-         (workspace (plist-get appconfig :workspace))
-         (prefix-keys-added (plist-get appconfig :add-prefix-keys))
-         (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
-         (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
-         (expression (plist-get appconfig :eval)))
-    ;; Deal with prefix-keys of application
-    (when (and prefix-keys-removed
-               (listp prefix-keys-removed))
-      (dolist (key prefix-keys-removed)
-        (setq-local exwm-input-prefix-keys
-                    (remove key exwm-input-prefix-keys))))
-    (when (eq prefix-keys-removed t)
-      (setq-local exwm-input-prefix-keys nil))
-    (when (and prefix-keys-added
-               (listp prefix-keys-added))
-      (setq-local exwm-input-prefix-keys
-                  (append prefix-keys-added exwm-input-prefix-keys)))
-    ;; Deal with simulation-keys of application
-    (when ignore-simulation-keys
-      (exwm-input-set-local-simulation-keys nil))
-    ;; Deal with window floating
-    (when floating
-      (exwm-floating--set-floating exwm--id))
-    ;; Eval the expression from :eval
-    (when expression
-      (eval expression))
-    ;; Switch application's window to workspace
-    (when (numberp workspace)
-      (exwm-workspace-move-window workspace)
-      (exwm-workspace-switch-create workspace))))
+(add-hook 'exwm-manage-finish-hook #'exwmx-grocery--manage-finish-function)
 
 ;; Smart hide floating window
 (exwmx-floating-smart-hide)

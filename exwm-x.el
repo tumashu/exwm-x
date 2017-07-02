@@ -332,6 +332,7 @@
 (require 'exwmx-button)
 (require 'exwmx-dmenu)
 (require 'exwmx-sendstring)
+(require 'exwmx-grocery)
 
 ;; * Footer
 (provide 'exwm-x)
