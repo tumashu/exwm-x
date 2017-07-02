@@ -71,6 +71,13 @@ to your ~/.emacs file."
                  'not-plist)))
   (null list))
 
+
+(defun exwmx--clean-keylist (keylist)
+  "Remove all non-keyword elements of `keylist' and then remove duplicate."
+  (cl-remove-duplicates
+   (cl-remove-if-not #'keywordp keylist)
+   :from-end t))
+
 (defun exwmx-switch-application ()
   "Select an application and switch to it."
   (interactive)

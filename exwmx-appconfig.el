@@ -84,10 +84,7 @@ A `search-ruler-alist' is a alist, which every element have three elements:
 
 When user set `returned-keys', a sub-appconfig with all `returned-keys'
 will be built and return."
-  (let ((returned-keys
-         (cl-remove-duplicates
-          (cl-remove-if-not #'keywordp returned-keys)
-          :from-end t))
+  (let ((returned-keys (exwmx--clean-keylist returned-keys))
         (appconfigs (exwmx-appconfig--get-all-appconfigs))
         appconfig-matched)
     (while appconfigs

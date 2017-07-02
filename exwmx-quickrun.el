@@ -48,7 +48,7 @@ it by argument `ruler', ruler can be a plist with keys: :class, :instance,
          (returned-keys
           ;; Deal with key list which is like (:class :instance :title)
           (if (and ruler (listp ruler) (not ruler-plist-p))
-              (cl-remove-if-not #'keywordp ruler)
+              (exwmx--clean-keylist ruler)
             '(:class :instance)))
          (appconfigs (exwmx-appconfig--get-all-appconfigs))
          (cmd (if search-alias
