@@ -31,10 +31,10 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defun exwmx-jump-or-exec (command &optional _current-window search-alias extra-keys)
+(defun exwmx-jump-or-exec (command &optional _current-window search-alias ruler)
   "A wrap command of `exwmx-quickrun' for compatible, suggest to
 use `exwmx-quickrun' instead."
-  (exwmx-quickrun command search-alias extra-keys))
+  (exwmx-quickrun command search-alias ruler))
 
 (defun exwmx-quickrun (command &optional search-alias ruler)
   "Run `command' to launch an application, if application's window is found,
