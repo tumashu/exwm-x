@@ -32,6 +32,7 @@
 ;; * Code                                                            :code:
 
 ;; Require
+(require 'exwm-x)
 (require 'dired)
 (require 'ibuffer)
 
