@@ -42,7 +42,7 @@ just switch to this window, when `search-alias' is t, `command' will be regard
 as an appconfig alias and search it from `exwmx-appconfig-file', by default,
 :class and :instance is used to search application, user can override
 it by argument `ruler', ruler can be a plist with keys: :class, :instance,
-and :title or just a key list."
+:title and :floating or just a key list."
   (exwmx--switch-window)
   (let* ((ruler-plist-p (and ruler (exwmx--plist-p ruler)))
          (returned-keys
@@ -103,12 +103,14 @@ a plist with three keys: :class, :instance and :title."
       (let ((buffer (pop buffers))
             (class (plist-get ruler :class))
             (instance (plist-get ruler :instance))
-            (title (plist-get ruler :title)))
+            (title (plist-get ruler :title))
+            (floating (plist-get ruler :floating)))
         (with-current-buffer buffer
           (when (and class
                      (exwmx--string-match-p class exwm-class-name)
                      (exwmx--string-match-p (or instance ".*") exwm-instance-name)
-                     (exwmx--string-match-p (or title ".*") exwm-title))
+                     (exwmx--string-match-p (or title ".*") exwm-title)
+                     (eq floating exwm--floating-frame))
             (push buffer result)))))
     (setq result (reverse result))
     ;; If two more buffers are found, switch between these buffer.
