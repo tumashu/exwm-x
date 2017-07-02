@@ -46,7 +46,7 @@ it by argument `ruler', ruler can be a plist with keys: :class, :instance,
   (exwmx--switch-window)
   (let* ((ruler-plist-p (and ruler (exwmx--plist-p ruler)))
          (returned-keys
-          ;; Deal with key list which is like (:class :instance :title)
+          ;; Deal with ruler which is like (:class :instance :title)
           (if (and ruler (listp ruler) (not ruler-plist-p))
               (exwmx--clean-keylist ruler)
             '(:class :instance)))
