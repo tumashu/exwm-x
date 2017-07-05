@@ -97,6 +97,9 @@ in exwmx-example.el."
 
 (defun exwmx-grocery-unset-key (key)
   "Unset `key' from emacs's all buffers."
+  ;; `global-set-key' only run once, for `exwm-input-set-key'
+  ;;  will use `global-set-key' to set key.
+  (global-set-key (kbd key) nil)
   (setq exwmx-grocery--unset-key key)
   (add-hook 'buffer-list-update-hook
             #'exwmx-grocery--unset-key)
@@ -108,8 +111,7 @@ in exwmx-example.el."
     (when key
       (dolist (buffer (buffer-list))
         (with-current-buffer buffer
-          (local-set-key (kbd key) nil)
-          (global-set-key (kbd key) nil))))))
+          (local-set-key (kbd key) nil))))))
 
 (provide 'exwmx-grocery)
 
