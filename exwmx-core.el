@@ -103,8 +103,9 @@ to your ~/.emacs file."
     (exwmx-shell-command cmd)))
 
 (defun exwmx-input-set-key (key command)
-  "An advice function for `exwm-input-set-key'.
-which make the setting of `key' is not override by other emacs mode."
+  "An advice function for `exwm-input-set-key', which make
+the keybinding of `key' override all minor modes that may
+also bind the same key with the help of `bind-key*'."
   (bind-key* key command))
 
 (advice-add 'exwm-input-set-key :after #'exwmx-input-set-key)
