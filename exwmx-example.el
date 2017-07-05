@@ -33,8 +33,6 @@
 
 ;; Require
 (require 'exwm-x)
-(require 'dired)
-(require 'ibuffer)
 
 ;; Disable menu-bar, tool-bar and scroll-bar to
 ;; increase the usable space
@@ -100,12 +98,10 @@
   (interactive)
   (exwm-workspace-switch 3))
 
-(global-unset-key (kbd "C-t"))
-(dolist (x (split-string "abcdefghijklmnopqrstuvwxyz" ""))
-  (let ((key (concat "\C-t" x)))
-    (define-key dired-mode-map key nil)
-    (define-key ibuffer-mode-map key nil)))
+;; Unset "C-t" from all buffers
+(exwmx-grocery-unset-key "C-t")
 
+;; Use "C-t" as an exwm prefix key.
 (push ?\C-t exwm-input-prefix-keys)
 
 ;; Note: keybinds setting with `exwm-input-set-key' are
