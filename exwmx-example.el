@@ -101,6 +101,9 @@
 ;; Unset global key: "C-t"
 (global-set-key (kbd "C-t") nil)
 
+;; Protect keys defined by `exwm-input-set-key' from being overrride.
+(exwmx-protect-input-key)
+
 ;; Use "C-t" as an exwm prefix key.
 (push ?\C-t exwm-input-prefix-keys)
 
