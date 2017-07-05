@@ -33,6 +33,7 @@
 (require 'exwm)
 (require 'switch-window)
 (require 'ivy)
+(require 'bind-key)
 
 (defvar exwmx-terminal-emulator "xterm"
   "Exwm-X default terminal emulator")
