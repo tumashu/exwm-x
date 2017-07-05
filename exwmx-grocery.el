@@ -92,27 +92,6 @@ in exwmx-example.el."
           (exwm-instance-name exwm-instance-name)
           (exwm-class-name exwm-class-name))))
 
-(defvar exwmx-grocery--unset-key nil
-  "Record the key which will be unset from emacs.")
-
-(defun exwmx-grocery-unset-key (key)
-  "Unset `key' from emacs's all buffers."
-  ;; `global-set-key' only run once, for `exwm-input-set-key'
-  ;;  will use `global-set-key' to set key.
-  (global-set-key (kbd key) nil)
-  (setq exwmx-grocery--unset-key key)
-  (add-hook 'buffer-list-update-hook
-            #'exwmx-grocery--unset-key)
-  (message "Exwm-X: unset key %S from all buffers." key))
-
-(defun exwmx-grocery--unset-key ()
-  "Internal function, used by `exwmx-grocery-unset-key'."
-  (let ((key exwmx-grocery--unset-key))
-    (when key
-      (dolist (buffer (buffer-list))
-        (with-current-buffer buffer
-          (local-set-key (kbd key) nil))))))
-
 (provide 'exwmx-grocery)
 
 ;;; exwmx-grocery.el ends here

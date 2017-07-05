@@ -101,6 +101,13 @@ to your ~/.emacs file."
     (message "Exwm-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
 
+(defun exwmx-input-set-key (key command)
+  "An advice function for `exwm-input-set-key'.
+which make the setting of `key' is not override by other emacs mode."
+  (bind-key* key command))
+
+(advice-add 'exwm-input-set-key :after #'exwmx-input-set-key)
+
 ;; * Footer
 (provide 'exwmx-core)
 

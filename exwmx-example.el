@@ -98,9 +98,8 @@
   (interactive)
   (exwm-workspace-switch 3))
 
-;; Unset "C-t" from all buffers,
-;; Note: `exwm-input-set-key' MUST run after `exwmx-grocery-unset-key'.
-(exwmx-grocery-unset-key "C-t")
+;; Unset global key: "C-t"
+(global-set-key (kbd "C-t") nil)
 
 ;; Use "C-t" as an exwm prefix key.
 (push ?\C-t exwm-input-prefix-keys)
