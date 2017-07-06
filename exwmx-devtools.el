@@ -37,11 +37,11 @@
   "~/project/emacs-packages/exwm-x/")
 
 (owp/add-project-config
- '("exwm-x"
+ '("EXWM-X"
    :repository-directory (:eval exwmx-repository-directory)
    :remote (git "https://github.com/tumashu/exwm-x.git" "gh-pages")
    :site-domain "http://tumashu.github.com/exwm-x"
-   :site-main-title "Exwm-X"
+   :site-main-title "EXWM-X"
    :site-sub-title "(Addition useful tools for Exwm)"
    :default-category "documents"
    :theme (worg killjs)

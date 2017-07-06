@@ -33,10 +33,10 @@
 (require 'md5)
 
 (defvar exwmx-appconfig-file (locate-user-emacs-file "exwm-x/exwmx-appconfig")
-  "File which is used to record Exwm-X appconfig.
+  "File which is used to record EXWM-X appconfig.
 
 An appconfig is a property list, which record an application's class, instance,
-title and other useful property used by Exwm-X commands.")
+title and other useful property used by EXWM-X commands.")
 
 (defvar exwmx-appconfig-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -114,7 +114,7 @@ will be built and return."
   "Select and return an appconfig."
   (let* ((appconfigs (exwmx-appconfig--get-all-appconfigs))
          (selected (completing-read
-                    "Please select an Exwm-X appconfig: "
+                    "Please select an EXWM-X appconfig: "
                     (mapcar #'(lambda (x)
                                 (format "(%-20S %-20S %S)"
                                         (plist-get x :class)
@@ -144,13 +144,13 @@ will be built and return."
     (insert ")")))
 
 (defun exwmx-appconfig ()
-  "Exwm-X's application configure tool, which will pop to a buffer.
+  "EXWM-X's application configure tool, which will pop to a buffer.
 and insert an appconfig template to let user edit. then user can
 use `exwmx-appconfig-file' to save the appconfig to `exwmx-appconfig-file'
 or use `exwmx-appconfig-ignore' ignore."
   (interactive)
   (if (not (derived-mode-p 'exwm-mode))
-      (message "Exwm-X: Current window is not a window of application.")
+      (message "EXWM-X: Current window is not a window of application.")
     (unless (file-readable-p exwmx-appconfig-file)
       (append-to-file "" nil exwmx-appconfig-file))
     (let* ((buffer (get-buffer-create exwmx-appconfig-buffer))
@@ -200,11 +200,11 @@ or use `exwmx-appconfig-ignore' ignore."
         (setq appconfig (read (current-buffer)))
         (goto-char (point-min))
         (if (not (exwmx--plist-p appconfig))
-            (message "Exwm-X: the current appconfig has a syntax error, re-edit it again.")
+            (message "EXWM-X: the current appconfig has a syntax error, re-edit it again.")
           (exwmx-appconfig--add-appconfig appconfig)
           (delete-window)
           (kill-buffer exwmx-appconfig-buffer)))
-    (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
+    (message "EXWM-X: exwmx-appconfig-mode is not enabled.")))
 
 (defun exwmx-appconfig--add-appconfig (appconfig)
   "Add `appconfig' to appconfig file `exwmx-appconfig-file' and remove
@@ -234,7 +234,7 @@ all other appconfigs which :key is equal the :key of `appconfig'."
       (progn
         (delete-window)
         (kill-buffer exwmx-appconfig-buffer))
-    (message "Exwm-X: exwmx-appconfig-mode is not enabled.")))
+    (message "EXWM-X: exwmx-appconfig-mode is not enabled.")))
 
 (provide 'exwmx-appconfig)
 

@@ -28,14 +28,14 @@
 
 ;; * Code                                                                 :code:
 (defvar exwmx-default-example 'exwmx-example
-  "Exwm-X default example library.")
+  "EXWM-X default example library.")
 
 (cond ((file-exists-p "~/.exwm-x")
        (load-file "~/.exwm-x"))
       ((not (featurep 'exwm-x))
        (require 'exwm-x)
        (require exwmx-default-example)
-       (message "File \"~/.exwm-x\" is not found. Falling back to default Exwm-X configuration...")))
+       (message "File \"~/.exwm-x\" is not found. Falling back to default EXWM-X configuration...")))
 
 ;; * Footer
 (provide 'exwmx-loader)

@@ -1,4 +1,4 @@
-;;; exwmx-button.el --- Add some Exwm-X buttons to mode-line or header-line
+;;; exwmx-button.el --- Add some EXWM-X buttons to mode-line or header-line
 
 ;; * Header
 ;; Copyright 2015-2017 Feng Shu
@@ -256,7 +256,7 @@ C:  Char-mode
              "\\<exwm-mode-map>Reset to `line-mode', "
              "`\\[exwm-input-send-next-key]' -> send key to application.")))
           (exwm-reset)))
-    (message "Exwm-x: No application is actived."))
+    (message "EXWM-X: No application is actived."))
   (exwmx-button--update-button-line))
 
 (add-hook 'exwm-update-class-hook #'exwmx-button--update-button-line)

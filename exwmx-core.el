@@ -36,7 +36,7 @@
 (require 'bind-key)
 
 (defvar exwmx-terminal-emulator "xterm"
-  "Exwm-X default terminal emulator")
+  "EXWM-X default terminal emulator")
 
 (defun exwmx--string-match-p (regexp string)
   "A wrap of `string-match-p', it can work when `string' is not a
@@ -46,17 +46,17 @@ string."
        (string-match-p regexp string)))
 
 (defun exwmx--switch-window ()
-  "A switch-window command's wrapper used by Exwm-X.
+  "A switch-window command's wrapper used by EXWM-X.
 
 Note: switch-window default input style do not work well
-with Exwm-x, user should use 'minibuffer input style instead,
+with EXWM-X, user should use 'minibuffer input style instead,
 for example, add the following line:
 
   (setq switch-window-input-style 'minibuffer)
 
 to your ~/.emacs file."
   (unless (eq switch-window-input-style 'minibuffer)
-    (warn (concat "Exwm-X: please setq the value of "
+    (warn (concat "EXWM-X: please setq the value of "
                   "`switch-window-input-style' to 'minibuffer.")))
   (switch-window--then
    "Run command in window: "
@@ -83,7 +83,7 @@ to your ~/.emacs file."
   "Select an application and switch to it."
   (interactive)
   (let ((buffer-name
-         (ivy-read "Exwm-X switch application: "
+         (ivy-read "EXWM-X switch application: "
                    (mapcar
                     #'(lambda (x)
                         (buffer-name (cdr x)))
@@ -99,7 +99,7 @@ to your ~/.emacs file."
   (let ((cmd (format "%s -e 'bash -c %S'"
                      exwmx-terminal-emulator
                      (concat command "; exec bash"))))
-    (message "Exwm-X run shell command: %s" cmd)
+    (message "EXWM-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
 
 (defun exwmx--protect-input-key (key command)
@@ -112,7 +112,7 @@ help of `bind-key*'."
   "Protect keys defined by `exwm-input-set-key' from being override
 by other minor modes."
   (advice-add 'exwm-input-set-key :after #'exwmx--protect-input-key)
-  (message "Exwm-X: Input keys are protected by `bind-key*'."))
+  (message "EXWM-X: Input keys are protected by `bind-key*'."))
 
 ;; * Footer
 (provide 'exwmx-core)

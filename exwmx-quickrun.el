@@ -1,4 +1,4 @@
-;;; exwmx-quickrun.el --- Exwm-X's application launcher
+;;; exwmx-quickrun.el --- EXWM-X's application launcher
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu
@@ -82,8 +82,8 @@ it by argument `ruler', ruler can be a plist with keys: :class, :instance,
                      (exwmx-quickrun--find-buffer
                       `(:class ,(concat "^" (car (split-string command " "))))))))
     (if (and search-alias (not cmd))
-        (message "Exwm-X: please run `exwmx-appconfig' to add appconfig.")
-      (message "Exwm-X Quick Run: %s" cmd))
+        (message "EXWM-X: please run `exwmx-appconfig' to add appconfig.")
+      (message "EXWM-X Quick Run: %s" cmd))
     ;; If current application window is a floating-window, minumize it.
     (when (and (eq major-mode 'exwm-mode)
                exwm--floating-frame)

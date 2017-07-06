@@ -25,11 +25,11 @@
 
 ;;; Commentary:
 
-;; * Exwm-X                                                         :README:doc:
+;; * EXWM-X                                                         :README:doc:
 
-;; ** What is Exwm-X
+;; ** What is EXWM-X
 
-;; Exwm-X is a derivative window manager based on EXWM (emacs x window manager),
+;; EXWM-X is a derivative window manager based on EXWM (emacs x window manager),
 ;; which focus on Mouse-Control-People.
 
 ;; ** Showcase
@@ -60,7 +60,7 @@
 ;; Define alias of an application, this key is used by `exwmx-quickrun'.
 
 ;; **** :pretty-name
-;; In EXWM and Exwm-X, an application is assocated with an emacs buffer,
+;; In EXWM and EXWM-X, an application is assocated with an emacs buffer,
 ;; user can set the buffer's name with :pretty-name.
 
 ;; **** :paste-key
@@ -99,7 +99,7 @@
 ;; Evaluation a expression when launch an application.
 
 ;; *** Buttons
-;; Exwm-X add the following *buttons* to mode-line, user can
+;; EXWM-X add the following *buttons* to mode-line, user can
 ;; click them to operate application's window:
 
 ;; 1. [X]: Delete the current application.
@@ -125,7 +125,7 @@
 ;; By default, EXWM use "s-'down-mouse-1'" to move a floating-window
 ;; and "s-'down-mouse-3'" to resize a floating-window.
 
-;; When Exwm-X is enabled, user can drag *title showed in button-line*
+;; When EXWM-X is enabled, user can drag *title showed in button-line*
 ;; to move a floating-window. and click [←][↑][↓][→] in button-line
 ;; to resize a floating-window, *without press WIN key*.
 
@@ -279,11 +279,11 @@
 
 ;; ** Usage
 ;; *** Build appconfig database
-;; When user *first* login in Exwm-X desktop environment,
+;; When user *first* login in EXWM-X desktop environment,
 ;; appconfigs of frequently used applications should be added
 ;; to appconfig database file: `exwmx-appconfig-file',
 ;; it is simple but *very very* important, for many useful commands
-;; of Exwm-X need this database file, for example:
+;; of EXWM-X need this database file, for example:
 ;; `exwmx-quickrun', `exwmx-sendstring' and so on.
 
 ;; user should do like the below:
@@ -297,9 +297,9 @@
 
 
 ;; *** The usage of "exwmx-example"
-;; "exwmx-example" is Exwm-X buildin example, user can use it to
-;; test Exwm-X's features, the following is its keybindings.
-;; by the way, Exwm-X is a Exwm derivative, most Exwm commands
+;; "exwmx-example" is EXWM-X buildin example, user can use it to
+;; test EXWM-X's features, the following is its keybindings.
+;; by the way, EXWM-X is a Exwm derivative, most Exwm commands
 ;; can be used too :-)
 
 ;; | Key       | command                         |

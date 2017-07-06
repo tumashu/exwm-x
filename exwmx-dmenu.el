@@ -72,13 +72,13 @@ dmenu should keep a record. "
 
 ;;;###autoload
 (defun exwmx-dmenu ()
-  "Exwm-X dynamic menu, which will use ivy to show commands candidates."
+  "EXWM-X dynamic menu, which will use ivy to show commands candidates."
   (interactive)
   (exwmx-dmenu--internal))
 
 ;;;###autoload
 (defun exwmx-dmenu-simple ()
-  "A simple version Exwm-X dynamic menu."
+  "A simple version EXWM-X dynamic menu."
   (interactive)
   (exwmx-dmenu--internal t))
 
@@ -146,8 +146,8 @@ dmenu should keep a record. "
   (let ((emacs-command
          (intern (concat "exwmx:" command))))
     (if (not (functionp emacs-command))
-        (message "Exwm-X can't find emacs command: `%s'" emacs-command)
-      (message "Exwm-X run emacs command: `%s'" emacs-command)
+        (message "EXWM-X can't find emacs command: `%s'" emacs-command)
+      (message "EXWM-X run emacs command: `%s'" emacs-command)
       (call-interactively emacs-command))))
 
 (defun exwmx-dmenu--split-window-left-to-right (command)
@@ -197,17 +197,17 @@ dmenu should keep a record. "
             command))))
 
 (defun exwmx-dmenu--run (command)
-  "Run Exwm-X command, depend `command''s prefix and body."
+  "Run EXWM-X command, depend `command''s prefix and body."
   (let* ((list (exwmx-dmenu--parse-command command))
          (prefix-list (car list))
          (command (cadr list)))
     (if (not command)
-        (message "Exwm-X: No command will be executed.")
+        (message "EXWM-X: No command will be executed.")
       (let ((emacs-command (intern command)))
         (if (and (< (length prefix-list) 1)
                  (string-match-p "^exwmx:" command)
                  (functionp emacs-command))
-            (progn (message "Exwm-X run emacs command: `%s'" emacs-command)
+            (progn (message "EXWM-X run emacs command: `%s'" emacs-command)
                    (exwmx--switch-window)
                    (funcall emacs-command))
           (if (> (length prefix-list) 0)

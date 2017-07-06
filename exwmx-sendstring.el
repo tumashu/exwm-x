@@ -90,7 +90,7 @@ inserted into the application."
         (delete-window)
         (kill-buffer exwmx-sendstring-buffer)
         (exwmx-sendstring--send string))
-    (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
+    (message "EXWM-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-ignore ()
   "Ignore send string to application."
@@ -99,13 +99,13 @@ inserted into the application."
       (progn
         (delete-window)
         (kill-buffer exwmx-sendstring-buffer))
-    (message "Exwm-X: exwmx-sendstring-mode is not enabled.")))
+    (message "EXWM-X: exwmx-sendstring-mode is not enabled.")))
 
 (defun exwmx-sendstring-from-minibuffer ()
   "Read a string with minibuffer and send it to application."
   (interactive)
   (exwmx-sendstring--send
-   (read-from-minibuffer "Exwm-X: please input: ")))
+   (read-from-minibuffer "EXWM-X: please input: ")))
 
 (defun exwmx-sendstring-from-kill-ring ()
   "Show `kill-ring' with ivy, and send selectd to application."
@@ -123,7 +123,7 @@ inserted into the application."
                                (delete-dups kill-ring))))
                (string (completing-read "kill-ring: " cands)))
           (exwmx-sendstring--send string)))
-    (message "Exwm-X: counsel is required.")))
+    (message "EXWM-X: counsel is required.")))
 
 (provide 'exwmx-sendstring)
 

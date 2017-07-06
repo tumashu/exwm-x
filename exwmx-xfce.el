@@ -1,4 +1,4 @@
-;;; exwmx-xfce.el --- Let Exwm-X work with xfce
+;;; exwmx-xfce.el --- Let EXWM-X work with xfce
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu
@@ -52,9 +52,9 @@
   (interactive)
   (if (executable-find "startxfce4")
       (progn
-        (message "Exwm-X: starting Xfce ...")
+        (message "EXWM-X: starting Xfce ...")
         (exwmx-shell-command "startxfce4"))
-    (message "Exwm-X: xfce is not installed, abort!")))
+    (message "EXWM-X: xfce is not installed, abort!")))
 
 (add-hook 'exwm-init-hook #'exwmx-xfce--startxfce4)
 

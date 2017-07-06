@@ -1,4 +1,4 @@
-;;; exwmx-floating.el --- Exwm-X tools for floating window
+;;; exwmx-floating.el --- EXWM-X tools for floating window
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu

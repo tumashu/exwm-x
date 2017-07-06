@@ -1,4 +1,4 @@
-;;; exwmx-grocery.el --- Exwm-X utils which is hard classed.
+;;; exwmx-grocery.el --- EXWM-X utils which is hard classed.
 
 ;; * Header
 ;; Copyright 2016-2017 Feng Shu

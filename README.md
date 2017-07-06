@@ -1,5 +1,5 @@
-- [Exwm-X](#org17e57c8)
-  - [What is Exwm-X](#orgafc79c8)
+- [EXWM-X](#org17e57c8)
+  - [What is EXWM-X](#orgafc79c8)
   - [Showcase](#orgbe74f2c)
   - [Feature](#org44c1de1)
     - [Appconfig](#org692a0a3)
@@ -23,14 +23,14 @@
 
 <a id="org17e57c8"></a>
 
-# Exwm-X
+# EXWM-X
 
 
 <a id="orgafc79c8"></a>
 
-## What is Exwm-X
+## What is EXWM-X
 
-Exwm-X is a derivative window manager based on EXWM (emacs x window manager), which focus on Mouse-Control-People.
+EXWM-X is a derivative window manager based on EXWM (emacs x window manager), which focus on Mouse-Control-People.
 
 
 <a id="orgbe74f2c"></a>
@@ -71,7 +71,7 @@ By default, every appconfig have the following keys:
 
 3.  :pretty-name
 
-    In EXWM and Exwm-X, an application is assocated with an emacs buffer, user can set the buffer's name with :pretty-name.
+    In EXWM and EXWM-X, an application is assocated with an emacs buffer, user can set the buffer's name with :pretty-name.
 
 4.  :paste-key
 
@@ -116,7 +116,7 @@ By default, every appconfig have the following keys:
 
 ### Buttons
 
-Exwm-X add the following **buttons** to mode-line, user can click them to operate application's window:
+EXWM-X add the following **buttons** to mode-line, user can click them to operate application's window:
 
 1.  [X]: Delete the current application.
 2.  [D]: Delete the current emacs window.
@@ -142,7 +142,7 @@ Note: user can use mode-line as the button-line of floating window:
 
 By default, EXWM use "s-'down-mouse-1'" to move a floating-window and "s-'down-mouse-3'" to resize a floating-window.
 
-When Exwm-X is enabled, user can drag **title showed in button-line** to move a floating-window. and click [←][↑][↓][→] in button-line to resize a floating-window, **without press WIN key**.
+When EXWM-X is enabled, user can drag **title showed in button-line** to move a floating-window. and click [←][↑][↓][→] in button-line to resize a floating-window, **without press WIN key**.
 
 Note: button-line is mode-line or header-line of emacs.
 
@@ -305,7 +305,7 @@ Add your exwm config to this file, for example:
 
 ### Build appconfig database
 
-When user **first** login in Exwm-X desktop environment, appconfigs of frequently used applications should be added to appconfig database file: \`exwmx-appconfig-file', it is simple but **very very** important, for many useful commands of Exwm-X need this database file, for example: \`exwmx-quickrun', \`exwmx-sendstring' and so on.
+When user **first** login in EXWM-X desktop environment, appconfigs of frequently used applications should be added to appconfig database file: \`exwmx-appconfig-file', it is simple but **very very** important, for many useful commands of EXWM-X need this database file, for example: \`exwmx-quickrun', \`exwmx-sendstring' and so on.
 
 user should do like the below:
 
@@ -321,7 +321,7 @@ user should do like the below:
 
 ### The usage of "exwmx-example"
 
-"exwmx-example" is Exwm-X buildin example, user can use it to test Exwm-X's features, the following is its keybindings. by the way, Exwm-X is a Exwm derivative, most Exwm commands can be used too :-)
+"exwmx-example" is EXWM-X buildin example, user can use it to test EXWM-X's features, the following is its keybindings. by the way, EXWM-X is a Exwm derivative, most Exwm commands can be used too :-)
 
 | Key       | command                         |
 |--------- |------------------------------- |
