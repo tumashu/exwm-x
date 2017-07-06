@@ -42,7 +42,7 @@ Variables stored are: `exwmx-dmenu--commands',
   :type 'string
   :group 'exwmx-dmenu)
 
-(defcustom exwmx-dmenu-prompt "Exwmx-dmenu"
+(defcustom exwmx-dmenu-prompt "EXWM-X Dmenu"
   "String to display in the exwm-dmenu or exwm-dmenu-simple prompt."
   :type 'string
   :group 'exwmx-dmenu)
@@ -58,7 +58,7 @@ dmenu should keep a record. "
     (";" . exwmx-dmenu--run-emacs-command)
     ("-" . exwmx-dmenu--split-window-left-to-right)
     ("|" . exwmx-dmenu--split-window-top-to-bottom))
-  "Exwmx-dmenu command-prefix's setting."
+  "EXWM-X Dmenu command-prefix's setting."
   :group 'exwmx-dmenu)
 
 (defvar exwmx-dmenu--initialized-p nil)
@@ -258,7 +258,7 @@ to `exwmx-dmenu-cache-file'"
     (prin1 exwmx-dmenu--history (current-buffer))))
 
 (defun exwmx-dmenu--get-commands()
-  "cache executable files for Exwmx-dmenu."
+  "cache executable files for EXWM-X Dmenu."
   (let* ((valid-exec-path (cl-remove-if-not
                            #'file-exists-p
                            (cl-remove-if-not #'stringp exec-path)))

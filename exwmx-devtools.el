@@ -42,7 +42,7 @@
    :remote (git "https://github.com/tumashu/exwm-x.git" "gh-pages")
    :site-domain "http://tumashu.github.com/exwm-x"
    :site-main-title "EXWM-X"
-   :site-sub-title "(Addition useful tools for Exwm)"
+   :site-sub-title "(Addition useful tools for EXWM)"
    :default-category "documents"
    :theme (worg killjs)
    :force-absolute-url t

@@ -299,7 +299,7 @@
 ;; *** The usage of "exwmx-example"
 ;; "exwmx-example" is EXWM-X buildin example, user can use it to
 ;; test EXWM-X's features, the following is its keybindings.
-;; by the way, EXWM-X is a Exwm derivative, most Exwm commands
+;; by the way, EXWM-X is a EXWM derivative, most EXWM commands
 ;; can be used too :-)
 
 ;; | Key       | command                         |
