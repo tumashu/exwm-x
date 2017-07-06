@@ -74,7 +74,7 @@ in exwmx-example.el."
   "Hook function, used by `exwm-update-class-hook' and
 `exwm-update-title-hook' in exwmx-example.el."
   (exwm-workspace-rename-buffer
-   (concat "EXWM-X:" (exwmx-grocery--get-pretty-name))))
+   (concat "[EXWM-X]: " (exwmx-grocery--get-pretty-name))))
 
 (defun exwmx-grocery--get-pretty-name ()
   "Get a pretty name of an application, based on application's
