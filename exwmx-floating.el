@@ -234,8 +234,16 @@ and `exwmx-floating-mouse-move'"
           (exwm-floating--unset-floating exwm--id))
       (exwm-floating--set-floating exwm--id)
       (when exwmx-floating--first-floating
-        (apply #'exwmx-floating-adjust-window
-               exwmx-floating-default-size-and-position))
+        (let ((size-and-position
+               (plist-get (exwmx-appconfig--search
+                           `((:class ,exwm-class-name)
+                             (:instance ,exwm-instance-name))
+                           '(:size-and-position))
+                          :size-and-position)))
+          (apply #'exwmx-floating-adjust-window
+                 (if (= (length size-and-position) 4)
+                     size-and-position
+                   exwmx-floating-default-size-and-position))))
       (setq exwmx-floating--first-floating nil))))
 
 (provide 'exwmx-floating)
