@@ -130,7 +130,7 @@ F:  Toggle floating window.
 L:  Line-mode
 C:  Char-mode
 
-←↑↓→: Zoom floating application's window."
+98765: Set the size of floating application's window to 90%~50% of screen."
   (let* ((button-line exwmx-button-floating-button-line)
          (value (list (exwmx-button--create-button
                        button-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
