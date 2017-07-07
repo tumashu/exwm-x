@@ -116,24 +116,24 @@
 ;; from being override by other minor modes with the help of
 ;; ‘bind-key*’.
 
-(exwmx-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
-(exwmx-input-set-key (kbd "C-t C-e") 'exwmx-sendstring)
-(exwmx-input-set-key (kbd "C-t C-r") 'exwmx-appconfig)
+(exwmx-input-set-key (kbd "C-t ;") #'exwmx-dmenu)
+(exwmx-input-set-key (kbd "C-t C-e") #'exwmx-sendstring)
+(exwmx-input-set-key (kbd "C-t C-r") #'exwmx-appconfig)
 
-(exwmx-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
-(exwmx-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
-(exwmx-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
-(exwmx-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
+(exwmx-input-set-key (kbd "C-t 1")  #'exwmx-switch-to-1-workspace)
+(exwmx-input-set-key (kbd "C-t 2")  #'exwmx-switch-to-2-workspace)
+(exwmx-input-set-key (kbd "C-t 3")  #'exwmx-switch-to-3-workspace)
+(exwmx-input-set-key (kbd "C-t 4")  #'exwmx-switch-to-4-workspace)
 
 ;; We always need a way to switch between line-mode and char-mode
-(exwmx-input-set-key (kbd "C-t C-t") 'exwmx-button-toggle-keyboard)
+(exwmx-input-set-key (kbd "C-t C-t") #'exwmx-button-toggle-keyboard)
 
 ;; The following example demonstrates how to set a key binding only available
 ;; in line mode. It's simply done by first push the prefix key to
 ;; `exwm-input-prefix-keys' and then add the key sequence to `exwm-mode-map'.
 ;; The example shorten 'C-c q' to 'C-q'.
 (push ?\C-q exwm-input-prefix-keys)
-(define-key exwm-mode-map [?\C-q] 'exwm-input-send-next-key)
+(define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
 
 ;; If you don't use exim, you may need not to set "?\C-\\"
 ;; (push ?\C-\\ exwm-input-prefix-keys)
@@ -141,18 +141,18 @@
 (require 'switch-window)
 ;; switch-window 'default input style do not work well with exwm.
 (setq switch-window-input-style 'minibuffer)
-(define-key exwm-mode-map (kbd "C-x o") 'switch-window)
-(define-key exwm-mode-map (kbd "C-x 1") 'switch-window-then-maximize)
-(define-key exwm-mode-map (kbd "C-x 2") 'switch-window-then-split-below)
-(define-key exwm-mode-map (kbd "C-x 3") 'switch-window-then-split-right)
-(define-key exwm-mode-map (kbd "C-x 0") 'switch-window-then-delete)
+(define-key exwm-mode-map (kbd "C-x o") #'switch-window)
+(define-key exwm-mode-map (kbd "C-x 1") #'switch-window-then-maximize)
+(define-key exwm-mode-map (kbd "C-x 2") #'switch-window-then-split-below)
+(define-key exwm-mode-map (kbd "C-x 3") #'switch-window-then-split-right)
+(define-key exwm-mode-map (kbd "C-x 0") #'switch-window-then-delete)
 
 ;; Let kill-ring works with app
-(define-key exwm-mode-map (kbd "C-c y") 'exwmx-sendstring-from-kill-ring)
+(define-key exwm-mode-map (kbd "C-c y") #'exwmx-sendstring-from-kill-ring)
 
 ;; `exwmx-floating-toggle-floating' does not work well with EXWM-X,
 ;; See: https://github.com/ch11ng/exwm/issues/248
-(define-key exwm-mode-map (kbd "C-c C-t C-f") 'exwmx-floating-toggle-floating)
+(define-key exwm-mode-map (kbd "C-c C-t C-f") #'exwmx-floating-toggle-floating)
 
 ;; The following example demonstrates how to use simulation keys to mimic the
 ;; behavior of Emacs. The argument to `exwm-input-set-simulation-keys' is a
