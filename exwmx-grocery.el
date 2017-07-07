@@ -31,6 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
+(require 'exwmx-floating)
 
 (defun exwmx-grocery--manage-finish-function ()
   "Hook function, used by `exwm-manage-finish-hook'
@@ -39,6 +40,7 @@ in exwmx-example.el."
                      `((:class ,exwm-class-name)
                        (:instance ,exwm-instance-name))))
          (floating (plist-get appconfig :floating))
+         (size (plist-get appconfig :size))
          (workspace (plist-get appconfig :workspace))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
          (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
@@ -61,7 +63,10 @@ in exwmx-example.el."
       (exwm-input-set-local-simulation-keys nil))
     ;; Deal with window floating
     (when floating
-      (exwm-floating--set-floating exwm--id))
+      (exwm-floating--set-floating exwm--id)
+      (unless (numberp size)
+        (setq size 0.8))
+      (exwmx-floating-set-window-size size size 'center 0.05))
     ;; Eval the expression from :eval
     (when expression
       (eval expression))
