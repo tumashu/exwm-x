@@ -102,7 +102,7 @@ F: Toggle floating window.
               (exwmx-button--create-button
                'mode-line "[D]" '(delete-window) '(delete-window))
               (exwmx-button--create-button
-               'mode-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+               'mode-line "[F]" '(exwmx-floating-toggle-floating) '(exwmx-floating-toggle-floating))
               " "
               (exwmx-button--create-button
                'mode-line "[<]" '(switch-window-mvborder-left 10) '(switch-window-mvborder-left 10))
@@ -138,7 +138,7 @@ C:  Char-mode
                       (exwmx-button--create-button
                        button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
                       (exwmx-button--create-button
-                       button-line "[F]" '(exwm-floating-toggle-floating) '(exwm-floating-toggle-floating))
+                       button-line "[F]" '(exwmx-floating-toggle-floating) '(exwmx-floating-toggle-floating))
                       (exwmx-button--create-button
                        button-line " - " nil nil nil t)
                       (exwmx-button--create-button

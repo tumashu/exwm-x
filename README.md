@@ -293,7 +293,7 @@ Add your exwm config to this file, for example:
     (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
     (exwm-input-set-key (kbd "C-t b") 'exwmx-switch-application)
 
-    (exwm-input-set-key (kbd "C-t C-f") 'exwm-floating-toggle-floating)
+    (exwm-input-set-key (kbd "C-t C-f") 'exwmx-floating-toggle-floating)
 
 
 <a id="org280d43c"></a>

@@ -229,9 +229,6 @@ and `exwmx-floating-mouse-move'"
           (exwm-floating--unset-floating exwm--id))
       (exwm-floating--set-floating exwm--id))))
 
-;; Hack the bug: https://github.com/ch11ng/exwm/issues/248
-(advice-add 'exwm-floating-toggle-floating :override #'exwmx-floating-toggle-floating)
-
 (provide 'exwmx-floating)
 
 ;;; exwmx-floating.el ends here

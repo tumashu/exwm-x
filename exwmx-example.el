@@ -148,6 +148,10 @@
 ;; Let kill-ring works with app
 (define-key exwm-mode-map (kbd "C-c y") 'exwmx-sendstring-from-kill-ring)
 
+;; `exwmx-floating-toggle-floating' does not work well with EXWM-X,
+;; See: https://github.com/ch11ng/exwm/issues/248
+(define-key exwm-mode-map (kbd "C-c C-t C-f") 'exwmx-floating-toggle-floating)
+
 ;; The following example demonstrates how to use simulation keys to mimic the
 ;; behavior of Emacs. The argument to `exwm-input-set-simulation-keys' is a
 ;; list of cons cells (SRC . DEST), where SRC is the key sequence you press and
