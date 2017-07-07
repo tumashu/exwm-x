@@ -93,6 +93,55 @@ FIXME: This is a hack, it should be improved in the future."
                                  exwm--connection))))
     (xcb:flush exwm--connection)))
 
+(defun exwmx-floating-set-window-size (width height &optional center-p)
+  "Set current floating window's size, when `width' < 1, set the window's
+width to width * screen width, when `height' < 1, set the window's height
+to height * screen height, when center-p non-nil, put the floating window
+to the center of screen."
+  (when (and (> width 0) (> height 0)
+             (eq major-mode 'exwm-mode)
+             exwm--floating-frame)
+    (let ((screen-width (display-pixel-width))
+          (screen-height (display-pixel-height)))
+      (when (< width 1)
+        (setq width (round (* screen-width width))))
+      (when (< height 1)
+        (setq height (round (* screen-height height))))
+      ;; Set width
+      (setf (slot-value exwm--geometry 'width) width)
+      (xcb:+request exwm--connection
+          (make-instance 'xcb:ConfigureWindow
+                         :window (frame-parameter exwm--floating-frame
+                                                  'exwm-outer-id)
+                         :value-mask xcb:ConfigWindow:Width
+                         :width width))
+      (xcb:+request exwm--connection
+          (make-instance 'xcb:ConfigureWindow
+                         :window (frame-parameter exwm--floating-frame
+                                                  'exwm-container)
+                         :value-mask xcb:ConfigWindow:Width
+                         :width width))
+      ;; Set height
+      (setf (slot-value exwm--geometry 'height) height)
+      (xcb:+request exwm--connection
+          (make-instance 'xcb:ConfigureWindow
+                         :window (frame-parameter exwm--floating-frame
+                                                  'exwm-outer-id)
+                         :value-mask xcb:ConfigWindow:Height
+                         :height height))
+      (xcb:+request exwm--connection
+          (make-instance 'xcb:ConfigureWindow
+                         :window (frame-parameter exwm--floating-frame
+                                                  'exwm-container)
+                         :value-mask xcb:ConfigWindow:Height
+                         :height height))
+      (xcb:flush exwm--connection)
+      ;; Move the window to the center of screen.
+      (when center-p
+        (exwmx-floating--move-to-position
+         (/ (- screen-width width) 2)
+         (/ (- screen-height height) 2))))))
+
 (defun exwmx-floating-mouse-move (start-event)
   "This is a mouse drag event function used by exwmx-button,
 when drag mouse from such button, move current floating window dynamic."
