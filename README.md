@@ -101,7 +101,7 @@ By default, every appconfig have the following keys:
 
     Remove a key from \`exwm-input-prefix-keys' of application,
 
-    Note: if set it to \`t', all keys in \`exwm-input-prefix-keys' will be removed, this is very useful when you want to launch a new emacs session, this make new emacs session use **nearly** all the keybindings except the keybindings defined by \`exwm-input-set-key'.
+    Note: if set it to \`t', all keys in \`exwm-input-prefix-keys' will be removed, this is very useful when you want to launch a new emacs session, this make new emacs session use **nearly** all the keybindings except the keybindings defined by \`exwmx-input-set-key'.
 
 11. :ignore-simulation-keys
 
@@ -285,15 +285,15 @@ Add your exwm config to this file, for example:
     (require 'exwm-x)
     (require 'exwmx-xfce)
     (require 'exwmx-example)
-    (exwm-input-set-key (kbd "C-t v") 'exwmx:file-browser)
-    (exwm-input-set-key (kbd "C-t f") 'exwmx:web-browser)
-    (exwm-input-set-key (kbd "C-t e") 'exwmx:emacs)
-    (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
-    (exwm-input-set-key (kbd "C-t z") 'exwmx-floating-hide-all)
-    (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
-    (exwm-input-set-key (kbd "C-t b") 'exwmx-switch-application)
+    (exwmx-input-set-key (kbd "C-t v") 'exwmx:file-browser)
+    (exwmx-input-set-key (kbd "C-t f") 'exwmx:web-browser)
+    (exwmx-input-set-key (kbd "C-t e") 'exwmx:emacs)
+    (exwmx-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
+    (exwmx-input-set-key (kbd "C-t z") 'exwmx-floating-hide-all)
+    (exwmx-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
+    (exwmx-input-set-key (kbd "C-t b") 'exwmx-switch-application)
 
-    (exwm-input-set-key (kbd "C-t C-f") 'exwmx-floating-toggle-floating)
+    (exwmx-input-set-key (kbd "C-t C-f") 'exwmx-floating-toggle-floating)
 
 
 <a id="org280d43c"></a>

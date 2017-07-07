@@ -101,30 +101,32 @@
 ;; Unset global key: "C-t"
 (global-set-key (kbd "C-t") nil)
 
-;; Protect keys defined by `exwm-input-set-key' from being overrride.
-(exwmx-protect-input-key)
-
 ;; Use "C-t" as an exwm prefix key.
 (push ?\C-t exwm-input-prefix-keys)
 
-;; Note: keybinds setting with `exwm-input-set-key' are
+;; Note: keybinds setting with `exwmx-input-set-key' are
 ;; *global keybinds*, if you can solve the problem with
 ;; other approach, for example: `exwm-mode-map', you should
 ;; not use it.
 ;;
 ;; * Setting it only you have no choice... *
 ;;
-(exwm-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
-(exwm-input-set-key (kbd "C-t C-e") 'exwmx-sendstring)
-(exwm-input-set-key (kbd "C-t C-r") 'exwmx-appconfig)
+;; Note: `exwmx-input-set-key' is similar with `exwm-input-set-key',
+;; the different is that ‘exwmx-input-set-key’ protect key
+;; from being override by other minor modes with the help of
+;; ‘bind-key*’.
 
-(exwm-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
-(exwm-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
-(exwm-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
-(exwm-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
+(exwmx-input-set-key (kbd "C-t ;") 'exwmx-dmenu)
+(exwmx-input-set-key (kbd "C-t C-e") 'exwmx-sendstring)
+(exwmx-input-set-key (kbd "C-t C-r") 'exwmx-appconfig)
+
+(exwmx-input-set-key (kbd "C-t 1")  'exwmx-switch-to-1-workspace)
+(exwmx-input-set-key (kbd "C-t 2")  'exwmx-switch-to-2-workspace)
+(exwmx-input-set-key (kbd "C-t 3")  'exwmx-switch-to-3-workspace)
+(exwmx-input-set-key (kbd "C-t 4")  'exwmx-switch-to-4-workspace)
 
 ;; We always need a way to switch between line-mode and char-mode
-(exwm-input-set-key (kbd "C-t C-t") 'exwmx-button-toggle-keyboard)
+(exwmx-input-set-key (kbd "C-t C-t") 'exwmx-button-toggle-keyboard)
 
 ;; The following example demonstrates how to set a key binding only available
 ;; in line mode. It's simply done by first push the prefix key to

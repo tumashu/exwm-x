@@ -89,7 +89,7 @@
 ;; will be removed, this is very useful when you want to launch
 ;; a new emacs session, this make new emacs session use *nearly*
 ;; all the keybindings except the keybindings defined by
-;; `exwm-input-set-key'.
+;; `exwmx-input-set-key'.
 
 ;; **** :ignore-simulation-keys
 ;; Ingore simulation keys of application, if you set :remove-prefix-keys
@@ -266,15 +266,15 @@
 ;; (require 'exwm-x)
 ;; (require 'exwmx-xfce)
 ;; (require 'exwmx-example)
-;; (exwm-input-set-key (kbd "C-t v") 'exwmx:file-browser)
-;; (exwm-input-set-key (kbd "C-t f") 'exwmx:web-browser)
-;; (exwm-input-set-key (kbd "C-t e") 'exwmx:emacs)
-;; (exwm-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
-;; (exwm-input-set-key (kbd "C-t z") 'exwmx-floating-hide-all)
-;; (exwm-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
-;; (exwm-input-set-key (kbd "C-t b") 'exwmx-switch-application)
+;; (exwmx-input-set-key (kbd "C-t v") 'exwmx:file-browser)
+;; (exwmx-input-set-key (kbd "C-t f") 'exwmx:web-browser)
+;; (exwmx-input-set-key (kbd "C-t e") 'exwmx:emacs)
+;; (exwmx-input-set-key (kbd "C-t c") 'exwmx-xfce-terminal)
+;; (exwmx-input-set-key (kbd "C-t z") 'exwmx-floating-hide-all)
+;; (exwmx-input-set-key (kbd "C-t C-c") 'exwmx-xfce-new-terminal)
+;; (exwmx-input-set-key (kbd "C-t b") 'exwmx-switch-application)
 
-;; (exwm-input-set-key (kbd "C-t C-f") 'exwmx-floating-toggle-floating)
+;; (exwmx-input-set-key (kbd "C-t C-f") 'exwmx-floating-toggle-floating)
 ;; #+END_EXAMPLE
 
 ;; ** Usage

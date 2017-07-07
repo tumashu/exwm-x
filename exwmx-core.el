@@ -102,17 +102,12 @@ to your ~/.emacs file."
     (message "EXWM-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
 
-(defun exwmx--protect-input-key (key command)
-  "An advice function for `exwm-input-set-key', which protect
-the `key' from being override by other minor modes with the
-help of `bind-key*'."
+(defun exwmx-input-set-key (key command)
+  "This function is similar with `exwm-input-set-key', the
+different is that `exwmx-input-set-key' protect `key' from
+being override by other minor modes with the help of `bind-key*'."
+  (exwmx-input-set-key key command)
   (bind-key* key command))
-
-(defun exwmx-protect-input-key ()
-  "Protect keys defined by `exwm-input-set-key' from being override
-by other minor modes."
-  (advice-add 'exwm-input-set-key :after #'exwmx--protect-input-key)
-  (message "EXWM-X: Input keys are protected by `bind-key*'."))
 
 ;; * Footer
 (provide 'exwmx-core)
