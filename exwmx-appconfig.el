@@ -164,7 +164,7 @@ or use `exwmx-appconfig-ignore' ignore."
                             :instance exwm-instance-name
                             :title exwm-title
                             :floating nil
-                            :size 'default
+                            :size-and-position 'default
                             :workspace 'current-workspace
                             :add-prefix-keys nil
                             :remove-prefix-keys nil

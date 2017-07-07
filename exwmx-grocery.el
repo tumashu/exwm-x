@@ -40,7 +40,7 @@ in exwmx-example.el."
                      `((:class ,exwm-class-name)
                        (:instance ,exwm-instance-name))))
          (floating (plist-get appconfig :floating))
-         (size (plist-get appconfig :size))
+         (size-and-position (plist-get appconfig :size-and-position))
          (workspace (plist-get appconfig :workspace))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
          (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
@@ -65,11 +65,10 @@ in exwmx-example.el."
     (when floating
       (exwm-floating--set-floating exwm--id)
       (setq exwmx-floating--first-floating nil)
-      (unless (numberp size)
-        (setq size exwmx-floating-default-size)
-        (apply #'exwmx-floating-adjust-window
-               exwmx-floating-default-size-and-position))
-      (exwmx-floating-adjust-window size size 'center 0.05))
+      (apply #'exwmx-floating-adjust-window
+             (if (= (length size-and-position) 4)
+                 size-and-position
+               exwmx-floating-default-size-and-position)))
     ;; Eval the expression from :eval
     (when expression
       (eval expression))
