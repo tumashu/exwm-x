@@ -92,11 +92,10 @@ FIXME: This is a hack, it should be improved in the future."
                                  exwm--connection))))
     (xcb:flush exwm--connection)))
 
-(defun exwmx-floating-set-window-size (width height &optional center-p)
+(defun exwmx-floating-set-window-size (width height &optional x-pos y-pos)
   "Set current floating window's size, when `width' < 1, set the window's
 width to width * screen width, when `height' < 1, set the window's height
-to height * screen height, when center-p non-nil, put the floating window
-to the center of screen."
+to height * screen height."
   (when (and (> width 0) (> height 0)
              (eq major-mode 'exwm-mode)
              exwm--floating-frame)
@@ -135,11 +134,22 @@ to the center of screen."
                          :value-mask xcb:ConfigWindow:Height
                          :height height))
       (xcb:flush exwm--connection)
-      ;; Move the window to the center of screen.
-      (when center-p
-        (exwmx-floating--move-to-position
-         (/ (- screen-width width) 2)
-         (/ (- screen-height height) 2))))))
+      ;; Relocate the floating window.
+      (let (x y)
+        (cond ((and (numberp x-pos) (>= x-pos 1))
+               (setq x x-pos))
+              ((and (numberp x-pos) (< x-pos 1))
+               (setq x (round (* screen-width x-pos))))
+              ((eq x-pos 'center)
+               (setq x (round (/ (- screen-width width) 2)))))
+        (cond ((and (numberp y-pos) (>= y-pos 1))
+               (setq y y-pos))
+              ((and (numberp y-pos) (< y-pos 1))
+               (setq y (round (* screen-height y-pos))))
+              ((eq y-pos 'center)
+               (setq y (round (/ (- screen-height height) 2)))))
+        (when (and x y)
+          (exwmx-floating--move-to-position x y))))))
 
 (defun exwmx-floating-mouse-move (start-event)
   "This is a mouse drag event function used by exwmx-button,
