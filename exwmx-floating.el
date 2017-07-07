@@ -59,11 +59,10 @@ FIXME: This is a hack, it should be improved in the future."
 
 (defun exwmx-floating--move-to-position (x y)
   "Move current floating window to position: `x', `y'."
-  (when (and (>= x 0)
-             (>= y 0)
+  (when (and (>= x 0) (>= y 0)
              (eq major-mode 'exwm-mode)
              exwm--floating-frame)
-    (let* ((edges (window-inside-absolute-pixel-edges)))
+    (let ((edges (window-inside-absolute-pixel-edges)))
       (xcb:+request exwm--connection
           (make-instance 'xcb:ConfigureWindow
                          :window exwm--container
