@@ -166,11 +166,11 @@ C:  Char-mode
       (setq header-line-format value)
       (setq mode-line-format nil))))
 
-(defun exwmx-button--create-line2char-button (id &optional short)
+(defun exwmx-button--create-line2char-button (id &optional short button-line)
   "Create Char-mode/Line-mode toggle button."
-  (or (when id (exwmx-button--create-line2char-button-1 id short)) ""))
+  (or (when id (exwmx-button--create-line2char-button-1 id short button-line)) ""))
 
-(defun exwmx-button--create-line2char-button-1 (id short)
+(defun exwmx-button--create-line2char-button-1 (id short button-line)
   "Internal function of `exwmx-button--create-line2char-button'."
   (let (help-echo cmd mode)
     (cl-case exwm--on-KeyPress
@@ -195,14 +195,13 @@ C:  Char-mode
                     (interactive)
                     (exwm-input-grab-keyboard ,id)))))
     (with-current-buffer (exwm--id->buffer id)
-      `(""
-        (:propertize ,mode
-                     face mode-line-buffer-id
-                     help-echo ,help-echo
-                     mouse-face mode-line-highlight
-                     local-map
-                     (keymap (mode-line keymap
-                                        (down-mouse-1 . ,cmd))))))))
+      `("" (:propertize ,mode
+                        face mode-line-buffer-id
+                        help-echo ,help-echo
+                        mouse-face mode-line-highlight
+                        local-map
+                        (keymap (,(or button-line 'mode-line) keymap
+                                 (down-mouse-1 . ,cmd))))))))
 
 (defun exwmx-button--update-button-line ()
   "Update all buffer's button-line."
