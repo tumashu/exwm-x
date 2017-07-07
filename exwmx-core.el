@@ -106,7 +106,7 @@ to your ~/.emacs file."
   "This function is similar with `exwm-input-set-key', the
 different is that `exwmx-input-set-key' protect `key' from
 being override by other minor modes with the help of `bind-key*'."
-  (exwmx-input-set-key key command)
+  (exwm-input-set-key key command)
   (bind-key* key command))
 
 ;; * Footer
