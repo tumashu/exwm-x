@@ -31,6 +31,8 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
+(defvar-local exwmx-floating--first-floating t) ;First floating a window
+
 (defun exwmx-floating-hide-all ()
   "Hide all floating window."
   (interactive)
@@ -227,7 +229,10 @@ and `exwmx-floating-mouse-move'"
           (setq header-line-format nil)
           (exwm-layout--refresh)
           (exwm-floating--unset-floating exwm--id))
-      (exwm-floating--set-floating exwm--id))))
+      (exwm-floating--set-floating exwm--id)
+      (when exwmx-floating--first-floating
+        (exwmx-floating-set-window-size 0.8 0.8 'center 0.05))
+      (setq exwmx-floating--first-floating nil))))
 
 (provide 'exwmx-floating)
 

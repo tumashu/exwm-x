@@ -64,6 +64,7 @@ in exwmx-example.el."
     ;; Deal with window floating
     (when floating
       (exwm-floating--set-floating exwm--id)
+      (setq exwmx-floating--first-floating nil)
       (unless (numberp size)
         (setq size 0.8))
       (exwmx-floating-set-window-size size size 'center 0.05))
