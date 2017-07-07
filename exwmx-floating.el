@@ -97,7 +97,7 @@ FIXME: This is a hack, it should be improved in the future."
                                  exwm--connection))))
     (xcb:flush exwm--connection)))
 
-(defun exwmx-floating-set-window-size (width height &optional x-pos y-pos)
+(defun exwmx-floating-adjust-window (width height &optional x-pos y-pos)
   "Set current floating window's size, when `width' < 1, set the window's
 width to width * screen width, when `height' < 1, set the window's height
 to height * screen height."
@@ -235,7 +235,7 @@ and `exwmx-floating-mouse-move'"
       (exwm-floating--set-floating exwm--id)
       (when exwmx-floating--first-floating
         (let ((size exwmx-floating-default-size))
-          (exwmx-floating-set-window-size size size 'center 0.05)))
+          (exwmx-floating-adjust-window size size 'center 0.05)))
       (setq exwmx-floating--first-floating nil))))
 
 (provide 'exwmx-floating)

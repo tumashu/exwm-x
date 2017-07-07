@@ -67,7 +67,7 @@ in exwmx-example.el."
       (setq exwmx-floating--first-floating nil)
       (unless (numberp size)
         (setq size exwmx-floating-default-size))
-      (exwmx-floating-set-window-size size size 'center 0.05))
+      (exwmx-floating-adjust-window size size 'center 0.05))
     ;; Eval the expression from :eval
     (when expression
       (eval expression))

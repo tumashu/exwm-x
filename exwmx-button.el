@@ -143,24 +143,24 @@ C:  Char-mode
                        button-line " - " nil nil nil t)
                       (exwmx-button--create-button
                        button-line "[9]"
-                       '(exwmx-floating-set-window-size 0.9 0.9 'center 0.02)
-                       '(exwmx-floating-set-window-size 0.9 0.9))
+                       '(exwmx-floating-adjust-window 0.9 0.9 'center 0.02)
+                       '(exwmx-floating-adjust-window 0.9 0.9))
                       (exwmx-button--create-button
                        button-line "[8]"
-                       '(exwmx-floating-set-window-size 0.8 0.8 'center 0.05)
-                       '(exwmx-floating-set-window-size 0.8 0.8))
+                       '(exwmx-floating-adjust-window 0.8 0.8 'center 0.05)
+                       '(exwmx-floating-adjust-window 0.8 0.8))
                       (exwmx-button--create-button
                        button-line "[7]"
-                       '(exwmx-floating-set-window-size 0.7 0.7 'center 0.05)
-                       '(exwmx-floating-set-window-size 0.7 0.7))
+                       '(exwmx-floating-adjust-window 0.7 0.7 'center 0.05)
+                       '(exwmx-floating-adjust-window 0.7 0.7))
                       (exwmx-button--create-button
                        button-line "[6]"
-                       '(exwmx-floating-set-window-size 0.6 0.6 'center 0.05)
-                       '(exwmx-floating-set-window-size 0.6 0.6))
+                       '(exwmx-floating-adjust-window 0.6 0.6 'center 0.05)
+                       '(exwmx-floating-adjust-window 0.6 0.6))
                       (exwmx-button--create-button
                        button-line "[5]"
-                       '(exwmx-floating-set-window-size 0.5 0.5 'center 0.05)
-                       '(exwmx-floating-set-window-size 0.5 0.5))
+                       '(exwmx-floating-adjust-window 0.5 0.5 'center 0.05)
+                       '(exwmx-floating-adjust-window 0.5 0.5))
                       " "
                       (exwmx-button--create-button
                        button-line
