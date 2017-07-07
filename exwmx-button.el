@@ -30,6 +30,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'switch-window)
+(require 'exwmx-floating)
 
 ;; Fix compile warn
 (defvar exwm--keyboard-grabbed)
@@ -133,6 +134,7 @@ C:  Char-mode
   (let* ((button-line exwmx-button-floating-button-line)
          (value (list (exwmx-button--create-button
                        button-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
+                      (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)) t button-line)
                       (exwmx-button--create-button
                        button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
                       (exwmx-button--create-button
@@ -140,23 +142,26 @@ C:  Char-mode
                       (exwmx-button--create-button
                        button-line " - " nil nil nil t)
                       (exwmx-button--create-button
-                       button-line "[←]"
-                       '(exwm-layout-enlarge-window-horizontally -60)
-                       '(exwm-layout-enlarge-window-horizontally -300))
+                       button-line "[9]"
+                       '(exwmx-floating-set-window-size 0.9 0.9 'center 0.02)
+                       '(exwmx-floating-set-window-size 0.9 0.9))
                       (exwmx-button--create-button
-                       button-line "[↑]"
-                       '(exwm-layout-enlarge-window -30)
-                       '(exwm-layout-enlarge-window -150))
+                       button-line "[8]"
+                       '(exwmx-floating-set-window-size 0.8 0.8 'center 0.05)
+                       '(exwmx-floating-set-window-size 0.8 0.8))
                       (exwmx-button--create-button
-                       button-line "[↓]"
-                       '(exwm-layout-enlarge-window 30)
-                       '(exwm-layout-enlarge-window 150))
+                       button-line "[7]"
+                       '(exwmx-floating-set-window-size 0.7 0.7 'center 0.05)
+                       '(exwmx-floating-set-window-size 0.7 0.7))
                       (exwmx-button--create-button
-                       button-line "[→]"
-                       '(exwm-layout-enlarge-window-horizontally 60)
-                       '(exwm-layout-enlarge-window-horizontally 300))
+                       button-line "[6]"
+                       '(exwmx-floating-set-window-size 0.6 0.6 'center 0.05)
+                       '(exwmx-floating-set-window-size 0.6 0.6))
+                      (exwmx-button--create-button
+                       button-line "[5]"
+                       '(exwmx-floating-set-window-size 0.5 0.5 'center 0.05)
+                       '(exwmx-floating-set-window-size 0.5 0.5))
                       " "
-                      (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)) t)
                       (exwmx-button--create-button
                        button-line
                        (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
