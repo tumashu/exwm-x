@@ -31,8 +31,8 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defvar exwmx-floating-default-size 0.8
-  "Floating window's default size.")
+(defvar exwmx-floating-default-size-and-position '(0.8 0.8 center 0.05)
+  "Floating window's default size and position.")
 
 (defvar-local exwmx-floating--first-floating t) ;First floating a window
 
@@ -234,8 +234,8 @@ and `exwmx-floating-mouse-move'"
           (exwm-floating--unset-floating exwm--id))
       (exwm-floating--set-floating exwm--id)
       (when exwmx-floating--first-floating
-        (let ((size exwmx-floating-default-size))
-          (exwmx-floating-adjust-window size size 'center 0.05)))
+        (apply #'exwmx-floating-adjust-window
+               exwmx-floating-default-size-and-position))
       (setq exwmx-floating--first-floating nil))))
 
 (provide 'exwmx-floating)
