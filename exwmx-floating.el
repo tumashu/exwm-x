@@ -53,14 +53,16 @@ window if the current buffer is a tilling buffer or normal buffer."
       (unless exwm--floating-frame
         (exwmx-floating-hide-all)))))
 
-(defun exwmx-floating-smart-hide ()
+(defun exwmx-floating-smart-hide (&optional disable)
   "Hide floating window if the current buffer is a tilling buffer
-or normal buffer.
+or normal buffer, when `disable' non-nil, disable smart hide.
 
 FIXME: This is a hack, it should be improved in the future."
-  (advice-add 'exwm-input--update-focus
-              :before #'exwmx-floating--smart-hide))
-
+  (if disable
+      (advice-remove 'exwm-input--update-focus
+                     #'exwmx-floating--smart-hide)
+    (advice-add 'exwm-input--update-focus
+                :before #'exwmx-floating--smart-hide)))
 
 (defun exwmx-floating--move-to-position (x y)
   "Move current floating window to position: `x', `y'."
