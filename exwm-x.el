@@ -79,6 +79,23 @@
 ;; **** :floating
 ;; If set it to `t', application will floating when launched.
 
+;; **** :size-and-position
+;; If set :floating to `t', user can use this key to set the floating window's
+;; size and position.
+
+;; Its value is a list of four elements:
+
+;; #+BEGIN_EXAMPLE
+;; (width height x-pos y-pos)
+;; #+END_EXAMPLE
+
+;; 1. if element >= 1, it regard as: number of pixel,
+;;    if 0 < element < 1, it regard as: screen * element.
+;; 2. user can set x-pos and y-pos to 'center, which
+;;    mean that put the window to the center of screen.
+;; 3. User can set fallback value with the variable:
+;;    `exwmx-floating-default-size-and-position'.
+
 ;; **** :add-prefix-keys
 ;; Add a key to `exwm-input-prefix-keys' of application.
 
