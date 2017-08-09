@@ -48,8 +48,8 @@
    :source-browse-url ("GitHub" "https://github.com/tumashu/exwm-x")
    :personal-avatar nil
    :personal-duoshuo-shortname nil
-   :preparation-function owp/el2org-preparation-function
-   :org-export-function owp/el2org-org-export-function
+   :preparation-function org2web-el2org-preparation-function
+   :org-export-function org2web-el2org-org-export-function
    :el2org-doc-sources ("exwm-x-.*\\.el$")
    :el2org-readme-sources ("exwm-x.el")
    :el2org-index-sources ("exwm-x.el")
