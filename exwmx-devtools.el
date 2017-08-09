@@ -29,14 +29,12 @@
 ;;; Code:
 
 ;; * Code                                                                 :code:
-(require 'org-webpage)
-(require 'owp-web-server)
-(require 'owp-el2org)
+(require 'org2web)
 
 (defvar exwmx-repository-directory
   "~/project/emacs-packages/exwm-x/")
 
-(owp/add-project-config
+(org2web-add-project
  '("EXWM-X"
    :repository-directory (:eval exwmx-repository-directory)
    :remote (git "https://github.com/tumashu/exwm-x.git" "gh-pages")
