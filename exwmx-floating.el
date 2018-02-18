@@ -141,12 +141,6 @@ when drag mouse from such button, move current floating window dynamic."
   (interactive "e")
   (exwmx-floating--mouse-operate start-event))
 
-(defun exwmx-floating-mouse-resize (start-event)
-  "This is a mouse drag event function used by exwmx-button,
-when drag mouse from such button, resize current floating window dynamic."
-  (interactive "e")
-  (exwmx-floating--mouse-operate start-event t))
-
 (defun exwmx-floating--mouse-operate (start-event &optional resize)
   "Internal function of `exwmx-floating-mouse-move'
 and `exwmx-floating-mouse-move'"
