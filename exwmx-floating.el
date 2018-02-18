@@ -207,10 +207,7 @@ and `exwmx-floating-mouse-move'"
   (interactive)
   (with-current-buffer (window-buffer)
     (if exwm--floating-frame
-        (progn
-          (setq header-line-format nil)
-          (exwm-layout--refresh)
-          (exwm-floating--unset-floating exwm--id))
+        (exwm-floating--unset-floating exwm--id)
       (exwm-floating--set-floating exwm--id)
       (when exwmx-floating--first-floating
         (let ((size-and-position
