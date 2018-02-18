@@ -69,34 +69,11 @@ FIXME: This is a hack, it should be improved in the future."
   (when (and (>= x 0) (>= y 0)
              (eq major-mode 'exwm-mode)
              exwm--floating-frame)
-    (let ((edges (window-inside-absolute-pixel-edges)))
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:ConfigureWindow
-                         :window exwm--container
-                         :value-mask (eval-when-compile
-                                       (logior xcb:ConfigWindow:X
-                                               xcb:ConfigWindow:Y))
-                         :x x
-                         :y y))
-      ;; Inform the X window that its absolute position is changed
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:SendEvent
-                         :propagate 0 :destination exwm--id
-                         :event-mask xcb:EventMask:StructureNotify
-                         :event (xcb:marshal
-                                 (make-instance 'xcb:ConfigureNotify
-                                                :event exwm--id
-                                                :window exwm--id
-                                                :above-sibling xcb:Window:None
-                                                :width (- (elt edges 2)
-                                                          (elt edges 0))
-                                                :height (- (elt edges 3)
-                                                           (elt edges 1))
-                                                :border-width 0
-                                                :override-redirect 0
-                                                :x x
-                                                :y y)
-                                 exwm--connection))))
+    (let* ((edges (window-inside-absolute-pixel-edges))
+           (floating-container (frame-parameter exwm--floating-frame
+                                                'exwm-container)))
+      (exwm--set-geometry floating-container x y nil nil)
+      (exwm--set-geometry exwm--id (pop edges) (pop edges) nil nil))
     (xcb:flush exwm--connection)))
 
 (defun exwmx-floating-adjust-window (width height &optional x-pos y-pos)
