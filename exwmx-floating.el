@@ -66,7 +66,7 @@ FIXME: This is a hack, it should be improved in the future."
 
 (defun exwmx-floating--move-to-position (x y)
   "Move current floating window to position: `x', `y'."
-  (when (and (>= x 0) (>= y 0)
+  (when (and x y (>= x 0) (>= y 0)
              (eq major-mode 'exwm-mode)
              exwm--floating-frame)
     (let* ((edges (window-inside-absolute-pixel-edges))
@@ -76,64 +76,38 @@ FIXME: This is a hack, it should be improved in the future."
       (exwm--set-geometry exwm--id (pop edges) (pop edges) nil nil))
     (xcb:flush exwm--connection)))
 
-(defun exwmx-floating-adjust-window (width height &optional x-pos y-pos)
+(defun exwmx-floating-adjust-window (width height &optional x y)
   "Set current floating window's size, when `width' < 1, set the window's
 width to width * screen width, when `height' < 1, set the window's height
 to height * screen height."
   (when (and (> width 0) (> height 0)
              (eq major-mode 'exwm-mode)
              exwm--floating-frame)
-    (let ((screen-width (display-pixel-width))
-          (screen-height (display-pixel-height)))
-      (when (< width 1)
-        (setq width (round (* screen-width width))))
-      (when (< height 1)
-        (setq height (round (* screen-height height))))
-      ;; Set width
-      (setf (slot-value exwm--geometry 'width) width)
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:ConfigureWindow
-                         :window (frame-parameter exwm--floating-frame
-                                                  'exwm-outer-id)
-                         :value-mask xcb:ConfigWindow:Width
-                         :width width))
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:ConfigureWindow
-                         :window (frame-parameter exwm--floating-frame
-                                                  'exwm-container)
-                         :value-mask xcb:ConfigWindow:Width
-                         :width width))
-      ;; Set height
-      (setf (slot-value exwm--geometry 'height) height)
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:ConfigureWindow
-                         :window (frame-parameter exwm--floating-frame
-                                                  'exwm-outer-id)
-                         :value-mask xcb:ConfigWindow:Height
-                         :height height))
-      (xcb:+request exwm--connection
-          (make-instance 'xcb:ConfigureWindow
-                         :window (frame-parameter exwm--floating-frame
-                                                  'exwm-container)
-                         :value-mask xcb:ConfigWindow:Height
-                         :height height))
-      (xcb:flush exwm--connection)
-      ;; Relocate the floating window.
-      (let (x y)
-        (cond ((and (numberp x-pos) (>= x-pos 1))
-               (setq x x-pos))
-              ((and (numberp x-pos) (< x-pos 1))
-               (setq x (round (* screen-width x-pos))))
-              ((eq x-pos 'center)
-               (setq x (round (/ (- screen-width width) 2)))))
-        (cond ((and (numberp y-pos) (>= y-pos 1))
-               (setq y y-pos))
-              ((and (numberp y-pos) (< y-pos 1))
-               (setq y (round (* screen-height y-pos))))
-              ((eq y-pos 'center)
-               (setq y (round (/ (- screen-height height) 2)))))
-        (when (and x y)
-          (exwmx-floating--move-to-position x y))))))
+    (let* ((screen-width (display-pixel-width))
+           (screen-height (display-pixel-height))
+           (orig-width (frame-pixel-width))
+           (orig-height (frame-pixel-height))
+           (width (if (< width 1)
+                      (round (* screen-width width))
+                    width))
+           (height (if (< height 1)
+                       (round (* screen-height height))
+                     height))
+           (x (cond ((and (numberp x) (>= x 1))
+                     x)
+                    ((and (numberp x) (< x 1))
+                     (round (* screen-width x)))
+                    ((eq x 'center)
+                     (round (/ (- screen-width width) 2)))))
+           (y (cond ((and (numberp y) (>= y 1))
+                     y)
+                    ((and (numberp y) (< y 1))
+                     (round (* screen-height y)))
+                    ((eq y 'center)
+                     (round (/ (- screen-height height) 2))))))
+      (exwm-layout-enlarge-window (- width orig-width) t)
+      (exwm-layout-enlarge-window (- height orig-height))
+      (exwmx-floating--move-to-position x y))))
 
 (defun exwmx-floating-mouse-move (start-event)
   "This is a mouse drag event function used by exwmx-button,
