@@ -199,22 +199,28 @@ and `exwmx-floating-mouse-move'"
 (defun exwmx-floating-toggle-floating ()
   "Toggle the current window between floating and non-floating states."
   (interactive)
-  (with-current-buffer (window-buffer)
-    (if exwm--floating-frame
-        (exwm-floating--unset-floating exwm--id)
-      (exwm-floating--set-floating exwm--id)
-      (when exwmx-floating--first-floating
-        (let ((size-and-position
-               (plist-get (exwmx-appconfig--search
-                           `((:class ,exwm-class-name)
-                             (:instance ,exwm-instance-name))
-                           '(:size-and-position))
-                          :size-and-position)))
-          (apply #'exwmx-floating-adjust-window
-                 (if (= (length size-and-position) 4)
-                     size-and-position
-                   exwmx-floating-default-size-and-position))))
-      (setq exwmx-floating--first-floating nil))))
+  (let ((exwm-floating-setup-hook
+         (if exwm-floating-setup-hook
+             `(,exwm-floating-setup-hook
+               #'exwmx-floating-first-floating)
+           #'exwmx-floating-first-floating)))
+    (call-interactively #'exwm-floating-toggle-floating)))
+
+(defun exwmx-floating-first-floating ()
+  "The function handle `exwmx-floating--first-floating'
+It is used as `exwm-floating-setup-hook'."
+  (if exwmx-floating--first-floating
+      (let ((size-and-position
+             (plist-get (exwmx-appconfig--search
+                         `((:class ,exwm-class-name)
+                           (:instance ,exwm-instance-name))
+                         '(:size-and-position))
+                        :size-and-position)))
+        (apply #'exwmx-floating-adjust-window
+               (if (= (length size-and-position) 4)
+                   size-and-position
+                 exwmx-floating-default-size-and-position)))
+    (setq exwmx-floating--first-floating nil)))
 
 (provide 'exwmx-floating)
 
