@@ -113,12 +113,6 @@ to height * screen height."
   "This is a mouse drag event function used by exwmx-button,
 when drag mouse from such button, move current floating window dynamic."
   (interactive "e")
-  (exwmx-floating--mouse-operate start-event))
-
-(defun exwmx-floating--mouse-operate (start-event &optional resize)
-  "Internal function of `exwmx-floating-mouse-move'
-and `exwmx-floating-mouse-move'"
-  (interactive "e")
   (when exwm--floating-frame
     (let* ((orig-mouse (mouse-position))
            (orig-x (car (cdr orig-mouse)))
@@ -161,14 +155,9 @@ and `exwmx-floating-mouse-move'"
                  nil)
                 (t (setq x (car (cdr mouse))
                          y (cdr (cdr mouse)))
-                   (if resize
-                       (set-frame-size
-                        frame
-                        (- frame-width (- orig-x x))
-                        (- frame-height (- orig-y y)))
-                     (exwm-floating-move
-                      (* char-width (- x orig-x))
-                      (* char-width (- y orig-y)))))))))))
+                   (exwm-floating-move
+                    (* char-width (- x orig-x))
+                    (* char-width (- y orig-y))))))))))
 
 (defun exwmx-floating-toggle-floating ()
   "Toggle the current window between floating and non-floating states."
