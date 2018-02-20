@@ -220,8 +220,7 @@ C:  Char-mode
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
              (exwmx-button--create-floating-button-line))
-            (t (setq mode-line-format
-                     (default-value 'mode-line-format)))))
+            (t nil)))
     (force-mode-line-update)))
 
 (defun exwmx-button-kill-buffer (&optional buffer-or-name)
