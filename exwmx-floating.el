@@ -176,8 +176,7 @@ It is used as `exwm-floating-setup-hook'."
       (let ((size-and-position
              (plist-get (exwmx-appconfig--search
                          `((:class ,exwm-class-name)
-                           (:instance ,exwm-instance-name))
-                         '(:size-and-position))
+                           (:instance ,exwm-instance-name)))
                         :size-and-position)))
         (apply #'exwmx-floating-adjust-window
                (if (= (length size-and-position) 4)

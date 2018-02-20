@@ -67,25 +67,23 @@ title and other useful property used by EXWM-X commands.")
             (push (read (current-buffer)) appconfigs)))))
     appconfigs))
 
-;; (exwmx-appconfig--search
-;;  '((:class "Xfce4-terminal" equal)
-;;    (:instance "xfce4-terminal" equal)
-;;    (:title "default-term" string-match-p))
-;;  '(:command))
+;; (exwmx-appconfig--get-subset
+;;  (exwmx-appconfig--search
+;;   '((:class "Xfce4-terminal" equal)
+;;     (:instance "xfce4-terminal" equal)
+;;     (:title "default-term" string-match-p)))
+;;  '(:class))
 
-(defun exwmx-appconfig--search (search-ruler-alist &optional returned-keys)
-  "Search appconfig matched `search-ruler-alist' from `exwmx-appconfig-file',
+(defun exwmx-appconfig--search (search-ruler-alist)
+  "Search and return the appconfig matched `search-ruler-alist'
+from `exwmx-appconfig-file',
 
 A `search-ruler-alist' is a alist, which every element have three elements:
 
 1. search-key: an appconfig key, for example: :class, :instance, or :title.
 2. search-string: a normal string or a regexp string.
-3. test: a test function, for example: `eq', `equal' or `string-match-p'.
-
-When user set `returned-keys', a sub-appconfig with all `returned-keys'
-will be built and return."
-  (let ((returned-keys (exwmx--clean-keylist returned-keys))
-        (appconfigs (exwmx-appconfig--get-all-appconfigs))
+3. test: a test function, for example: `eq', `equal' or `string-match-p'."
+  (let ((appconfigs (exwmx-appconfig--get-all-appconfigs))
         appconfig-matched)
     (while appconfigs
       (let ((appconfig (pop appconfigs))
@@ -99,16 +97,18 @@ will be built and return."
                          (funcall test-function search-string prop-value))
               (setq not-match t))))
         (unless not-match
-          (setq appconfig-matched appconfig)
-          (setq appconfigs nil))))
-    (if (and returned-keys
-             (listp returned-keys))
-        (let (result)
-          (dolist (key (reverse returned-keys))
-            (push (plist-get appconfig-matched key) result)
-            (push key result))
-          result)
-      appconfig-matched)))
+          (setq appconfigs nil)
+          (setq appconfig-matched appconfig))))
+    appconfig-matched))
+
+(defun exwmx-appconfig--get-subset (appconfig subset-keys)
+  "Return a subset of APPCONIFG with SUBSET-KEYS."
+  (let ((keys (exwmx--clean-keylist subset-keys))
+        result)
+    (dolist (key (reverse keys))
+      (push (plist-get appconfig key) result)
+      (push key result))
+    result))
 
 (defun exwmx-appconfig--select-appconfig ()
   "Select and return an appconfig."

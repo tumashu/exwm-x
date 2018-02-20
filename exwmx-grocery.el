@@ -91,8 +91,7 @@ in exwmx-example.el."
   (let ((prefer-name
          (plist-get (exwmx-appconfig--search
                      `((:class ,exwm-class-name)
-                       (:instance ,exwm-instance-name))
-                     '(:pretty-name))
+                       (:instance ,exwm-instance-name)))
                     :pretty-name)))
     (cond ((and (> (length exwm-title) 0)
                 (< (length exwm-title) 10)) exwm-title)

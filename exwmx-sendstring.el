@@ -55,8 +55,7 @@ inserted into the application."
       (let ((paste-key
              (or (plist-get (exwmx-appconfig--search
                              `((:class ,exwm-class-name)
-                               (:instance ,exwm-instance-name))
-                             '(:paste-key))
+                               (:instance ,exwm-instance-name)))
                             :paste-key)
                  exwmx-sendstring-default-paste-key)))
         (kill-new string)

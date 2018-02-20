@@ -45,7 +45,7 @@ it by argument `ruler', ruler can be a plist with keys: :class, :instance
 and :title or just a key list."
   (exwmx--switch-window)
   (let* ((ruler-plist-p (and ruler (exwmx--plist-p ruler)))
-         (returned-keys
+         (keys
           ;; Deal with ruler which is like (:class :instance :title)
           (if (and ruler (listp ruler) (not ruler-plist-p))
               (exwmx--clean-keylist ruler)
@@ -53,8 +53,7 @@ and :title or just a key list."
          (appconfigs (exwmx-appconfig--get-all-appconfigs))
          (cmd (if search-alias
                   (or (plist-get (exwmx-appconfig--search
-                                  `((:alias ,command))
-                                  '(:command))
+                                  `((:alias ,command)))
                                  :command)
                       (when appconfigs
                         (let ((appconfig (exwmx-appconfig--select-appconfig)))
@@ -66,15 +65,17 @@ and :title or just a key list."
                          (exwmx-quickrun--find-buffer
                           (if ruler-plist-p
                               ruler
-                            (exwmx-appconfig--search
-                             `((:alias ,command))
-                             returned-keys)))
+                            (exwmx-appconfig--get-subset
+                             (exwmx-appconfig--search
+                              `((:alias ,command)))
+                             keys)))
                        (exwmx-quickrun--find-buffer
                         (if ruler-plist-p
                             ruler
-                          (exwmx-appconfig--search
-                           `((:command ,command))
-                           returned-keys))))
+                          (exwmx-appconfig--get-subset
+                           (exwmx-appconfig--search
+                            `((:command ,command)))
+                           keys))))
                      ;; The below two rules are just guess rules :-)
                      ;; Suggest use `exwmx-appconfig' to manage app's information.
                      (exwmx-quickrun--find-buffer
