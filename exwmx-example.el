@@ -66,6 +66,9 @@
 ;; Smart hide floating window
 (exwmx-floating-smart-hide)
 
+;; Enable exwmx-button
+(exwmx-button-enable)
+
 (defun exwmx:web-browser ()
   (interactive)
   (exwmx-quickrun "web-browser" t))

@@ -310,9 +310,11 @@ PLACE can be mode-line or header-line."
             (exwm-reset)))
       (message "EXWM-X: No application is actived."))))
 
-(add-hook 'exwm-update-class-hook #'exwmx-button--update-button-line)
-(add-hook 'exwm-update-title-hook #'exwmx-button--update-button-line)
-(add-hook 'buffer-list-update-hook #'exwmx-button--update-button-line)
+(defun exwmx-button-enable ()
+  "Enable exwmx-button."
+  (add-hook 'exwm-update-class-hook #'exwmx-button--update-button-line)
+  (add-hook 'exwm-update-title-hook #'exwmx-button--update-button-line)
+  (add-hook 'buffer-list-update-hook #'exwmx-button--update-button-line))
 
 ;; * Footer
 
