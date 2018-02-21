@@ -182,6 +182,7 @@ It is used as `exwm-floating-setup-hook'."
                (if (= (length size-and-position) 4)
                    size-and-position
                  exwmx-floating-default-size-and-position)))
+    (princ (buffer-name))
     (setq exwmx-floating--first-floating nil)))
 
 (provide 'exwmx-floating)

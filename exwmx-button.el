@@ -32,181 +32,217 @@
 (require 'switch-window)
 (require 'exwmx-floating)
 
+(defvar exwmx-button-floating-line
+  '(kill-buffer
+    hide
+    toggle-char-line
+    toggle-floating
+    separator
+    adjust-window-9
+    adjust-window-8
+    adjust-window-7
+    adjust-window-6
+    adjust-window-5
+    separator
+    title)
+  "Button-line used by floating window.")
+
+(defvar exwmx-button-tilling-line
+  '(kill-buffer
+    delete-window
+    toggle-floating
+    space
+    mvborder-left
+    delete-other-windows
+    mvborder-right
+    space
+    split-window-below
+    split-window-right
+    space
+    toggle-char-line
+    space
+    exwm-buffer-list
+    separator
+    title)
+  "Button-line used by tilling window.")
+
+(defvar exwmx-button-alist
+  '((separator
+     :tilling-label " - "
+     :floating-label " - ")
+    (space
+     :tilling-label " "
+     :floating-label " ")
+    (kill-buffer
+     :tilling-label "[X]"
+     :floating-label "[X]"
+     :mouse-1 (lambda (_) (exwmx-button-kill-buffer)))
+    (delete-window
+     :tilling-label "[D]"
+     :floating-label "[D]"
+     :mouse-1 (lambda (_) (delete-window)))
+    (delete-other-windows
+     :tilling-label "[+]"
+     :floating-label "[+]"
+     :mouse-1 (lambda (_) (delete-other-windows)))
+    (mvborder-left
+     :tilling-label "[<]"
+     :floating-label "[<]"
+     :mouse-1 (lambda (_) (switch-window-mvborder-left 10)))
+    (mvborder-right
+     :tilling-label "[>]"
+     :floating-label "[>]"
+     :mouse-1 (lambda (_) (switch-window-mvborder-right 10)))
+    (split-window-below
+     :tilling-label "[-]"
+     :floating-label "[-]"
+     :mouse-1 (lambda (_) (split-window-below)))
+    (split-window-right
+     :tilling-label "[|]"
+     :floating-label "[|]"
+     :mouse-1 (lambda (_) (split-window-right)))
+    (hide
+     :floating-label "[_]"
+     :mouse-1 (lambda (_) (exwm-floating-hide)))
+    (toggle-floating
+     :tilling-label "[F]"
+     :floating-label "[F]"
+     :mouse-1 (lambda (_) (exwmx-floating-toggle-floating)))
+    (toggle-char-line
+     :tilling-label
+     (lambda ()
+       (cl-case exwm--on-KeyPress
+         ((exwm-input--on-KeyPress-line-mode)
+          (substitute-command-keys
+           "[Line `\\[exwmx-button-toggle-keyboard]']"))
+         ((exwm-input--on-KeyPress-char-mode)
+          (substitute-command-keys
+           "[Char `\\[exwmx-button-toggle-keyboard]']"))))
+     :floating-label
+     (lambda ()
+       (cl-case exwm--on-KeyPress
+         ((exwm-input--on-KeyPress-line-mode) "[L]")
+         ((exwm-input--on-KeyPress-char-mode) "[C]")))
+     :mouse-1 (lambda (_) (exwmx-button-toggle-keyboard)))
+    (adjust-window-9
+     :floating-label "[9]"
+     :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.9 0.9 'center 0.02))
+     :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.9 0.9)))
+    (adjust-window-8
+     :floating-label "[8]"
+     :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.8 0.8 'center 0.05))
+     :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.8 0.8)))
+    (adjust-window-7
+     :floating-label "[7]"
+     :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.7 0.7 'center 0.05))
+     :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.7 0.7)))
+    (adjust-window-6
+     :floating-label "[6]"
+     :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.6 0.6 'center 0.05))
+     :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.6 0.6)))
+    (adjust-window-5
+     :floating-label "[5]"
+     :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.5 0.5 'center 0.05))
+     :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.5 0.5)))
+    (title
+     :floating-label (lambda () exwm-title)
+     :tilling-label (lambda () exwm-title)
+     :down-mouse-1 (lambda (e) (exwmx-floating-mouse-move e)))
+    (exwm-buffer-list
+     :tilling-label
+     (lambda ()
+       (format "{%s}"
+               (mapconcat #'(lambda (x)
+                              (propertize
+                               (replace-regexp-in-string
+                                "\\[EXWM-X\\]: " "" (buffer-name (cdr x)))
+                               'exwm-buffer (cdr x)))
+                          exwm--id-buffer-alist
+                          " ")))
+     :down-mouse-1
+     (lambda (e)
+       (let* ((target (posn-string (event-start e)))
+              (exwm-buffer (get-text-property (cdr target) 'exwm-buffer (car target))))
+         (when (buffer-live-p exwm-buffer)
+           (exwm-workspace-switch-to-buffer exwm-buffer))))))
+  "Exwmx-buttons' setting.")
+
+(defvar exwmx-button-header-line-keymap
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap [header-line down-mouse-1] #'exwmx-button-mouse-handler)
+    (define-key keymap [header-line mouse-1] #'exwmx-button-mouse-handler)
+    (define-key keymap [header-line down-mouse-2] #'exwmx-button-mouse-handler)
+    (define-key keymap [header-line mouse-2] #'exwmx-button-mouse-handler)
+    (define-key keymap [header-line down-mouse-3] #'exwmx-button-mouse-handler)
+    (define-key keymap [header-line mouse-3] #'exwmx-button-mouse-handler)
+    keymap)
+  "Keymap used by exwmx-buttons on header-line.")
+
+(defvar exwmx-button-mode-line-keymap
+  (let ((keymap (make-sparse-keymap)))
+    (define-key keymap [mode-line down-mouse-1] #'exwmx-button-mouse-handler)
+    (define-key keymap [mode-line mouse-1] #'exwmx-button-mouse-handler)
+    (define-key keymap [mode-line down-mouse-2] #'exwmx-button-mouse-handler)
+    (define-key keymap [mode-line mouse-2] #'exwmx-button-mouse-handler)
+    (define-key keymap [mode-line down-mouse-3] #'exwmx-button-mouse-handler)
+    (define-key keymap [mode-line mouse-3] #'exwmx-button-mouse-handler)
+    keymap)
+  "Keymap used by exwmx-buttons on mode-line.")
+
 ;; Fix compile warn
 (defvar exwm--keyboard-grabbed)
 
-(defvar exwmx-button-floating-button-line 'header-line
-  "Use 'header-line or 'mode-line as the button-line of floating window.")
+(defun exwmx-button-mouse-handler (event)
+  "Handle a mouse EVENT on an exwmx-button."
+  (interactive "e")
+  (let* ((target (posn-string (event-start event)))
+         (name (get-text-property (cdr target) 'exwmx-button-name (car target)))
+         (prop (intern (concat ":" (symbol-name (car event)))))
+         (func (or (plist-get (cdr (assq name exwmx-button-alist)) prop)
+                   ;; when :mouse-3 function is nil, fallback to use :mouse-1 function
+                   (and (eq prop :mouse-3)
+                        (plist-get (cdr (assq name exwmx-button-alist)) :mouse-1)))))
+    (if (functionp func)
+        (progn (funcall func event)
+               (force-mode-line-update))
+      (ignore))))
 
-(defun exwmx-button--create-button (button-line button-name &optional mouse-1-action
-                                                mouse-3-action mouse-2-action
-                                                active-down-mouse)
-  "Generate code of button named `button-name' for `button-line', the value of `button-line'
-can be `mode-line' or `header-line'.
+(defun exwmx-button-create (button-name &optional place)
+  "Create an exwmx-button named BUTTON-NAME, which will be used in PLACE.
+PLACE can be mode-line or header-line."
+  (let* ((config (cdr (assq button-name exwmx-button-alist)))
+         (label (if exwm--floating-frame
+                    (plist-get config :floating-label)
+                  (plist-get config :tilling-label)))
+         (label (if (functionp label)
+                    (funcall label)
+                  label)))
+    (when (and label (stringp label))
+      (cond ((eq place 'header-line)
+             (propertize
+              label
+              'exwmx-button-name button-name
+              'help-echo ""
+              'face 'header-line
+              'mouse-face 'header-line-highlight
+              'local-map exwmx-button-header-line-keymap))
+            ((eq place 'mode-line)
+             (propertize
+              label
+              'exwmx-button-name button-name
+              'help-echo ""
+              'face 'mode-line-emphasis
+              'mouse-face 'mode-line-highlight
+              'local-map exwmx-button-mode-line-keymap))
+            (t nil)))))
 
-`mouse-1-action', `mouse-2-action' and `mouse-2-action' are quoted lists.
-when click it with mouse-1, `mouse-1-action' will be execute.
-click mouse-2, `mouse-2-action' execute. click mouse-3, `mouse-3-action'
-execute. "
-  `(:eval (propertize
-           ,button-name
-           'face 'mode-line-buffer-id
-           'help-echo ""
-           'mouse-face 'mode-line-highlight
-           'local-map
-           (let ((map (make-sparse-keymap)))
-             (unless (eq (quote ,mouse-1-action) nil)
-               (define-key map [,button-line mouse-1]
-                 #'(lambda (event)
-                     (interactive "e")
-                     (with-selected-window (posn-window (event-start event))
-                       ,mouse-1-action))))
-             (unless (eq (quote ,mouse-2-action) nil)
-               (define-key map [,button-line mouse-2]
-                 #'(lambda (event)
-                     (interactive "e")
-                     (with-selected-window (posn-window (event-start event))
-                       ,mouse-2-action))))
-             (unless (eq (quote ,mouse-3-action) nil)
-               (define-key map [,button-line mouse-3]
-                 #'(lambda (event)
-                     (interactive "e")
-                     (with-selected-window (posn-window (event-start event))
-                       ,mouse-3-action))))
-             (when (and (eq major-mode 'exwm-mode)
-                        exwm--floating-frame
-                        (not (eq (quote ,active-down-mouse) nil)))
-               (define-key map [,button-line down-mouse-1]
-                 #'exwmx-floating-mouse-move)
-               (define-key map [,button-line down-mouse-3]
-                 #'exwmx-floating-mouse-move))
-             map))))
-
-(defun exwmx-button--create-tilling-button-line ()
-  "Create tilling window's button-line, which has buttons:
-
-X: Delete current application.
-D: Delete current window.
-F: Toggle floating window.
-
-<: Move border to left.
-+: Maximize current window.
->: Move border to right.
-
--: Split window horizontal.
-|: Split window vertical."
-  (setq header-line-format nil)
-  (setq mode-line-format
-        (list (exwmx-button--create-button
-               'mode-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
-              (exwmx-button--create-button
-               'mode-line "[D]" '(delete-window) '(delete-window))
-              (exwmx-button--create-button
-               'mode-line "[F]" '(exwmx-floating-toggle-floating) '(exwmx-floating-toggle-floating))
-              " "
-              (exwmx-button--create-button
-               'mode-line "[<]" '(switch-window-mvborder-left 10) '(switch-window-mvborder-left 10))
-              (exwmx-button--create-button
-               'mode-line "[+]" '(delete-other-windows) '(delete-other-windows))
-              (exwmx-button--create-button
-               'mode-line "[>]" '(switch-window-mvborder-right 10) '(switch-window-mvborder-right 10))
-              " "
-              (exwmx-button--create-button
-               'mode-line "[-]" '(split-window-below) '(split-window-below))
-              (exwmx-button--create-button
-               'mode-line "[|]" '(split-window-right) '(split-window-right))
-              " "
-              (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)))
-              " - "
-              exwm-title)))
-
-(defun exwmx-button--create-floating-button-line ()
-  "Create floating window's button-line, which have buttons:
-
-X:  Delete current application.
-_:  Minumize floating application
-F:  Toggle floating window.
-
-L:  Line-mode
-C:  Char-mode
-
-98765: Set the size of floating application's window to 90%~50% of screen."
-  (let* ((button-line exwmx-button-floating-button-line)
-         (value (list (exwmx-button--create-button
-                       button-line "[X]" '(exwmx-button-kill-buffer) '(exwmx-button-kill-buffer))
-                      (exwmx-button--create-line2char-button (exwm--buffer->id (window-buffer)) t button-line)
-                      (exwmx-button--create-button
-                       button-line "[_]" '(exwm-floating-hide) '(exwm-floating-hide))
-                      (exwmx-button--create-button
-                       button-line "[F]" '(exwmx-floating-toggle-floating) '(exwmx-floating-toggle-floating))
-                      (exwmx-button--create-button
-                       button-line " - " nil nil nil t)
-                      (exwmx-button--create-button
-                       button-line "[9]"
-                       '(exwmx-floating-adjust-window 0.9 0.9 'center 0.02)
-                       '(exwmx-floating-adjust-window 0.9 0.9))
-                      (exwmx-button--create-button
-                       button-line "[8]"
-                       '(exwmx-floating-adjust-window 0.8 0.8 'center 0.05)
-                       '(exwmx-floating-adjust-window 0.8 0.8))
-                      (exwmx-button--create-button
-                       button-line "[7]"
-                       '(exwmx-floating-adjust-window 0.7 0.7 'center 0.05)
-                       '(exwmx-floating-adjust-window 0.7 0.7))
-                      (exwmx-button--create-button
-                       button-line "[6]"
-                       '(exwmx-floating-adjust-window 0.6 0.6 'center 0.05)
-                       '(exwmx-floating-adjust-window 0.6 0.6))
-                      (exwmx-button--create-button
-                       button-line "[5]"
-                       '(exwmx-floating-adjust-window 0.5 0.5 'center 0.05)
-                       '(exwmx-floating-adjust-window 0.5 0.5))
-                      " "
-                      (exwmx-button--create-button
-                       button-line
-                       (concat " - " exwm-title (make-string 200 ? )) nil nil nil t))))
-    (if (eq button-line 'mode-line)
-        (progn (setq mode-line-format value)
-               (setq header-line-format nil))
-      (setq header-line-format value)
-      (setq mode-line-format nil))))
-
-(defun exwmx-button--create-line2char-button (id &optional short button-line)
-  "Create Char-mode/Line-mode toggle button."
-  (or (when id (exwmx-button--create-line2char-button-1 id short button-line)) ""))
-
-(defun exwmx-button--create-line2char-button-1 (id short button-line)
-  "Internal function of `exwmx-button--create-line2char-button'."
-  (let (help-echo cmd mode)
-    (cl-case exwm--on-KeyPress
-      ((exwm-input--on-KeyPress-line-mode)
-       (setq mode
-             (if short
-                 "[L]"
-               (substitute-command-keys
-                "[Line `\\[exwmx-button-toggle-keyboard]']"))
-             help-echo "mouse-1: Switch to char-mode"
-             cmd `(lambda ()
-                    (interactive)
-                    (exwm-input-release-keyboard ,id))))
-      ((exwm-input--on-KeyPress-char-mode)
-       (setq mode
-             (if short
-                 "[C]"
-               (substitute-command-keys
-                "[Char `\\[exwmx-button-toggle-keyboard]']"))
-             help-echo "mouse-1: Switch to line-mode"
-             cmd `(lambda ()
-                    (interactive)
-                    (exwm-input-grab-keyboard ,id)))))
-    (with-current-buffer (exwm--id->buffer id)
-      `("" (:propertize ,mode
-                        face mode-line-buffer-id
-                        help-echo ,help-echo
-                        mouse-face mode-line-highlight
-                        local-map
-                        (keymap (,(or button-line 'mode-line) keymap
-                                 (down-mouse-1 . ,cmd))))))))
+(defun exwmx-button-create-line (buttons &optional place)
+  "Create an exwmx button-line include BUTTONS, which will be use in PLACE.
+PLACE can be mode-line or header-line."
+  (mapcar
+   #'(lambda (button-name)
+       (exwmx-button-create button-name place))
+   buttons))
 
 (defun exwmx-button--update-button-line ()
   "Update all buffer's button-line."
@@ -216,10 +252,16 @@ C:  Char-mode
     (with-current-buffer buffer
       (cond ((and (eq major-mode 'exwm-mode)
                   (not exwm--floating-frame))
-             (exwmx-button--create-tilling-button-line))
+             (kill-local-variable 'header-line-format)
+             (setq mode-line-format
+                   '(:eval (exwmx-button-create-line
+                            exwmx-button-tilling-line 'mode-line))))
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
-             (exwmx-button--create-floating-button-line))
+             (setq mode-line-format nil)
+             (setq header-line-format
+                   '(:eval (exwmx-button-create-line
+                            exwmx-button-floating-line 'header-line))))
             (t nil)))
     (force-mode-line-update)))
 
@@ -244,23 +286,23 @@ C:  Char-mode
     (when buffer
       (exwm-workspace-switch-to-buffer buffer))))
 
-(defun exwmx-button-toggle-keyboard (&optional id)
+(defun exwmx-button-toggle-keyboard ()
   "Toggle between 'line-mode' and 'char-mode'."
-  (interactive (list (exwm--buffer->id (window-buffer))))
-  (if id
-      (with-current-buffer (exwm--id->buffer id)
-        (if exwm--keyboard-grabbed
-            (progn
-              (message "Switch to `char-mode', application will take up your keyboard.")
-              (exwm-input-release-keyboard id))
-          (message
-           (substitute-command-keys
-            (concat
-             "\\<exwm-mode-map>Reset to `line-mode', "
-             "`\\[exwm-input-send-next-key]' -> send key to application.")))
-          (exwm-reset)))
-    (message "EXWM-X: No application is actived."))
-  (exwmx-button--update-button-line))
+  (interactive)
+  (let ((id (exwm--buffer->id (window-buffer))))
+    (if id
+        (with-current-buffer (exwm--id->buffer id)
+          (if exwm--keyboard-grabbed
+              (progn
+                (message "Switch to `char-mode', application will take up your keyboard.")
+                (exwm-input-release-keyboard id))
+            (message
+             (substitute-command-keys
+              (concat
+               "\\<exwm-mode-map>Reset to `line-mode', "
+               "`\\[exwm-input-send-next-key]' -> send key to application.")))
+            (exwm-reset)))
+      (message "EXWM-X: No application is actived."))))
 
 (add-hook 'exwm-update-class-hook #'exwmx-button--update-button-line)
 (add-hook 'exwm-update-title-hook #'exwmx-button--update-button-line)
