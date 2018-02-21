@@ -200,7 +200,11 @@
          (prop (intern (concat ":" (symbol-name (car event)))))
          (func (or (plist-get (cdr (assq name exwmx-button-alist)) prop)
                    ;; when :mouse-3 function is nil, fallback to use :mouse-1 function
-                   (and (eq prop :mouse-3)
+                   (and (memq prop '(:double-down-mouse-1
+                                     :triple-down-mouse-1
+                                     :mouse-3
+                                     :double-down-mouse-3
+                                     :triple-down-mouse-3))
                         (plist-get (cdr (assq name exwmx-button-alist)) :mouse-1)))))
     (if (functionp func)
         (progn (funcall func event)
