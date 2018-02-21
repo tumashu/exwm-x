@@ -145,7 +145,9 @@
      :mouse-1 (lambda (_) (exwmx-floating-adjust-window 0.5 0.5 'center 0.05))
      :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.5 0.5)))
     (title
-     :floating-label (lambda () exwm-title)
+     :floating-label
+     (lambda ()
+       (format "%-100s" exwm-title))
      :tilling-label (lambda () exwm-title)
      :down-mouse-1 (lambda (e) (exwmx-floating-mouse-move e)))
     (exwm-buffer-list
