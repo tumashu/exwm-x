@@ -159,7 +159,7 @@
                                'exwm-buffer (cdr x)))
                           exwm--id-buffer-alist
                           " ")))
-     :down-mouse-1
+     :mouse-1
      (lambda (e)
        (let* ((target (posn-string (event-start e)))
               (exwm-buffer (get-text-property (cdr target) 'exwm-buffer (car target))))
