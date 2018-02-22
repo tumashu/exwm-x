@@ -85,23 +85,17 @@ in exwmx-example.el."
   "Hook function, used by `exwm-update-class-hook' and
 `exwm-update-title-hook' in exwmx-example.el."
   (when (buffer-live-p (current-buffer))
-    (exwm-workspace-rename-buffer
-     (concat "[EXWM-X]: " (exwmx-grocery--get-pretty-name)))))
-
-(defun exwmx-grocery--get-pretty-name ()
-  "Get a pretty name of an application, based on application's
-:pretty-name, :class, :instance or :title which is stored in
-`exwmx-appconfig-file'."
-  (let ((pretty-name
-         (plist-get (exwmx-appconfig--search
-                     `((:class ,exwm-class-name)
-                       (:instance ,exwm-instance-name)))
-                    :pretty-name)))
-    (cond ((and (> (length exwm-title) 0)
-                (< (length exwm-title) 10)) exwm-title)
-          (pretty-name pretty-name)
-          (exwm-instance-name exwm-instance-name)
-          (exwm-class-name exwm-class-name))))
+    (let* ((name (plist-get (exwmx-appconfig--search
+                             `((:class ,exwm-class-name)
+                               (:instance ,exwm-instance-name)))
+                            :pretty-name))
+           (name (cond ((and (> (length exwm-title) 0)
+                             (< (length exwm-title) 10))
+                        exwm-title)
+                       (name name)
+                       (exwm-instance-name exwm-instance-name)
+                       (exwm-class-name exwm-class-name))))
+      (exwm-workspace-rename-buffer (concat "[EXWM-X]: " name)))))
 
 (provide 'exwmx-grocery)
 
