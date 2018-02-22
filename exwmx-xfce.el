@@ -56,7 +56,10 @@
         (exwmx-shell-command "startxfce4"))
     (message "EXWM-X: xfce is not installed, abort!")))
 
-(add-hook 'exwm-init-hook #'exwmx-xfce--startxfce4)
+(defun exwmx-xfce-enable ()
+  "Enabel exwx-xfce."
+  (when (executable-find "startxfce4")
+    (add-hook 'exwm-init-hook #'exwmx-xfce--startxfce4)))
 
 ;; * Footer
 (provide 'exwmx-xfce)
