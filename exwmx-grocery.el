@@ -49,7 +49,8 @@ in exwmx-example.el."
          (expression (plist-get appconfig :eval)))
     ;; Record the application's pretty-name, which
     ;; is used by exwmx-button's exwm-buffer-list button.
-    (setq-local exwmx-pretty-name pretty-name)
+    (setq-local exwmx-pretty-name
+                (or pretty-name "????"))
     ;; Deal with prefix-keys of application
     (when (and prefix-keys-removed
                (listp prefix-keys-removed))
