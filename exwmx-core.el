@@ -38,6 +38,10 @@
 (defvar exwmx-terminal-emulator "xterm"
   "EXWM-X default terminal emulator")
 
+(defvar-local exwmx-pretty-name nil
+  "Record the application's pretty name.
+This variable is used by exwmx-button: exwm-buffer-list.")
+
 (defun exwmx--string-match-p (regexp string)
   "A wrap of `string-match-p', it can work when `string' is not a
 string."

@@ -40,12 +40,16 @@ in exwmx-example.el."
                      `((:class ,exwm-class-name)
                        (:instance ,exwm-instance-name))))
          (floating (plist-get appconfig :floating))
+         (pretty-name (plist-get appconfig :pretty-name))
          (size-and-position (plist-get appconfig :size-and-position))
          (workspace (plist-get appconfig :workspace))
          (prefix-keys-added (plist-get appconfig :add-prefix-keys))
          (prefix-keys-removed (plist-get appconfig :remove-prefix-keys))
          (ignore-simulation-keys (plist-get appconfig :ignore-simulation-keys))
          (expression (plist-get appconfig :eval)))
+    ;; Record the application's pretty-name, which
+    ;; is used by exwmx-button's exwm-buffer-list button.
+    (setq-local exwmx-pretty-name pretty-name)
     ;; Deal with prefix-keys of application
     (when (and prefix-keys-removed
                (listp prefix-keys-removed))

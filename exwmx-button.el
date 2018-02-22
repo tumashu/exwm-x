@@ -156,8 +156,7 @@
        (format "{%s}"
                (mapconcat #'(lambda (x)
                               (propertize
-                               (replace-regexp-in-string
-                                "\\[EXWM-X\\]: " "" (buffer-name (cdr x)))
+                               (buffer-local-value 'exwmx-pretty-name (cdr x))
                                'exwm-buffer (cdr x)))
                           exwm--id-buffer-alist
                           " ")))
