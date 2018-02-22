@@ -29,8 +29,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 
-(defvar exwmx-terminal-emulator nil)
-(setq exwmx-terminal-emulator "xfce4-terminal")
+(defvar exwmx-terminal-emulator)
 
 (defun exwmx-xfce-thunar ()
   "A command used to jump or execute thunar."
@@ -59,6 +58,7 @@
 (defun exwmx-xfce-enable ()
   "Enabel exwx-xfce."
   (when (executable-find "startxfce4")
+    (setq exwmx-terminal-emulator "xfce4-terminal")
     (add-hook 'exwm-init-hook #'exwmx-xfce--startxfce4)))
 
 ;; * Footer
