@@ -163,8 +163,8 @@
                           " ")))
      :mouse-1
      (lambda (e)
-       (let* ((target (posn-string (event-start e)))
-              (exwm-buffer (get-text-property (cdr target) 'exwm-buffer (car target))))
+       (let ((exwm-buffer
+              (exwmx-button-text-property-at-event e 'exwm-buffer)))
          (when (buffer-live-p exwm-buffer)
            (exwm-workspace-switch-to-buffer exwm-buffer))))))
   "Exwmx-buttons' setting.")
@@ -194,11 +194,16 @@
 ;; Fix compile warn
 (defvar exwm--keyboard-grabbed)
 
+(defun exwmx-button-text-property-at-event (event text-property)
+  "Get the TEXT-PROPERTY at EVENT start"
+  (let ((target (posn-string (event-start event))))
+    (get-text-property (cdr target) text-property (car target))))
+
 (defun exwmx-button-mouse-handler (event)
   "Handle a mouse EVENT on an exwmx-button."
   (interactive "e")
-  (let* ((target (posn-string (event-start event)))
-         (name (get-text-property (cdr target) 'exwmx-button-name (car target)))
+  (let* ((name (exwmx-button-text-property-at-event
+                event 'exwmx-button-name))
          (prop (intern (concat ":" (symbol-name (car event)))))
          (func (or (plist-get (cdr (assq name exwmx-button-alist)) prop)
                    ;; when :mouse-3 function is nil, fallback to use :mouse-1 function
