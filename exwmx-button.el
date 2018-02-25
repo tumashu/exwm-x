@@ -173,7 +173,16 @@ button label if it does exist. ")
        (let ((exwm-buffer
               (exwmx-button-text-property-at-event e 'exwm-buffer)))
          (when (buffer-live-p exwm-buffer)
-           (exwm-workspace-switch-to-buffer exwm-buffer))))))
+           (exwm-workspace-switch-to-buffer exwm-buffer)))))
+    (web-browser
+     :tilling-label "[Web]"
+     :mouse-1 (lambda (_) (exwmx-quickrun "web-browser" t)))
+    (terminal
+     :tilling-label "[Term]"
+     :mouse-1 (lambda (_) (exwmx-quickrun "terminal" t)))
+    (file-browser
+     :tilling-label "[File]"
+     :mouse-1 (lambda (_) (exwmx-quickrun "file-browser" t))))
   "Exwmx-buttons' setting.")
 
 (defvar exwmx-button-header-line-keymap
