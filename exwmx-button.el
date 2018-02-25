@@ -221,6 +221,10 @@
   "Create an exwmx-button named BUTTON-NAME, which will be used in PLACE.
 PLACE can be mode-line or header-line."
   (let* ((config (cdr (assq button-name exwmx-button-alist)))
+         (help (or (if exwm--floating-frame
+                       (plist-get config :floating-help)
+                     (plist-get config :tilling-help))
+                   ""))
          (label (if exwm--floating-frame
                     (plist-get config :floating-label)
                   (plist-get config :tilling-label)))
@@ -232,7 +236,7 @@ PLACE can be mode-line or header-line."
              (propertize
               label
               'exwmx-button-name button-name
-              'help-echo ""
+              'help-echo help
               'face 'header-line
               'mouse-face 'header-line-highlight
               'local-map exwmx-button-header-line-keymap))
