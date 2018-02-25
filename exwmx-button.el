@@ -186,11 +186,14 @@ button label if it does exist. ")
      (lambda (place)
        (let ((x (mapconcat
                  #'(lambda (x)
-                     (exwmx-button--add-face-and-keymap
-                      (propertize
-                       (buffer-local-value 'exwmx-pretty-name (cdr x))
-                       'exwm-buffer (cdr x))
-                      place))
+                     (let* ((buffer (cdr x))
+                            (pretty-name (buffer-local-value 'exwmx-pretty-name buffer))
+                            (name (if (eq buffer (current-buffer))
+                                      (concat "*" pretty-name)
+                                    pretty-name)))
+                       (exwmx-button--add-face-and-keymap
+                        (propertize name 'exwm-buffer buffer)
+                        place)))
                  exwm--id-buffer-alist
                  " ")))
          (unless (equal x "")
