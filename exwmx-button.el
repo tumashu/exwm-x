@@ -74,6 +74,8 @@ button label if it does exist. ")
 (defvar exwmx-button-app-line
   '(applications
     space
+    workspace-list
+    space
     web-browser
     terminal
     file-browser
@@ -189,6 +191,22 @@ button label if it does exist. ")
               (exwmx-button-text-property-at-event e 'exwm-buffer)))
          (when (buffer-live-p exwm-buffer)
            (exwm-workspace-switch-to-buffer exwm-buffer)))))
+    (workspace-list
+     :tilling-label
+     (lambda ()
+       (let ((str ""))
+         (dotimes (i exwm-workspace-number)
+           (setq str (concat str
+                             (propertize
+                              (format "%s " (1+ i))
+                              'workspace-number i))))
+         (format "[ %s]" str)))
+     :mouse-1
+     (lambda (e)
+       (let ((workspace-number
+              (exwmx-button-text-property-at-event e 'workspace-number)))
+         (when workspace-number
+           (exwm-workspace-switch workspace-number)))))
     (applications
      :tilling-label "[A]"
      :application-button t
