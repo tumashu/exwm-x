@@ -310,7 +310,7 @@ PLACE can be mode-line or header-line."
              (propertize
               label
               'exwmx-button-name button-name
-              'help-echo ""
+              'help-echo help
               'face 'mode-line-emphasis
               'mouse-face 'mode-line-highlight
               'local-map exwmx-button-mode-line-keymap))
