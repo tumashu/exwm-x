@@ -211,8 +211,11 @@ button label if it does exist. ")
          (dotimes (i exwm-workspace-number)
            (setq str (concat str
                              (exwmx-button--add-face-and-keymap
-                              (propertize (format "%s" (1+ i))
-                                          'workspace-number i)
+                              (propertize
+                               (if (= i exwm-workspace-current-index)
+                                   (format "*%s" (1+ i))
+                                 (format "%s" (1+ i)))
+                               'workspace-number i)
                               place)
                              " ")))
          (format "[ %s]" str)))
