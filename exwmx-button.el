@@ -32,6 +32,10 @@
 (require 'switch-window)
 (require 'exwmx-floating)
 
+(defvar exwmx-button-prefer-short-button-label nil
+  "When non-nil, exwmx-button will use a short
+button label if it does exist. ")
+
 (defvar exwmx-button-floating-line
   '(kill-buffer
     hide
@@ -113,11 +117,15 @@
      (lambda ()
        (cl-case exwm--on-KeyPress
          ((exwm-input--on-KeyPress-line-mode)
-          (substitute-command-keys
-           "[Line `\\[exwmx-button-toggle-keyboard]']"))
+          (if exwmx-button-prefer-short-button-label
+              "[L]"
+            (substitute-command-keys
+             "[Line `\\[exwmx-button-toggle-keyboard]']")))
          ((exwm-input--on-KeyPress-char-mode)
-          (substitute-command-keys
-           "[Char `\\[exwmx-button-toggle-keyboard]']"))))
+          (if exwmx-button-prefer-short-button-label
+              "[C]"
+            (substitute-command-keys
+             "[Char `\\[exwmx-button-toggle-keyboard]']")))))
      :floating-label
      (lambda ()
        (cl-case exwm--on-KeyPress
