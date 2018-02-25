@@ -52,7 +52,8 @@ button label if it does exist. ")
   "Button-line used by floating window.")
 
 (defvar exwmx-button-tilling-line
-  '(kill-buffer
+  '(toggle-app-line
+    kill-buffer
     delete-window
     toggle-floating
     space
@@ -69,6 +70,21 @@ button label if it does exist. ")
     separator
     title)
   "Button-line used by tilling window.")
+
+(defvar exwmx-button-app-line
+  '(toggle-app-line
+    kill-buffer
+    delete-window
+    toggle-floating
+    space
+    web-browser
+    terminal
+    file-browser
+    space
+    exwm-buffer-list
+    separator
+    title)
+  "Button-line used to show application shortcut.")
 
 (defvar exwmx-button-alist
   '((separator
@@ -174,6 +190,12 @@ button label if it does exist. ")
               (exwmx-button-text-property-at-event e 'exwm-buffer)))
          (when (buffer-live-p exwm-buffer)
            (exwm-workspace-switch-to-buffer exwm-buffer)))))
+    (toggle-app-line
+     :tilling-label "[A]"
+     :mouse-1
+     (lambda (_)
+       (setq exwmx-button--show-app-line
+             (not exwmx-button--show-app-line))))
     (web-browser
      :tilling-label "[Web]"
      :mouse-1 (lambda (_) (exwmx-quickrun "web-browser" t)))
@@ -206,6 +228,9 @@ button label if it does exist. ")
     (define-key keymap [mode-line mouse-3] #'exwmx-button-mouse-handler)
     keymap)
   "Keymap used by exwmx-buttons on mode-line.")
+
+(defvar exwmx-button--show-app-line nil
+  "Show or hide `exwmx-button-app-line'.")
 
 ;; Fix compile warn
 (defvar exwm--keyboard-grabbed)
@@ -286,7 +311,10 @@ PLACE can be mode-line or header-line."
              (kill-local-variable 'header-line-format)
              (setq mode-line-format
                    '(:eval (exwmx-button-create-line
-                            exwmx-button-tilling-line 'mode-line))))
+                            (if exwmx-button--show-app-line
+                                exwmx-button-app-line
+                              exwmx-button-tilling-line)
+                            'mode-line))))
             ((and (eq major-mode 'exwm-mode)
                   exwm--floating-frame)
              (setq mode-line-format nil)
