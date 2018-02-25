@@ -73,9 +73,6 @@ button label if it does exist. ")
 
 (defvar exwmx-button-app-line
   '(applications
-    kill-buffer
-    delete-window
-    toggle-floating
     space
     web-browser
     terminal
@@ -177,13 +174,15 @@ button label if it does exist. ")
     (exwm-buffer-list
      :tilling-label
      (lambda ()
-       (format "{%s}"
-               (mapconcat #'(lambda (x)
-                              (propertize
-                               (buffer-local-value 'exwmx-pretty-name (cdr x))
-                               'exwm-buffer (cdr x)))
-                          exwm--id-buffer-alist
-                          " ")))
+       (let ((x (mapconcat
+                 #'(lambda (x)
+                     (propertize
+                      (buffer-local-value 'exwmx-pretty-name (cdr x))
+                      'exwm-buffer (cdr x)))
+                 exwm--id-buffer-alist
+                 " ")))
+         (unless (equal x "")
+           (format "{%s}" x))))
      :mouse-1
      (lambda (e)
        (let ((exwm-buffer
@@ -192,12 +191,11 @@ button label if it does exist. ")
            (exwm-workspace-switch-to-buffer exwm-buffer)))))
     (applications
      :tilling-label "[A]"
+     :application-button t
      :mouse-1
      (lambda (_)
-       (if (eq major-mode 'exwm-mode)
-           (setq exwmx-button--show-app-line
-                 (not exwmx-button--show-app-line))
-         (counsel-linux-app)))
+       (setq exwmx-button--show-app-line
+             (not exwmx-button--show-app-line)))
      :mouse-3
      (lambda (_) (counsel-linux-app)))
     (web-browser
@@ -249,17 +247,21 @@ button label if it does exist. ")
   (interactive "e")
   (let* ((name (exwmx-button-text-property-at-event
                 event 'exwmx-button-name))
+         (plist (cdr (assq name exwmx-button-alist)))
          (prop (intern (concat ":" (symbol-name (car event)))))
-         (func (or (plist-get (cdr (assq name exwmx-button-alist)) prop)
+         (func (or (plist-get plist prop)
                    ;; when :mouse-3 function is nil, fallback to use :mouse-1 function
                    (and (memq prop '(:double-down-mouse-1
                                      :triple-down-mouse-1
                                      :mouse-3
                                      :double-down-mouse-3
                                      :triple-down-mouse-3))
-                        (plist-get (cdr (assq name exwmx-button-alist)) :mouse-1)))))
+                        (plist-get plist :mouse-1))))
+         (application-button (plist-get plist :application-button)))
     (if (functionp func)
         (progn (funcall func event)
+               (unless application-button
+                 (setq exwmx-button--show-app-line nil))
                (force-mode-line-update))
       (ignore))))
 
@@ -325,8 +327,12 @@ PLACE can be mode-line or header-line."
              (setq header-line-format
                    '(:eval (exwmx-button-create-line
                             exwmx-button-floating-line 'header-line))))
-            (t nil)))
-    (force-mode-line-update)))
+            (t (setq mode-line-format
+                     '(:eval (if exwmx-button--show-app-line
+                                 (exwmx-button-create-line exwmx-button-app-line 'mode-line)
+                               `(,(exwmx-button-create-line '(applications) 'mode-line)
+                                 ,(default-value 'mode-line-format)))))))))
+    (force-mode-line-update))
 
 (defun exwmx-button-kill-buffer (&optional buffer-or-name)
   "Kill buffer, if current buffer is a exwm buffer."
