@@ -52,7 +52,7 @@ button label if it does exist. ")
   "Button-line used by floating window.")
 
 (defvar exwmx-button-tilling-line
-  '(toggle-app-line
+  '(applications
     kill-buffer
     delete-window
     toggle-floating
@@ -72,7 +72,7 @@ button label if it does exist. ")
   "Button-line used by tilling window.")
 
 (defvar exwmx-button-app-line
-  '(toggle-app-line
+  '(applications
     kill-buffer
     delete-window
     toggle-floating
@@ -190,12 +190,14 @@ button label if it does exist. ")
               (exwmx-button-text-property-at-event e 'exwm-buffer)))
          (when (buffer-live-p exwm-buffer)
            (exwm-workspace-switch-to-buffer exwm-buffer)))))
-    (toggle-app-line
+    (applications
      :tilling-label "[A]"
      :mouse-1
      (lambda (_)
-       (setq exwmx-button--show-app-line
-             (not exwmx-button--show-app-line)))
+       (if (eq major-mode 'exwm-mode)
+           (setq exwmx-button--show-app-line
+                 (not exwmx-button--show-app-line))
+         (counsel-linux-app)))
      :mouse-3
      (lambda (_) (counsel-linux-app)))
     (web-browser
