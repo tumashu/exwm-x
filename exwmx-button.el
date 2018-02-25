@@ -129,23 +129,27 @@ button label if it does exist. ")
      :mouse-1 (lambda (_) (exwmx-floating-toggle-floating)))
     (toggle-char-line
      :tilling-label
-     (lambda ()
-       (cl-case exwm--on-KeyPress
-         ((exwm-input--on-KeyPress-line-mode)
-          (if exwmx-button-prefer-short-button-label
-              "[L]"
-            (substitute-command-keys
-             "[Line `\\[exwmx-button-toggle-keyboard]']")))
-         ((exwm-input--on-KeyPress-char-mode)
-          (if exwmx-button-prefer-short-button-label
-              "[C]"
-            (substitute-command-keys
-             "[Char `\\[exwmx-button-toggle-keyboard]']")))))
+     (lambda (place)
+       (exwmx-button--add-face-and-keymap
+        (cl-case exwm--on-KeyPress
+          ((exwm-input--on-KeyPress-line-mode)
+           (if exwmx-button-prefer-short-button-label
+               "[L]"
+             (substitute-command-keys
+              "[Line `\\[exwmx-button-toggle-keyboard]']")))
+          ((exwm-input--on-KeyPress-char-mode)
+           (if exwmx-button-prefer-short-button-label
+               "[C]"
+             (substitute-command-keys
+              "[Char `\\[exwmx-button-toggle-keyboard]']"))))
+        place))
      :floating-label
-     (lambda ()
-       (cl-case exwm--on-KeyPress
-         ((exwm-input--on-KeyPress-line-mode) "[L]")
-         ((exwm-input--on-KeyPress-char-mode) "[C]")))
+     (lambda (place)
+       (exwmx-button--add-face-and-keymap
+        (cl-case exwm--on-KeyPress
+          ((exwm-input--on-KeyPress-line-mode) "[L]")
+          ((exwm-input--on-KeyPress-char-mode) "[C]"))
+        place))
      :mouse-1 (lambda (_) (exwmx-button-toggle-keyboard)))
     (adjust-window-9
      :floating-label "[9]"
@@ -169,18 +173,24 @@ button label if it does exist. ")
      :mouse-3 (lambda (_) (exwmx-floating-adjust-window 0.5 0.5)))
     (title
      :floating-label
-     (lambda ()
-       (format "%-100s" exwm-title))
-     :tilling-label (lambda () exwm-title)
+     (lambda (place)
+       (exwmx-button--add-face-and-keymap
+        (format "%-100s" exwm-title)
+        place))
+     :tilling-label
+     (lambda (place)
+       (exwmx-button--add-face-and-keymap exwm-title place))
      :down-mouse-1 (lambda (e) (exwmx-floating-mouse-move e)))
     (exwm-buffer-list
      :tilling-label
-     (lambda ()
+     (lambda (place)
        (let ((x (mapconcat
                  #'(lambda (x)
-                     (propertize
-                      (buffer-local-value 'exwmx-pretty-name (cdr x))
-                      'exwm-buffer (cdr x)))
+                     (exwmx-button--add-face-and-keymap
+                      (propertize
+                       (buffer-local-value 'exwmx-pretty-name (cdr x))
+                       'exwm-buffer (cdr x))
+                      place))
                  exwm--id-buffer-alist
                  " ")))
          (unless (equal x "")
@@ -193,13 +203,15 @@ button label if it does exist. ")
            (exwm-workspace-switch-to-buffer exwm-buffer)))))
     (workspace-list
      :tilling-label
-     (lambda ()
+     (lambda (place)
        (let ((str ""))
          (dotimes (i exwm-workspace-number)
            (setq str (concat str
-                             (propertize
-                              (format "%s " (1+ i))
-                              'workspace-number i))))
+                             (exwmx-button--add-face-and-keymap
+                              (propertize (format "%s" (1+ i))
+                                          'workspace-number i)
+                              place)
+                             " ")))
          (format "[ %s]" str)))
      :mouse-1
      (lambda (e)
@@ -293,28 +305,32 @@ PLACE can be mode-line or header-line."
                    ""))
          (label (if exwm--floating-frame
                     (plist-get config :floating-label)
-                  (plist-get config :tilling-label)))
-         (label (if (functionp label)
-                    (funcall label)
-                  label)))
-    (when (and label (stringp label))
+                  (plist-get config :tilling-label))))
+    (propertize
+     (if (functionp label)
+         (or (funcall label place) "")
+       (exwmx-button--add-face-and-keymap label place))
+     'exwmx-button-name button-name
+     'help-echo help)))
+
+(defun exwmx-button--add-face-and-keymap (string place)
+  "Add face and keymap property to STRING.
+PLACE can be mode-line or header-line."
+  (if (and string (stringp string))
       (cond ((eq place 'header-line)
              (propertize
-              label
-              'exwmx-button-name button-name
-              'help-echo help
+              string
               'face 'header-line
               'mouse-face 'header-line-highlight
               'local-map exwmx-button-header-line-keymap))
             ((eq place 'mode-line)
              (propertize
-              label
-              'exwmx-button-name button-name
-              'help-echo help
+              string
               'face 'mode-line-emphasis
               'mouse-face 'mode-line-highlight
               'local-map exwmx-button-mode-line-keymap))
-            (t nil)))))
+            (t string))
+    ""))
 
 (defun exwmx-button-create-line (buttons &optional place)
   "Create an exwmx button-line include BUTTONS, which will be use in PLACE.
