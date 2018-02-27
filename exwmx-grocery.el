@@ -50,7 +50,9 @@ in exwmx-example.el."
     ;; Record the application's pretty-name, which
     ;; is used by exwmx-button's exwm-buffer-list button.
     (setq-local exwmx-pretty-name
-                (or pretty-name "????"))
+                (or pretty-name
+                    exwm-instance-name
+                    exwm-class-name))
     ;; Deal with prefix-keys of application
     (when (and prefix-keys-removed
                (listp prefix-keys-removed))
