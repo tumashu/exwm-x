@@ -233,7 +233,7 @@ button label if it does exist. ")
        (setq exwmx-button--show-app-line
              (not exwmx-button--show-app-line)))
      :mouse-3
-     (lambda (_) (counsel-linux-app)))
+     (lambda (_) (exwmx-appmenu)))
     (web-browser
      :tilling-label "[Web]"
      :mouse-1 (lambda (_) (exwmx-quickrun "web-browser" t)))

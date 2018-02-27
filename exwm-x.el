@@ -352,6 +352,7 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
+(require 'exwmx-appmenu)
 (require 'exwmx-quickrun)
 (require 'exwmx-floating)
 (require 'exwmx-button)
