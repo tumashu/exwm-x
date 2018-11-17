@@ -401,16 +401,17 @@ PLACE can be mode-line or header-line."
   (let ((id (exwm--buffer->id (window-buffer))))
     (if id
         (with-current-buffer (exwm--id->buffer id)
-          (if exwm--keyboard-grabbed
-              (progn
-                (message "Switch to `char-mode', application will take up your keyboard.")
-                (exwm-input-release-keyboard id))
-            (message
-             (substitute-command-keys
-              (concat
-               "\\<exwm-mode-map>Reset to `line-mode', "
-               "`\\[exwm-input-send-next-key]' -> send key to application.")))
-            (exwm-reset)))
+          (cl-case exwm--input-mode
+            (line-mode
+             (message "Switch to `char-mode', application will take up your keyboard.")
+             (exwm-input-release-keyboard id))
+            (char-mode
+             (message
+              (substitute-command-keys
+               (concat
+                "\\<exwm-mode-map>Reset to `line-mode', "
+                "`\\[exwm-input-send-next-key]' -> send key to application.")))
+             (exwm-reset))))
       (message "EXWM-X: No application is actived."))))
 
 (defun exwmx-button-enable ()
