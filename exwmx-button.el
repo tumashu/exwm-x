@@ -131,13 +131,13 @@ button label if it does exist. ")
      :tilling-label
      (lambda (place)
        (exwmx-button--add-face-and-keymap
-        (cl-case exwm--on-KeyPress
-          ((exwm-input--on-KeyPress-line-mode)
+        (cl-case exwm--input-mode
+          (line-mode
            (if exwmx-button-prefer-short-button-label
                "[L]"
              (substitute-command-keys
               "[Line `\\[exwmx-button-toggle-keyboard]']")))
-          ((exwm-input--on-KeyPress-char-mode)
+          (char-mode
            (if exwmx-button-prefer-short-button-label
                "[C]"
              (substitute-command-keys
@@ -146,9 +146,9 @@ button label if it does exist. ")
      :floating-label
      (lambda (place)
        (exwmx-button--add-face-and-keymap
-        (cl-case exwm--on-KeyPress
-          ((exwm-input--on-KeyPress-line-mode) "[L]")
-          ((exwm-input--on-KeyPress-char-mode) "[C]"))
+        (cl-case exwm--input-mode
+          (line-mode "[L]")
+          (char-mode "[C]"))
         place))
      :mouse-1 (lambda (_) (exwmx-button-toggle-keyboard)))
     (adjust-window-9
