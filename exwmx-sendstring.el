@@ -59,6 +59,7 @@ inserted into the application."
                             :paste-key)
                  exwmx-sendstring-default-paste-key)))
         (kill-new string)
+        (sleep-for 0.2)
         (dolist (key (string-to-list (kbd paste-key)))
           (exwm-input--fake-key key))
         (setq kill-ring (cdr kill-ring)))
