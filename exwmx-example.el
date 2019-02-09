@@ -139,8 +139,8 @@
 (push ?\C-q exwm-input-prefix-keys)
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
 
-;; If you don't use exim, you may need not to set "?\C-\\"
-;; (push ?\C-\\ exwm-input-prefix-keys)
+;; exwm-xim support
+(push ?\C-\\ exwm-input-prefix-keys)
 
 (require 'switch-window)
 ;; switch-window 'default input style do not work well with exwm.
