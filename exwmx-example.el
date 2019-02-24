@@ -140,6 +140,7 @@
 (define-key exwm-mode-map [?\C-q] #'exwm-input-send-next-key)
 
 ;; exwm-xim support
+(require 'exwm-xim)
 (push ?\C-\\ exwm-input-prefix-keys)
 
 (require 'switch-window)
