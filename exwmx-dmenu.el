@@ -53,6 +53,11 @@ dmenu should keep a record. "
   :type 'integer
   :group 'exwmx-dmenu)
 
+(defcustom exwmx-dmenu-ivy-regex-function #'ivy--regex-plus
+  "Ivy regex function used by exwmx-dmenu."
+  :type 'function
+  :group 'exwmx-dmenu)
+
 (defcustom exwmx-dmenu-prefix-setting
   '(("," . exwmx-dmenu--run-with-terminal)
     (";" . exwmx-dmenu--run-emacs-command)
@@ -87,9 +92,9 @@ dmenu should keep a record. "
   (interactive)
   (make-directory (file-name-directory exwmx-dmenu-cache-file) t)
   (unless exwmx-dmenu--initialized-p
-	(exwmx-dmenu-initialize))
+    (exwmx-dmenu-initialize))
   (unless exwmx-dmenu--commands
-	(exwmx-dmenu--get-commands))
+    (exwmx-dmenu--get-commands))
   (let (command)
     (while (< (length command) 1)
       (let ((commands
@@ -122,7 +127,7 @@ dmenu should keep a record. "
                               input)
                             (cl-remove-if-not
                              #'(lambda (cmd)
-                                 (string-match-p (funcall ivy--regex-function input) cmd))
+                                 (string-match-p (funcall exwmx-dmenu-ivy-regex-function input) cmd))
                              commands)))
                   :dynamic-collection t
                   :keymap exwmx-dmenu-ivy-minibuffer-map))))))
