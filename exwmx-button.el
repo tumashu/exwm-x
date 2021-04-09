@@ -372,7 +372,7 @@ PLACE can be mode-line or header-line."
                                  (exwmx-button-create-line exwmx-button-app-line 'mode-line)
                                `(,(exwmx-button-create-line '(applications) 'mode-line)
                                  ,(default-value 'mode-line-format)))))))))
-    (force-mode-line-update))
+  (force-mode-line-update))
 
 (defun exwmx-button-kill-buffer (&optional buffer-or-name)
   "Kill buffer, if current buffer is a exwm buffer."
