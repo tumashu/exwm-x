@@ -93,26 +93,25 @@ dmenu should keep a record. "
   (make-directory (file-name-directory exwmx-dmenu-cache-file) t)
   (unless exwmx-dmenu--initialized-p
     (exwmx-dmenu-initialize))
-  (unless exwmx-dmenu--commands
-    (exwmx-dmenu--get-commands))
+  (exwmx-dmenu-cache-commands)
   (let (command)
     (while (< (length command) 1)
       (let ((commands
-             (cl-remove-if #'(lambda (x)
-                               (or (null x)
-                                   (string-match-p "^\\." x)
-                                   (string-match-p "^ *$" x)))
-                           (cl-remove-duplicates
-                            (append
-                             (let* ((history (cl-remove-duplicates
-                                              exwmx-dmenu--history
-                                              :from-end t :test #'equal))
-                                    (length (length history)))
-                               (when history
-                                 (cl-subseq history 0 (min length exwmx-dmenu-history-size))))
-                             (exwmx-dmenu--get-emacs-commands)
-                             exwmx-dmenu--commands)
-                            :from-end t :test #'equal))))
+             (cl-remove-if
+              (lambda (x)
+                (or (null x)
+                    (string-match-p "^\\." x)
+                    (string-match-p "^ *$" x)))
+              (append
+               (let* ((history
+                       (cl-remove-duplicates
+                        exwmx-dmenu--history
+                        :from-end t :test #'equal))
+                      (length (length history)))
+                 (when history
+                   (cl-subseq history 0 (min length exwmx-dmenu-history-size))))
+               (exwmx-dmenu--get-emacs-commands)
+               exwmx-dmenu--commands))))
         (setq command
               (substring-no-properties
                (if simple-mode
@@ -121,14 +120,18 @@ dmenu should keep a record. "
                   (concat exwmx-dmenu-prompt
                           (substitute-command-keys
                            "\\<exwmx-dmenu-ivy-minibuffer-map> (Edit with `\\[ivy-insert-current]'): "))
-                  #'(lambda (input)
-                      (cons (if (< (length input) 1)
-                                "**NULL**"
-                              input)
-                            (cl-remove-if-not
-                             #'(lambda (cmd)
-                                 (string-match-p (funcall exwmx-dmenu-ivy-regex-function input) cmd))
-                             commands)))
+                  (lambda (input)
+                    (cons (if (< (length input) 1)
+                              "**NULL**"
+                            input)
+                          (let* ((cmds (cl-remove-if-not
+                                        (lambda (cmd)
+                                          (string-match-p (funcall exwmx-dmenu-ivy-regex-function input) cmd))
+                                        commands))
+                                 (length (length cmds)))
+                            (if (< length 100)
+                                (delete-dups cmds)
+                              cmds))))
                   :dynamic-collection t
                   :keymap exwmx-dmenu-ivy-minibuffer-map))))))
     (when (equal command "**NULL**")
@@ -228,15 +231,15 @@ dmenu should keep a record. "
   "Get all emacs commands with name is match exwmx:command."
   (let (output)
     (mapatoms
-     #'(lambda (symbol)
-         (when (and (string-match-p "^exwmx:" (symbol-name symbol))
-                    (functionp symbol))
-           (push (symbol-name symbol) output))))
+     (lambda (symbol)
+       (when (and (string-match-p "^exwmx:" (symbol-name symbol))
+                  (functionp symbol))
+         (push (symbol-name symbol) output))))
     output))
 
 (defun exwmx-dmenu-initialize ()
   (exwmx-dmenu-load-cache-file)
-  (exwmx-dmenu-auto-update)
+  (exwmx-dmenu-cache-commands)
   (add-hook 'kill-emacs-hook 'exwmx-dmenu-save-cache-file)
   (setq exwmx-dmenu--initialized-p t))
 
@@ -261,32 +264,30 @@ to `exwmx-dmenu-cache-file'"
     (prin1 exwmx-dmenu--commands (current-buffer))
     (prin1 exwmx-dmenu--history (current-buffer))))
 
-(defun exwmx-dmenu--get-commands()
+(defun exwmx-dmenu-cache-commands ()
   "cache executable files for EXWM-X Dmenu."
-  (let* ((valid-exec-path (cl-remove-if-not
-                           #'file-exists-p
-                           (cl-remove-if-not #'stringp exec-path)))
-         (files (cl-mapcan
-                 (lambda (dir)
-                   (directory-files dir t nil nil))
-                 valid-exec-path))
-         (commands
-          (mapcar #'file-name-nondirectory
-                  (cl-remove-if
-                   #'file-directory-p
-                   (cl-remove-if-not #'file-executable-p files)))))
-    (setq exwmx-dmenu--commands
-          (sort commands #'string<))))
-
-(defun exwmx-dmenu-auto-update (&optional idle-time)
-  "Update dmenu when Emacs has been idle for IDLE-TIME."
-  (let ((idle-time (or idle-time 60)))
-    (when exwmx-dmenu--update-timer
-      (cancel-timer exwmx-dmenu--update-timer))
-    (setq exwmx-dmenu--update-timer
-          (run-with-idle-timer
-           idle-time t
-           #'exwmx-dmenu--get-commands))))
+  (interactive)
+  (run-with-timer
+   3 nil
+   (lambda ()
+     (async-start
+      (lambda ()
+        (require 'cl-lib)
+        (let* ((valid-exec-path (cl-remove-if-not
+                                 #'file-exists-p
+                                 (cl-remove-if-not #'stringp exec-path)))
+               (files (cl-mapcan
+                       (lambda (dir)
+                         (directory-files dir t nil nil))
+                       valid-exec-path))
+               (commands
+                (mapcar #'file-name-nondirectory
+                        (cl-remove-if
+                         #'file-directory-p
+                         (cl-remove-if-not #'file-executable-p files)))))
+          (sort commands #'string<)))
+      (lambda (result)
+        (setq exwmx-dmenu--commands result))))))
 
 (provide 'exwmx-dmenu)
 
