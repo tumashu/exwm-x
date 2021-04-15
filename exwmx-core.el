@@ -32,7 +32,6 @@
 (require 'cl-lib)
 (require 'exwm)
 (require 'switch-window)
-(require 'bind-key)
 
 (defvar exwmx-terminal-emulator "xterm"
   "EXWM-X default terminal emulator")
@@ -106,12 +105,24 @@ to your ~/.emacs file."
     (message "EXWM-X run shell command: %s" cmd)
     (exwmx-shell-command cmd)))
 
+(defvar exwmx-global-mode-map (make-keymap)
+  "exwmx-global-mode-map")
+
+(define-minor-mode exwmx-global-mode
+  "A minor mode so that keymap settings override other modes."
+  t "")
+
+;; the keymaps in `emulation-mode-map-alists' take precedence over
+;; `minor-mode-map-alist'
+(add-to-list 'emulation-mode-map-alists
+             `((exwmx-global-mode . ,exwmx-global-mode-map)))
+
 (defun exwmx-input-set-key (key command)
   "This function is similar with `exwm-input-set-key', the
 different is that `exwmx-input-set-key' protect `key' from
-being override by other minor modes with the help of `bind-key*'."
+being override by other minor modes."
   (exwm-input-set-key key command)
-  (bind-key* key command))
+  (define-key exwmx-global-mode-map key command))
 
 ;; * Footer
 (provide 'exwmx-core)

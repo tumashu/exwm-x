@@ -31,6 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'cl-lib)
 (require 'exwmx-core)
+(require 'xdg)
 
 (defvar exwmx-appmenu-buffer " *exwmx-appmenu-buffer*")
 
@@ -50,8 +51,8 @@
 
 (defvar exwmx-appmenu-linux-apps-directories
   (mapcar (lambda (dir) (expand-file-name "applications" dir))
-          (cons (counsel--xdg-data-home)
-                (counsel--xdg-data-dirs)))
+          (cons (xdg-data-home)
+                (xdg-data-dirs)))
   "Directories in which to search for applications (.desktop files).")
 
 (defvar exwmx-appmenu-mode-map
