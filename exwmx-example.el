@@ -145,14 +145,13 @@
 (require 'exwm-xim)
 (push ?\C-\\ exwm-input-prefix-keys)
 
-(require 'switch-window)
-;; switch-window 'default input style do not work well with exwm.
-(setq switch-window-input-style 'minibuffer)
-(define-key exwm-mode-map (kbd "C-x o") #'switch-window)
-(define-key exwm-mode-map (kbd "C-x 1") #'switch-window-then-maximize)
-(define-key exwm-mode-map (kbd "C-x 2") #'switch-window-then-split-below)
-(define-key exwm-mode-map (kbd "C-x 3") #'switch-window-then-split-right)
-(define-key exwm-mode-map (kbd "C-x 0") #'switch-window-then-delete)
+(with-eval-after-load 'switch-window
+  (setq switch-window-input-style 'minibuffer)
+  (define-key exwm-mode-map (kbd "C-x o") #'switch-window)
+  (define-key exwm-mode-map (kbd "C-x 1") #'switch-window-then-maximize)
+  (define-key exwm-mode-map (kbd "C-x 2") #'switch-window-then-split-below)
+  (define-key exwm-mode-map (kbd "C-x 3") #'switch-window-then-split-right)
+  (define-key exwm-mode-map (kbd "C-x 0") #'switch-window-then-delete))
 
 ;; `exwmx-floating-toggle-floating' does not work well with EXWM-X,
 ;; See: https://github.com/ch11ng/exwm/issues/248
