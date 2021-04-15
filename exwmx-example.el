@@ -43,6 +43,9 @@
 ;; Shrink fringes to 1 pixel
 (fringe-mode 1)
 
+;; Save history.
+(savehist-mode 1)
+
 ;; Disable dialog boxes since they are unusable in EXWM
 (setq use-dialog-box nil)
 
