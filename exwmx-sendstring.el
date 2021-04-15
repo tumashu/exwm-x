@@ -31,7 +31,6 @@
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
 (require 'exwmx-appconfig)
-(require 'counsel)
 
 (defvar exwmx-sendstring-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -106,24 +105,6 @@ inserted into the application."
   (interactive)
   (exwmx-sendstring--send
    (read-from-minibuffer "EXWM-X: please input: ")))
-
-(defun exwmx-sendstring-from-kill-ring ()
-  "Show `kill-ring' with ivy, and send selectd to application."
-  (interactive)
-  (if (featurep 'counsel)
-      (if (not (derived-mode-p 'exwm-mode))
-          (call-interactively 'counsel-yank-pop)
-        (let* ((ivy-format-function #'counsel--yank-pop-format-function)
-               (ivy-height 5)
-               (cands (mapcar #'ivy-cleanup-string
-                              (cl-remove-if
-                               (lambda (s)
-                                 (or (< (length s) 3)
-                                     (string-match "\\`[\n[:blank:]]+\\'" s)))
-                               (delete-dups kill-ring))))
-               (string (completing-read "kill-ring: " cands)))
-          (exwmx-sendstring--send string)))
-    (message "EXWM-X: counsel is required.")))
 
 (provide 'exwmx-sendstring)
 

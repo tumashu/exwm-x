@@ -37,25 +37,13 @@
 (defcustom exwmx-dmenu-cache-file
   (locate-user-emacs-file "exwm-x/exwmx-dmenu-cache")
   "File in which the dmenu state is saved between Emacs sessions.
-Variables stored are: `exwmx-dmenu--commands',
-`exwmx-dmenu--history'. Must be set before initializing Dmenu."
+Variables stored are: `exwmx-dmenu--commands'."
   :type 'string
   :group 'exwmx-dmenu)
 
-(defcustom exwmx-dmenu-prompt "EXWM-X Dmenu"
+(defcustom exwmx-dmenu-prompt "EXWM-X Dmenu: "
   "String to display in the exwm-dmenu or exwm-dmenu-simple prompt."
   :type 'string
-  :group 'exwmx-dmenu)
-
-(defcustom exwmx-dmenu-history-size 15
-  "Determines on how many recently executed commands
-dmenu should keep a record. "
-  :type 'integer
-  :group 'exwmx-dmenu)
-
-(defcustom exwmx-dmenu-ivy-regex-function #'ivy--regex-plus
-  "Ivy regex function used by exwmx-dmenu."
-  :type 'function
   :group 'exwmx-dmenu)
 
 (defcustom exwmx-dmenu-prefix-setting
@@ -67,17 +55,12 @@ dmenu should keep a record. "
   :group 'exwmx-dmenu)
 
 (defvar exwmx-dmenu--initialized-p nil)
-(defvar exwmx-dmenu--history nil)
 (defvar exwmx-dmenu--commands nil)
 (defvar exwmx-dmenu--update-timer nil)
 
-(defvar exwmx-dmenu-ivy-minibuffer-map
-  (let ((map (copy-keymap ivy-minibuffer-map)))
-    map))
-
 ;;;###autoload
 (defun exwmx-dmenu ()
-  "EXWM-X dynamic menu, which will use ivy to show commands candidates."
+  "EXWM-X dynamic menu."
   (interactive)
   (exwmx-dmenu--internal))
 
@@ -94,54 +77,21 @@ dmenu should keep a record. "
   (unless exwmx-dmenu--initialized-p
     (exwmx-dmenu-initialize))
   (exwmx-dmenu-cache-commands)
-  (let (command)
+  (let ((completion-ignore-case t)
+        commands command)
     (while (< (length command) 1)
-      (let ((commands
-             (cl-remove-if
-              (lambda (x)
-                (or (null x)
-                    (string-match-p "^\\." x)
-                    (string-match-p "^ *$" x)))
-              (append
-               (let* ((history
-                       (cl-remove-duplicates
-                        exwmx-dmenu--history
-                        :from-end t :test #'equal))
-                      (length (length history)))
-                 (when history
-                   (cl-subseq history 0 (min length exwmx-dmenu-history-size))))
-               (exwmx-dmenu--get-emacs-commands)
-               exwmx-dmenu--commands))))
-        (setq command
-              (substring-no-properties
-               (if simple-mode
-                   (read-from-minibuffer (concat exwmx-dmenu-prompt ": "))
-                 (ivy-read
-                  (concat exwmx-dmenu-prompt
-                          (substitute-command-keys
-                           "\\<exwmx-dmenu-ivy-minibuffer-map> (Edit with `\\[ivy-insert-current]'): "))
-                  (lambda (input)
-                    (cons (if (< (length input) 1)
-                              "**NULL**"
-                            input)
-                          (let* ((cmds (cl-remove-if-not
-                                        (lambda (cmd)
-                                          (string-match-p (funcall exwmx-dmenu-ivy-regex-function input) cmd))
-                                        commands))
-                                 (length (length cmds)))
-                            (if (< length 100)
-                                (delete-dups cmds)
-                              cmds))))
-                  :dynamic-collection t
-                  :keymap exwmx-dmenu-ivy-minibuffer-map))))))
-    (when (equal command "**NULL**")
-      (setq command ""))
-    (setq exwmx-dmenu--history
-          (cons command exwmx-dmenu--history))
-    ;; We must record more history to cache file.
-    (when (> (length exwmx-dmenu--history) 101)
-      (setq exwmx-dmenu--history
-            (cl-subseq exwmx-dmenu--history 0 exwmx-dmenu-history-size)))
+      (setq commands
+            (cl-remove-if (lambda (x)
+                            (or (null x)
+                                (string-match-p "^\\." x)
+                                (string-match-p "^ *$" x)))
+                          (append
+                           (exwmx-dmenu--get-emacs-commands)
+                           exwmx-dmenu--commands)))
+      (setq command
+            (if simple-mode
+                (read-from-minibuffer exwmx-dmenu-prompt)
+              (completing-read exwmx-dmenu-prompt commands))))
     (exwmx-dmenu--run command)))
 
 (defun exwmx-dmenu--run-with-terminal (command)
@@ -244,25 +194,22 @@ dmenu should keep a record. "
   (setq exwmx-dmenu--initialized-p t))
 
 (defun exwmx-dmenu-load-cache-file ()
-  "Loads `exwmx-dmenu--history' and `exwmx-dmenu--commands'
+  "Loads `exwmx-dmenu--commands'
 from `exwmx-dmenu-cache-file'"
   (let ((save-file (expand-file-name exwmx-dmenu-cache-file)))
     (if (file-readable-p save-file)
         (with-temp-buffer
           (insert-file-contents save-file)
           (ignore-errors
-            (setq exwmx-dmenu--commands (read (current-buffer)))
-            (setq exwmx-dmenu--history (read (current-buffer)))))
-      (setq exwmx-dmenu--history nil
-            exwmx-dmenu--commands nil))))
+            (setq exwmx-dmenu--commands (read (current-buffer)))))
+      (setq exwmx-dmenu--commands nil))))
 
 (defun exwmx-dmenu-save-cache-file ()
-  "Saves `exwmx-dmenu--history' and `exwmx-dmenu--commands'
+  "Saves `exwmx-dmenu--commands'
 to `exwmx-dmenu-cache-file'"
   (interactive)
   (with-temp-file (expand-file-name exwmx-dmenu-cache-file)
-    (prin1 exwmx-dmenu--commands (current-buffer))
-    (prin1 exwmx-dmenu--history (current-buffer))))
+    (prin1 exwmx-dmenu--commands (current-buffer))))
 
 (defun exwmx-dmenu-cache-commands ()
   "cache executable files for EXWM-X Dmenu."
@@ -285,7 +232,7 @@ to `exwmx-dmenu-cache-file'"
                         (cl-remove-if
                          #'file-directory-p
                          (cl-remove-if-not #'file-executable-p files)))))
-          (sort commands #'string<)))
+          (sort (delete-dups commands) #'string<)))
       (lambda (result)
         (setq exwmx-dmenu--commands result))))))
 

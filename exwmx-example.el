@@ -120,7 +120,6 @@
 ;; ‘bind-key*’.
 
 (exwmx-input-set-key (kbd "C-t ;") #'exwmx-dmenu)
-(exwmx-input-set-key (kbd "C-t :") #'counsel-linux-app)
 (exwmx-input-set-key (kbd "C-t C-e") #'exwmx-sendstring)
 (exwmx-input-set-key (kbd "C-t C-r") #'exwmx-appconfig)
 
@@ -151,9 +150,6 @@
 (define-key exwm-mode-map (kbd "C-x 2") #'switch-window-then-split-below)
 (define-key exwm-mode-map (kbd "C-x 3") #'switch-window-then-split-right)
 (define-key exwm-mode-map (kbd "C-x 0") #'switch-window-then-delete)
-
-;; Let kill-ring works with app
-(define-key exwm-mode-map (kbd "C-c y") #'exwmx-sendstring-from-kill-ring)
 
 ;; `exwmx-floating-toggle-floating' does not work well with EXWM-X,
 ;; See: https://github.com/ch11ng/exwm/issues/248

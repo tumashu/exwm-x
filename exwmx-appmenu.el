@@ -31,7 +31,6 @@
 ;; * Code                                                                 :code:
 (require 'cl-lib)
 (require 'exwmx-core)
-(require 'counsel)
 
 (defvar exwmx-appmenu-buffer " *exwmx-appmenu-buffer*")
 
@@ -48,6 +47,12 @@
 
 (defvar exwmx-appmenu--apps-cache-format-function nil
   "The function used to format the cached application menu.")
+
+(defvar exwmx-appmenu-linux-apps-directories
+  (mapcar (lambda (dir) (expand-file-name "applications" dir))
+          (cons (counsel--xdg-data-home)
+                (counsel--xdg-data-dirs)))
+  "Directories in which to search for applications (.desktop files).")
 
 (defvar exwmx-appmenu-mode-map
   (let ((keymap (make-sparse-keymap)))
@@ -67,13 +72,94 @@
 EXEC is the command to launch the application."
   (format "%-30s ( %s )" name (or comment "")))
 
+(defun exwmx-appmenu-linux-apps-list-desktop-files ()
+  "Return an alist of all Linux applications.
+Each list entry is a pair of (desktop-name . desktop-file).
+This function always returns its elements in a stable order."
+  (let ((hash (make-hash-table :test #'equal))
+        result)
+    (dolist (dir exwmx-appmenu-linux-apps-directories)
+      (when (file-exists-p dir)
+        (let ((dir (file-name-as-directory dir)))
+          ;; Function `directory-files-recursively' added in Emacs 25.1.
+          (dolist (file (directory-files-recursively dir ".*\\.desktop$"))
+            (let ((id (subst-char-in-string ?/ ?- (file-relative-name file dir))))
+              (when (and (not (gethash id hash)) (file-readable-p file))
+                (push (cons id file) result)
+                (puthash id file hash)))))))
+    result))
+
+(defun exwmx-appmenu-linux-app--parse-file (file)
+  (with-temp-buffer
+    (insert-file-contents file)
+    (goto-char (point-min))
+    (let ((start (re-search-forward "^\\[Desktop Entry\\] *$" nil t))
+          (end (re-search-forward "^\\[" nil t))
+          (visible t)
+          name comment exec)
+      (catch 'break
+        (unless start
+          (push file exwmx-appmenu-linux-apps-faulty)
+          (message "Warning: File %s has no [Desktop Entry] group" file)
+          (throw 'break nil))
+
+        (goto-char start)
+        (when (re-search-forward "^\\(Hidden\\|NoDisplay\\) *= *\\(1\\|true\\) *$" end t)
+          (setq visible nil))
+        (setq name (match-string 1))
+
+        (goto-char start)
+        (unless (re-search-forward "^Type *= *Application *$" end t)
+          (throw 'break nil))
+        (setq name (match-string 1))
+
+        (goto-char start)
+        (unless (re-search-forward "^Name *= *\\(.+\\)$" end t)
+          (push file exwmx-appmenu-linux-apps-faulty)
+          (message "Warning: File %s has no Name" file)
+          (throw 'break nil))
+        (setq name (match-string 1))
+
+        (goto-char start)
+        (when (re-search-forward "^Comment *= *\\(.+\\)$" end t)
+          (setq comment (match-string 1)))
+
+        (goto-char start)
+        (unless (re-search-forward "^Exec *= *\\(.+\\)$" end t)
+          ;; Don't warn because this can technically be a valid desktop file.
+          (throw 'break nil))
+        (setq exec (match-string 1))
+
+        (goto-char start)
+        (when (re-search-forward "^TryExec *= *\\(.+\\)$" end t)
+          (let ((try-exec (match-string 1)))
+            (unless (locate-file try-exec exec-path nil #'file-executable-p)
+              (throw 'break nil))))
+        (propertize
+         (funcall exwmx-appmenu-linux-app-format-function name comment exec)
+         'visible visible)))))
+
+(defun exwmx-appmenu-linux-apps-parse (desktop-entries-alist)
+  "Parse the given alist of Linux desktop entries.
+Each entry in DESKTOP-ENTRIES-ALIST is a pair of ((id . file-name)).
+Any desktop entries that fail to parse are recorded in
+`exwmx-appmenu-linux-apps-faulty'."
+  (let (result)
+    (setq exwmx-appmenu-linux-apps-faulty nil)
+    (dolist (entry desktop-entries-alist result)
+      (let* ((id (car entry))
+             (file (cdr entry))
+             (r (exwmx-appmenu-linux-app--parse-file file)))
+        (when r
+          (push (cons r id) result))))))
+
 (defun exwmx-appmenu--get-apps-list ()
   "Return list of all desktop applications."
-  (let* ((new-desktop-alist (counsel-linux-apps-list-desktop-files))
+  (let* ((new-desktop-alist (exwmx-appmenu-linux-apps-list-desktop-files))
          (new-files (mapcar 'cdr new-desktop-alist))
-         (counsel-linux-app-format-function exwmx-appmenu-format-function))
+         (exwmx-appmenu-linux-app-format-function exwmx-appmenu-format-function))
     (unless (and
-             (eq counsel-linux-app-format-function
+             (eq exwmx-appmenu-linux-app-format-function
                  exwmx-appmenu--apps-cache-format-function)
              (equal new-files exwmx-appmenu--apps-cached-files)
              (null (cl-find-if
@@ -82,7 +168,7 @@ EXEC is the command to launch the application."
                        exwmx-appmenu--apps-cache-timestamp
                        (nth 5 (file-attributes file))))
                     new-files)))
-      (setq exwmx-appmenu--apps-cache (counsel-linux-apps-parse new-desktop-alist)
+      (setq exwmx-appmenu--apps-cache (exwmx-appmenu-linux-apps-parse new-desktop-alist)
             exwmx-appmenu--apps-cache-format-function exwmx-appmenu-format-function
             exwmx-appmenu--apps-cache-timestamp (current-time)
             exwmx-appmenu--apps-cached-files new-files)))

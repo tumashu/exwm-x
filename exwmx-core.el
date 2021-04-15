@@ -32,7 +32,6 @@
 (require 'cl-lib)
 (require 'exwm)
 (require 'switch-window)
-(require 'ivy)
 (require 'bind-key)
 
 (defvar exwmx-terminal-emulator "xterm"
@@ -87,11 +86,12 @@ to your ~/.emacs file."
   "Select an application and switch to it."
   (interactive)
   (let ((buffer-name
-         (ivy-read "EXWM-X switch application: "
-                   (mapcar
-                    #'(lambda (x)
-                        (buffer-name (cdr x)))
-                    exwm--id-buffer-alist))))
+         (completing-read
+          "EXWM-X switch application: "
+          (mapcar
+           #'(lambda (x)
+               (buffer-name (cdr x)))
+           exwm--id-buffer-alist))))
     (exwm-workspace-switch-to-buffer buffer-name)))
 
 (defun exwmx-shell-command (cmd)
