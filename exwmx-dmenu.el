@@ -91,7 +91,9 @@ Variables stored are: `exwmx-dmenu--commands'."
       (setq command
             (if simple-mode
                 (read-from-minibuffer exwmx-dmenu-prompt)
-              (completing-read exwmx-dmenu-prompt commands))))
+              (completing-read exwmx-dmenu-prompt commands)))
+      (setq command
+            (read-from-minibuffer "Really run command? " command)))
     (exwmx-dmenu--run command)))
 
 (defun exwmx-dmenu--run-with-terminal (command)
