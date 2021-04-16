@@ -1,7 +1,7 @@
 ;;; exwmx-xfce.el --- Let EXWM-X work with xfce
 
 ;; * Header
-;; Copyright 2016-2017 Feng Shu
+;; Copyright 2016-2021 Feng Shu
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
