@@ -68,13 +68,10 @@
 (define-derived-mode exwmx-appmenu-mode read-only-mode "exwmx-appmenu-mode"
   "Exwmx-appmenu major mode.")
 
-(defun exwmx-appmenu-format-function-default (name comment _exec)
+(defun exwmx-appmenu-format-function-default (name _comment exec)
   "Format application names with the NAME (and COMMENT) first.
 EXEC is the command to launch the application."
-  (format "%-30s %s" name
-          (if comment
-              (format "( %s )" comment)
-            "")))
+  (format "%-30s (%S)" name exec))
 
 (defun exwmx-appmenu-linux-apps-list-desktop-files ()
   "Return an alist of all Linux applications.
@@ -195,7 +192,7 @@ Any desktop entries that fail to parse are recorded in
         (let* ((desktop-shortcut (cdr x))
                (item
                 (propertize
-                 (concat (number-to-string n) ". " (car x))
+                 (format "%02S. %s" n (car x))
                  'desktop-shortcut desktop-shortcut
                  'face 'font-lock-builtin-face)))
           (if content
