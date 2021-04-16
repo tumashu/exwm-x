@@ -31,7 +31,7 @@
 ;; * Code                                                                 :code:
 (require 'cl-lib)
 (require 'exwm)
-(require 'switch-window)
+(require 'switch-window nil t)
 
 (defvar exwmx-terminal-emulator "xterm"
   "EXWM-X default terminal emulator")
@@ -57,13 +57,14 @@ for example, add the following line:
   (setq switch-window-input-style 'minibuffer)
 
 to your ~/.emacs file."
-  (unless (eq switch-window-input-style 'minibuffer)
-    (warn (concat "EXWM-X: please setq the value of "
-                  "`switch-window-input-style' to 'minibuffer.")))
-  (switch-window--then
-   "Run command in window: "
-   #'(lambda () (other-window 1))
-   nil nil 1))
+  (when (featurep 'switch-window)
+    (unless (eq switch-window-input-style 'minibuffer)
+      (warn (concat "EXWM-X: please setq the value of "
+                    "`switch-window-input-style' to 'minibuffer.")))
+    (switch-window--then
+     "Run command in window: "
+     #'(lambda () (other-window 1))
+     nil nil 1)))
 
 (defun exwmx--plist-p (list)
   "Non-null if and only if LIST is a plist with keyword keys."
