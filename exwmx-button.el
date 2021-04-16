@@ -29,7 +29,7 @@
 
 ;; * Code                                                                 :code:
 (require 'exwmx-core)
-(require 'switch-window)
+(require 'switch-window nil t)
 (require 'exwmx-floating)
 
 (defvar exwmx-button-prefer-short-button-label nil
@@ -107,11 +107,15 @@ button label if it does exist. ")
     (mvborder-left
      :tilling-label "[<]"
      :floating-label "[<]"
-     :mouse-1 (lambda (_) (switch-window-mvborder-left 10)))
+     :mouse-1 (lambda (_)
+                (when (featurep 'switch-window)
+                  (switch-window-mvborder-left 10))))
     (mvborder-right
      :tilling-label "[>]"
      :floating-label "[>]"
-     :mouse-1 (lambda (_) (switch-window-mvborder-right 10)))
+     :mouse-1 (lambda (_)
+                (when (featurep 'switch-window)
+                  (switch-window-mvborder-right 10))))
     (split-window-below
      :tilling-label "[-]"
      :floating-label "[-]"
