@@ -123,6 +123,7 @@
 ;; ‘bind-key*’.
 
 (exwmx-input-set-key (kbd "C-t ;") #'exwmx-dmenu)
+(exwmx-input-set-key (kbd "C-t :") #'exwmx-appmenu-simple)
 (exwmx-input-set-key (kbd "C-t C-e") #'exwmx-sendstring)
 (exwmx-input-set-key (kbd "C-t C-r") #'exwmx-appconfig)
 

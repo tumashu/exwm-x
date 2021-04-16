@@ -71,7 +71,10 @@
 (defun exwmx-appmenu-format-function-default (name comment _exec)
   "Format application names with the NAME (and COMMENT) first.
 EXEC is the command to launch the application."
-  (format "%-30s ( %s )" name (or comment "")))
+  (format "%-30s %s" name
+          (if comment
+              (format "( %s )" comment)
+            "")))
 
 (defun exwmx-appmenu-linux-apps-list-desktop-files ()
   "Return an alist of all Linux applications.
@@ -222,6 +225,18 @@ Any desktop entries that fail to parse are recorded in
       (kill-buffer buffer))
     (unless silent
       (message "EXWM-X Appmenu: Quit!"))))
+
+(defun exwmx-appmenu-simple ()
+  (interactive)
+  (let* ((apps (exwmx-appmenu--get-apps-list))
+         (app (completing-read "EXWM-X Appmenu: " apps))
+         (desktop-shortcut
+          (alist-get app apps nil nil #'equal)))
+    (if desktop-shortcut
+        (progn
+          (call-process "gtk-launch" nil nil nil desktop-shortcut)
+          (message "EXWM-X Appmenu: launch '%s' ..." desktop-shortcut))
+      (message "EXWM-X Appmenu: no application is launched!"))))
 
 (provide 'exwmx-appmenu)
 ;;; exwmx-appmenu.el ends here
