@@ -5,7 +5,7 @@
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
-;; Version: 1.0
+;; Version: 1.1
 ;; Keywords: window-manager, exwm, exwmx
 
 ;; This program is free software; you can redistribute it and/or modify

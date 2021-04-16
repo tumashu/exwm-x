@@ -5,7 +5,7 @@
 
 ;; Author: Feng Shu <tumashu@163.com>
 ;; URL: https://github.com/tumashu/exwm-x
-;; Version: 1.0
+;; Version: 1.1
 ;; Package-Requires: ((cl-lib "0.5") (async "1.6") (exwm "0.22"))
 ;; Keywords: window-manager, exwm
 
