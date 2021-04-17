@@ -244,9 +244,15 @@
 ;; #+END_EXAMPLE
 
 ;; *** Edit "~/.initrc" file or "~/.xsession" file
-;; You should edit "~/.initrc" file or "~/.xsession" file like below example:
+;; You should edit "~/.initrc" file, "~/.xsession" file or "~/.xsessionrc" file like below example:
 
 ;; #+BEGIN_EXAMPLE
+
+;; # Support exwm-xim.
+;; # export XMODIFIERS=@im=exwm-xim
+;; # export GTK_IM_MODULE=xim
+;; # export QT_IM_MODULE=xim
+;; # export CLUTTER_IM_MODULE=xim
 
 ;; # Fallback cursor
 ;; # xsetroot -cursor_name left_ptr
