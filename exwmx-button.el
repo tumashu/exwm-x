@@ -108,14 +108,16 @@ button label if it does exist. ")
      :tilling-label "[<]"
      :floating-label "[<]"
      :mouse-1 (lambda (_)
-                (when (featurep 'switch-window)
-                  (switch-window-mvborder-left 10))))
+                (if (featurep 'switch-window)
+                    (switch-window-mvborder-left 10)
+                  (message "EXWM-X: switch-window need install."))))
     (mvborder-right
      :tilling-label "[>]"
      :floating-label "[>]"
      :mouse-1 (lambda (_)
-                (when (featurep 'switch-window)
-                  (switch-window-mvborder-right 10))))
+                (if (featurep 'switch-window)
+                    (switch-window-mvborder-right 10)
+                  (message "EXWM-X: switch-window need install."))))
     (split-window-below
      :tilling-label "[-]"
      :floating-label "[-]"
