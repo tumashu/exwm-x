@@ -106,6 +106,20 @@ inserted into the application."
   (exwmx-sendstring--send
    (read-from-minibuffer "EXWM-X: please input: ")))
 
+(defun exwmx-sendstring-from-kill-ring ()
+  "Show `kill-ring' and send selectd to application."
+  (interactive)
+  (if (and (bound-and-true-p exwm--connection)
+           (derived-mode-p 'exwm-mode))
+      (let* ((cands (cl-remove-if
+                     (lambda (s)
+                       (or (< (length s) 3)
+                           (string-match "\\`[\n[:blank:]]+\\'" s)))
+                     (delete-dups kill-ring)))
+             (string (completing-read "EXWM-X kill-ring: " cands)))
+        (exwmx-sendstring--send string))
+    (call-interactively #'yank-pop)))
+
 (provide 'exwmx-sendstring)
 
 ;;; exwmx-sendstring.el ends here

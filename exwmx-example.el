@@ -132,6 +132,9 @@
 (exwmx-input-set-key (kbd "C-t 3")  #'exwmx-switch-to-3-workspace)
 (exwmx-input-set-key (kbd "C-t 4")  #'exwmx-switch-to-4-workspace)
 
+;; Let kill-ring works with app
+(exwmx-input-set-key (kbd "C-c y") #'exwmx-sendstring-from-kill-ring)
+
 ;; We always need a way to switch between line-mode and char-mode
 (exwmx-input-set-key (kbd "C-t C-t") #'exwmx-button-toggle-keyboard)
 

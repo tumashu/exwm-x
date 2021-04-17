@@ -331,6 +331,7 @@
 ;; | "C-t 3"   | exwmx-switch-to-3-workspace     |
 ;; | "C-t 4"   | exwmx-switch-to-4-workspace     |
 ;; | "C-x o"   | switch-window                   |
+;; | "C-c y"   | exwmx-sendstring-from-kill-ring |
 
 ;; If exwmx-example doesn't suit for your need, just copy and paste
 ;; its useful pieces to your "~/.exwm-x" file.
