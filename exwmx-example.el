@@ -148,6 +148,10 @@
 (require 'exwm-xim)
 (push ?\C-\\ exwm-input-prefix-keys)
 
+(if (equal (getenv "XMODIFIERS") "@im=exwm-xim")
+    (exwm-xim-enable)
+  (message "EXWM-X: Do not enable exwm-xim, for environment XMODIFIERS is set incorrect."))
+
 (with-eval-after-load 'switch-window
   (setq switch-window-input-style 'minibuffer)
   (define-key exwm-mode-map (kbd "C-x o") #'switch-window)
