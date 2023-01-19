@@ -39,6 +39,13 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Disable tab-bar and tab-line
+(when (functionp 'global-tab-line-mode)
+  (global-tab-line-mode -1))
+
+(when (functionp 'tab-bar-mode)
+  (tab-line-mode -1))
+
 ;; Shrink fringes to 1 pixel
 (fringe-mode 1)
 
